@@ -9,5 +9,6 @@ urlpatterns = [
     path('test/<str:chouba>/', views.test, name='test'),
     path('date/', views.date, name='date'),
     re_path(r'date/(?P<date>\d{4}-\d{2}-\d{2})/',
-            views.getDate, name='getDate')
+            views.getDate, name='getDate'),
+    path('add/', views.add_article, name='add')
 ]
