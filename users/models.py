@@ -12,7 +12,7 @@ class UserProfile(models.Model):
 
     owner = models.OneToOneField(
         User, on_delete=models.CASCADE, verbose_name='用户')
-    nike_name = models.CharField('昵称', max_length=50, blank=True, default='')
+    nick_name = models.CharField('昵称', max_length=50, blank=True, default='')
     birthday = models.DateField('生日', null=True, blank=True)
     gender = models.CharField(
         '性别', max_length=6, choices=USER_GENDER_TYPE, default='male')
