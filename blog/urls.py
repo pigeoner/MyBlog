@@ -1,5 +1,7 @@
 from django.urls import path, re_path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'blog'   # 定义一个命名空间，用来区分不同应用之间的链接地址
 urlpatterns = [

@@ -6,7 +6,7 @@ import time
 
 
 def index(request):
-    return redirect(reverse('blog:test'))
+    return redirect(reverse('blog:test', args=['chouba']))
 
 
 def test(request, chouba):
