@@ -5,12 +5,14 @@ from django.urls import reverse
 
 from blog.models import Blog
 import time
+import os
 
 # Create your views here.
 
 
 def index(request):
-    return redirect(reverse('blog:test', args=['chouba']))
+    # return redirect(reverse('blog:test', args=['chouba']))
+    return render(request, '../templates/index.html')
 
 
 def test(request, chouba):
@@ -67,3 +69,38 @@ def reqtest(request):
     # return HttpResponse(request.headers['User-Agent'])
     print(request.GET['name'])
     return HttpResponse(request.GET)
+
+
+def upload(request):
+    return render(request, '../templates/blog/upload.html')
+
+
+def dealfile(request):
+    myfile = request.FILES.get('pic')
+    if not myfile:
+        return HttpResponse(
+            '''
+            <h3>上传失败！即将返回...</h3>
+            <script>
+                setTimeout("parent.location.href='/'",2000);
+            </script>
+            '''
+        )
+    dirname = './media/images/' + \
+        str(time.localtime().tm_year) + '/' + \
+        str(time.localtime().tm_mon) + '/'
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+    filename = dirname + str(time.time()) + '.' + myfile.name.split('.').pop()
+    content = open(filename, 'wb+')
+    for chunk in myfile.chunks():
+        content.write(chunk)
+    content.close()
+    return HttpResponse(
+        '''
+        <h3>上传成功！即将返回...</h3>
+        <script>
+            setTimeout("parent.location.href='/'",2000);
+        </script>
+        '''
+    )

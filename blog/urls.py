@@ -1,3 +1,4 @@
+from os import name
 from django.urls import path, re_path
 from . import views
 from django.conf import settings
@@ -14,5 +15,7 @@ urlpatterns = [
     path('print/<int:id>/', views.printStr, name='print'),
     path('test404/', views.test404, name='test404'),
     path('cookie/', views.setCookie, name='setCookie'),
-    path('reqtest/', views.reqtest, name='reqtest')
+    path('reqtest/', views.reqtest, name='reqtest'),
+    path('upload/', views.upload, name='upload'),
+    path('dealfile/', views.dealfile, name='dealfile'),
 ]

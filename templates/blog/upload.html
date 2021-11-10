@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>上传文件测试</title>
+    <style>
+        form{
+            text-align: center;
+        }
+        table{
+            margin: 100px auto;
+            border: 1px solid #000;
+            border-collapse: collapse
+        }
+        td{
+            border: 1px solid #000;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <form action="{% url 'blog:dealfile' %}" method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+            <table cellpadding="2" cellspacing="2">
+                <tr>
+                    <td>
+                        <label>上传内容</label>
+                    </td>
+                    <td>
+                        <input type="text" name='text'>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>上传文件</label>
+                    </td>
+                    <td>
+                        <input type="file" name='pic' >
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value='提交'>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>
