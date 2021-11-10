@@ -10,5 +10,9 @@ urlpatterns = [
     path('date/', views.date, name='date'),
     re_path(r'date/(?P<date>\d{4}-\d{2}-\d{2})/',
             views.getDate, name='getDate'),
-    path('add/', views.add_article, name='add')
+    path('add/', views.add_article, name='add'),
+    path('print/<int:id>/', views.printStr, name='print'),
+    path('test404/', views.test404, name='test404'),
+    path('cookie/', views.setCookie, name='setCookie'),
+    path('reqtest/', views.reqtest, name='reqtest')
 ]

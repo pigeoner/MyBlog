@@ -12,3 +12,8 @@ class Blog(models.Model):
 
     class Meta:
         db_table = 'blogInfo'
+
+    def __str__(self):
+        _str = '标题：' + self.title + '\n作者：' + self.author + \
+            '\n正文：' + self.content + '\n发布日期：' + str(self.upload_time)
+        return _str

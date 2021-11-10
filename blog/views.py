@@ -1,3 +1,5 @@
+from django.http import response
+from django.http.response import Http404
 from django.shortcuts import render, HttpResponse, redirect
 from django.urls import reverse
 
@@ -32,3 +34,36 @@ def add_article(request):
     blog.content = '田乾东和陈可悦相比，那我觉得还是田乾东牛逼'
     blog.save()
     return HttpResponse('change database blogInfo')
+
+
+def printStr(request, id):
+    blog = Blog.objects.get(id=id)
+    return HttpResponse(
+        '''
+        <html>
+            <head>
+                <title>print</title>
+            </head>
+            <body>
+                <pre>{}</pre>
+            </body>
+        </html>
+        '''.format(blog)
+    )
+
+
+def test404(request):
+    raise Http404('404')
+
+
+def setCookie(request):
+    response = HttpResponse('set cookie')
+    response.set_cookie('a', 'abc')
+    print(request.COOKIES.get('a', None))
+    return response
+
+
+def reqtest(request):
+    # return HttpResponse(request.headers['User-Agent'])
+    print(request.GET['name'])
+    return HttpResponse(request.GET)
