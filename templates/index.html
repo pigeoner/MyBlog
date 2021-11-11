@@ -6,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>首页</title>
     <style>
+        @font-face {
+            font-family: 'icomoon';
+            src:  url('/static/fonts/icomoon.eot?sdmh7v');
+            src:  url('/static/fonts/icomoon.eot?sdmh7v#iefix') format('embedded-opentype'),
+                url('/static/fonts/icomoon.ttf?sdmh7v') format('truetype'),
+                url('/static/fonts/icomoon.woff?sdmh7v') format('woff'),
+                url('/static/fonts/icomoon.svg?sdmh7v#icomoon') format('svg');
+            font-weight: normal;
+            font-style: normal;
+            font-display: block;
+        }
         *{
             margin: 0;
             padding: 0;
@@ -15,6 +26,7 @@
         }
         a{
             text-decoration: none;
+            color: black;
         }
         li{
             list-style-type: none;
@@ -22,7 +34,7 @@
         .header{
             height: 80px;
             background-color: #fff;
-            box-shadow: 0 0px 2px 1px rgba(131, 131, 131, 0.418);
+            box-shadow: 0 0px 1px 0.5px rgba(131, 131, 131, 0.418);
         }
         .icon{
             /* display: inline-block; */
@@ -77,6 +89,7 @@
             width: 100%;
             color: black;
             font-size: larger;
+            font-family: 'icomoon';
             font-weight: 900;
         }
         .content ul li a:hover{
@@ -88,9 +101,11 @@
     {% load static %}
     <div class="header">
         <div class="icon">
-            <img src="{% static 'header2.jpg' %}" alt="">
+            <img src="{% static 'header.png' %}" alt="">
             <h1>
-                A101E-LAB
+                <a href="#">
+                    A101E-LAB
+                </a>
             </h1>
         </div>
         <div class="nav">
@@ -105,8 +120,8 @@
     <div class="content">
         <ul>
             <li><a href="{% url 'blog:upload' %}">文件上传</a></li>
-            <li><a href="#">文件上传</a></li>
-            <li><a href="#">文件上传</a></li>
+            <li><a href="#">"\eaf6"</a></li>
+            <li><a href="#"></a></li>
             <li><a href="#">文件上传</a></li>
             <li><a href="#">文件上传</a></li>
             <li><a href="#">文件上传</a></li>
