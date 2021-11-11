@@ -11,6 +11,10 @@ import os
 # Create your views here.
 
 
+def reindex(request):
+    return redirect(reverse('blog:index'))
+
+
 def index(request):
     # return redirect(reverse('blog:test', args=['chouba']))
     return render(request, '../templates/index.html')
