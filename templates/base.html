@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页</title>
+    <style>
+        @font-face {
+            font-family: 'icomoon';
+            src:  url('/static/fonts/icomoon.eot?sdmh7v');
+            src:  url('/static/fonts/icomoon.eot?sdmh7v#iefix') format('embedded-opentype'),
+                url('/static/fonts/icomoon.ttf?sdmh7v') format('truetype'),
+                url('/static/fonts/icomoon.woff?sdmh7v') format('woff'),
+                url('/static/fonts/icomoon.svg?sdmh7v#icomoon') format('svg');
+            font-weight: normal;
+            font-style: normal;
+            font-display: block;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: #f6f6f6;
+        }
+        a{
+            text-decoration: none;
+            color: black;
+        }
+        li{
+            list-style-type: none;
+        }
+        .header{
+            height: 80px;
+            background-color: #fff;
+            box-shadow: 0 0px 1px 0.5px rgba(131, 131, 131, 0.418);
+        }
+        .icon{
+            /* display: inline-block; */
+            float: left;
+            line-height: 80px;
+        }
+        .icon img{
+            float: left;
+            margin-left: 100px;
+            margin-top:10px;
+            height: 60px;
+        }
+        .icon h1{
+            margin-left: 20px;
+            display: inline-block;
+            font-style: italic;
+        }
+        .nav{
+            /* display: inline-block; */
+            float:right;
+            line-height: 80px;
+        }
+        .nav ul li{
+            display: inline-block;
+            transition: background-color 0.3s;
+            margin: -2.3px;
+        }
+        .nav ul li a{
+            display: flex;
+            padding-left: 50px;
+            padding-right:50px;
+            height: 100%;
+            width: 100%;
+            font-size: large;
+            color: rgba(27, 27, 27, 0.911);
+        }
+        .nav ul li:hover{
+            background-color: rgb(196, 196, 196);
+        }
+        .content{
+            margin: 50px 100px;
+            text-align: center;
+        }
+        {% block style %}
+        {% endblock %}
+    </style>
+</head>
+<body>
+    {% load static %}
+    <div class="header">
+        <div class="icon">
+            <img src="{% static 'header.png' %}" alt="">
+            <h1>
+                <a href="#">
+                    A101E-LAB
+                </a>
+            </h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="#">首页</a></li>
+                <li><a href="#">博文</a></li>
+                <li><a href="#">小工具</a></li>
+                <li><a href="#">关于我们</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="content">
+        {% block content %}
+            内容预留区域
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -104,3 +104,7 @@ def dealfile(request):
         </script>
         '''
     )
+
+
+def pageinfo(request):
+    pass

@@ -18,4 +18,5 @@ urlpatterns = [
     path('reqtest/', views.reqtest, name='reqtest'),
     path('upload/', views.upload, name='upload'),
     path('dealfile/', views.dealfile, name='dealfile'),
+    path('pageinfo/', views.pageinfo, name='pageinfo'),
 ]

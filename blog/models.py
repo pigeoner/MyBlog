@@ -17,3 +17,16 @@ class Blog(models.Model):
         _str = '标题：' + self.title + '\n作者：' + self.author + \
             '\n正文：' + self.content + '\n发布日期：' + str(self.upload_time)
         return _str
+
+
+class District(models.Model):
+    name = models.CharField('地名', max_length=255, default='')
+    level = models.SmallIntegerField('等级')
+    upid = models.IntegerField('隶属于', default=0)
+
+    class Meta:
+        db_table = 'district'
+
+    def __str__(self):
+        _str = '地名：'+self.name+'\n等级：'+self.level+'\n隶属于：'+self.upid
+        return _str
