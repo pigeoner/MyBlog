@@ -26,7 +26,8 @@ class District(models.Model):
 
     class Meta:
         db_table = 'district'
+        ordering = ['id']
 
-    def __str__(self):
-        _str = '地名：'+self.name+'\n等级：'+self.level+'\n隶属于：'+self.upid
-        return _str
+    # def __str__(self):
+    #     _str = '地名：'+self.name+'\n等级：'+str(self.level)+'\n隶属于：'+str(self.upid)
+    #     return _str
