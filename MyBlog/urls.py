@@ -25,9 +25,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),  # 这里使用include()引入users.urls文件
     path('', include('blog.urls', namespace='blog')),
-    # re_path(r'^static/(?P<path>.*)$', static_serve,
-    #         {'document_root': settings.STATIC_ROOT}, name='static'),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    re_path(r'^static/(?P<path>.*)$', static_serve,
+            {'document_root': settings.STATIC_ROOT}, name='static'),
+]# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
