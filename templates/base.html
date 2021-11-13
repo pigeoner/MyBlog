@@ -33,42 +33,45 @@
             list-style-type: none;
         }
         .header{
-            height: 80px;
+            height: 70px;
             background-color: #fff;
             box-shadow: 0 0px 1px 0.5px rgba(131, 131, 131, 0.418);
         }
         .icon{
             float: left;
-            line-height: 80px;
+            line-height: 70px;
         }
         .icon img{
             float: left;
             margin-left: 100px;
             margin-top:10px;
-            height: 60px;
+            height: 50px;
         }
-        .icon h1{
+        .icon h2{
             margin-left: 20px;
             display: inline-block;
-            font-style: italic;
+            /* font-style: italic; */
         }
         .nav{
             float:right;
-            line-height: 80px;
+            line-height: 70px;
+        }
+        .nav ul{
+            position: relative;
+            float:left;
         }
         .nav ul li{
             float: left;
-            transition: background-color 0.3s;
+            height: 70px;
         }
         .nav ul li a{
-            padding-left: 50px;
-            padding-right:50px;
-            height: 100%;
-            width: 100%;
+            display: block;
+            padding:0 30px;
             font-size: large;
             color: rgba(27, 27, 27, 0.911);
+            transition: background-color 0.3s;
         }
-        .nav ul li:hover{
+        .nav ul li a:hover{
             background-color: rgb(196, 196, 196);
         }
         .content{
@@ -85,9 +88,9 @@
         <div class="icon">
             <a href="{% url 'blog:index' %}">
                 <img src="{% static 'header.png' %}" alt="">
-                <h1>
+                <h2>
                     A101E-LAB
-                </h1>
+                </h2>
             </a>
         </div>
         <div class="nav">

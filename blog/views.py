@@ -4,7 +4,6 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.urls import reverse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from blog.models import Blog, District
 import time
 import os
 
@@ -18,49 +17,6 @@ def reindex(request):
 def index(request):
     # return redirect(reverse('blog:test', args=['chouba']))
     return render(request, '../templates/index.html')
-
-
-def test(request, chouba):
-    print(chouba)
-    return HttpResponse('test')
-
-
-def date(request):
-    return redirect(reverse('blog:getDate', args={'date': time.strftime("%Y-%m-%d", time.localtime())}))
-    # return HttpResponse(time.strftime("%Y-%m-%d", time.localtime()))
-
-
-def getDate(request, date):
-    return HttpResponse(date)
-
-
-def add_article(request):
-    blog = Blog()
-    blog.title = '田乾东下楼带饭'
-    blog.author = 'cky'
-    blog.content = '田乾东和陈可悦相比，那我觉得还是田乾东牛逼'
-    blog.save()
-    return HttpResponse('change database blogInfo')
-
-
-def printStr(request, id):
-    blog = Blog.objects.get(id=id)
-    return HttpResponse(
-        '''
-        <html>
-            <head>
-                <title>print</title>
-            </head>
-            <body>
-                <pre>{}</pre>
-            </body>
-        </html>
-        '''.format(blog)
-    )
-
-
-def test404(request):
-    raise Http404('404')
 
 
 def setCookie(request):
@@ -114,7 +70,7 @@ def dealfile(request):
 def pageinfo(request):
     # 注：Django3.2的paginator类新增一种方法get_elided_page_range
     try:
-        dlist = District.objects.filter()
+        dlist = []
         paginator = Paginator(dlist, 6)
         page_num = request.GET.get('page', default='1')
         try:

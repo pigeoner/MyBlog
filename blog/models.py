@@ -1,33 +1,83 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User
+from DjangoUeditor.models import UEditorField
 
 # Create your models here.
 
 
-class Blog(models.Model):
-    title = models.CharField('标题', max_length=200, default='')
-    author = models.CharField('作者', max_length=100, default='')
-    content = models.TextField('正文', blank=True, default='')
-    upload_time = models.DateTimeField('发布日期', default=datetime.now)
+# 文章分类
+class Category(models.Model):
+    name = models.CharField('博客分类', max_length=100)
+    index = models.IntegerField(default=999, verbose_name='分类排序')
 
     class Meta:
-        db_table = 'blogInfo'
+        verbose_name = '博客分类'
+        verbose_name_plural = verbose_name
 
     def __str__(self):
-        _str = '标题：' + self.title + '\n作者：' + self.author + \
-            '\n正文：' + self.content + '\n发布日期：' + str(self.upload_time)
-        return _str
+        return self.name
 
 
-class District(models.Model):
-    name = models.CharField('地名', max_length=255, default='')
-    level = models.SmallIntegerField('等级')
-    upid = models.IntegerField('隶属于', default=0)
+# 文章标签
+class Tag(models.Model):
+    name = models.CharField('文章标签', max_length=100)
 
     class Meta:
-        db_table = 'district'
-        ordering = ['id']
+        verbose_name = '文章标签'
+        verbose_name_plural = verbose_name
 
-    # def __str__(self):
-    #     _str = '地名：'+self.name+'\n等级：'+str(self.level)+'\n隶属于：'+str(self.upid)
-    #     return _str
+    def __str__(self):
+        return self.name
+
+
+# 推荐位
+class Recommend(models.Model):
+    name = models.CharField('推荐位', max_length=100)
+
+    class Meta:
+        verbose_name = '推荐位'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+
+# 文章
+class Article(models.Model):
+    title = models.CharField('标题', max_length=70)
+    excerpt = models.TextField('摘要', max_length=200, blank=True)
+    category = models.ForeignKey(
+        Category, on_delete=models.DO_NOTHING, verbose_name='分类', blank=True, null=True)
+    # 使用外键关联分类表与分类是一对多关系
+    tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
+    # 使用外键关联标签表与标签是多对多关系
+    img = models.ImageField(upload_to='article_img/%Y/%m/%d/',
+                            verbose_name='文章图片', blank=True, null=True)
+    body = UEditorField('内容', width=800, height=500,
+                        toolbars="full", imagePath="upimg/", filePath="upfile/",
+                        upload_settings={"imageMaxSize": 1204000},
+                        settings={}, command=None, blank=True
+                        )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')
+    """
+        文章作者，这里User是从django.contrib.auth.models导入的。
+        这里我们通过 ForeignKey 把文章和 User 关联了起来。
+        """
+    views = models.PositiveIntegerField('阅读量', default=0, editable=False)
+    tui = models.ForeignKey(Recommend, on_delete=models.DO_NOTHING,
+                            verbose_name='推荐位', blank=True, null=True)
+
+    created_time = models.DateTimeField('发布时间', auto_now_add=True)
+    modified_time = models.DateTimeField('修改时间', auto_now=True)
+
+    class Meta:
+        verbose_name = '文章'
+        verbose_name_plural = '文章'
+
+    def __str__(self):
+        return self.title
+
+    def increase_views(self):
+        self.views += 1
+        self.save(update_fields=['views'])
