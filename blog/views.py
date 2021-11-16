@@ -1,11 +1,13 @@
 from django.http import response
 from django.http.response import Http404
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.urls import reverse
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 import time
 import os
+
+from blog.models import Article
 
 # Create your views here.
 
@@ -16,7 +18,7 @@ def reindex(request):
 
 def index(request):
     # return redirect(reverse('blog:test', args=['chouba']))
-    return render(request, '../templates/index.html')
+    return render(request, '../templates/blog/index.html')
 
 
 def setCookie(request):
@@ -103,4 +105,5 @@ def pageinfo(request):
 
 
 def detail(request, pnum):
-    return HttpResponse('ok')
+    article = get_object_or_404(Article, pnum=pnum)
+    return render(request, 'blog/detail.html', context={'article': article})
