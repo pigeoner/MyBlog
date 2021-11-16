@@ -13,4 +13,5 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('dealfile/', views.dealfile, name='dealfile'),
     path('pageinfo/', views.pageinfo, name='pageinfo'),
+    path('detail/', views.detail, name='detail'),
 ]

@@ -100,3 +100,7 @@ def pageinfo(request):
     except Exception as e:
         print(e)
         return HttpResponse('<h3>没有找到对应信息！</h3>')
+
+
+def detail(request, pnum):
+    return HttpResponse('ok')
