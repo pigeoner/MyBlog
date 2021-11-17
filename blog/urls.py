@@ -13,5 +13,6 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('dealfile/', views.dealfile, name='dealfile'),
     path('pageinfo/', views.pageinfo, name='pageinfo'),
-    path('detail/', views.detail, name='detail'),
+    path('detail/<int:id>', views.detail, name='detail'),
+    path('base/', views.base, name='base'),
 ]

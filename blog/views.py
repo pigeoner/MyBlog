@@ -14,11 +14,13 @@ from blog.models import Article
 
 def reindex(request):
     return redirect(reverse('blog:index'))
+    # return redirect(reverse('blog:base'))
 
 
 def index(request):
     # return redirect(reverse('blog:test', args=['chouba']))
-    return render(request, '../templates/blog/index.html')
+    article = Article.objects.all().order_by('-created_time')
+    return render(request, '../templates/blog/index.html', context={'article': article})
 
 
 def setCookie(request):
@@ -104,6 +106,11 @@ def pageinfo(request):
         return HttpResponse('<h3>没有找到对应信息！</h3>')
 
 
-def detail(request, pnum):
-    article = get_object_or_404(Article, pnum=pnum)
-    return render(request, 'blog/detail.html', context={'article': article})
+def detail(request, id):
+    # article = get_object_or_404(Article, pnum=pnum)
+    article = Article.objects.filter(id=id)
+    return render(request, '../templates/blog/detail.html', context={'article': article})
+
+
+def base(request):
+    return render(request, '../templates/base.html')

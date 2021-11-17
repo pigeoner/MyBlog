@@ -84,4 +84,4 @@ class Article(models.Model):
         self.save(update_fields=['views'])
 
     def get_absolute_url(self):
-        return reverse('blog:detail', kwargs={'pnum': self.pnum})
+        return reverse('blog:detail', kwargs={"id": self.id})
