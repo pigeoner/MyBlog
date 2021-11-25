@@ -66,6 +66,8 @@ class Article(models.Model):
         这里我们通过 ForeignKey 把文章和 User 关联了起来。
         """
     views = models.PositiveIntegerField('阅读量', default=0, editable=False)
+    thumbs_up = models.PositiveIntegerField('点赞数', default=0, editable=False)
+    comments = models.PositiveBigIntegerField('评论数', default=0)
     tui = models.ForeignKey(Recommend, on_delete=models.DO_NOTHING,
                             verbose_name='推荐位', blank=True, null=True)
 

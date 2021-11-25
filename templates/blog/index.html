@@ -56,7 +56,8 @@
         float: right;
     }
     .sidebar{
-        border:1px solid #cfcfd1;
+        /*border:1px solid #cfcfd1;*/
+        outline:#cfcfd1 solid 1px;
     }
     .right-bgi{
     }
@@ -86,12 +87,14 @@
         line-height:25px;
     }
     article{
-        padding:5% 0;
+        padding:5% 5%;
+        margin:3% 0;
+        background-color:white;
     }
     .entry-cover i{
         font-style:normal;
         display: block;
-        width: 23%;
+        width: 200px;
         border-radius: 3px;
         overflow: hidden;
         float: left;
@@ -100,22 +103,40 @@
     .entry-cover i img{
         width:100%;
     }
-    .entry-text{
+    .entry-header{
         display: block;
         font-size: 14px;
         color: #666;
         overflow: hidden;
-        display: -webkit-box;
+        /*display: -webkit-box;
         text-overflow: ellipsis;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 3;
         width: 75%;
         float: left;
         line-height: 26px;
-        max-height: 105px;
+        max-height: 105px;*/
     }
-    .entry-text .entry-title{
+    .entry-title{
         text-align:left;
+    }
+    .entry-meta{
+        text-align:left;
+        line-height:48px;
+    }
+    .entry-meta .fa{
+        padding:0 5px;
+        margin-right:15px;
+    }
+    .entry-meta .fa:first-child{
+        padding-left:0;
+    }
+    .excerpt{
+        text-align:left;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
     }
     @media screen and (max-width: 1023px){
         .content{
@@ -131,7 +152,19 @@
             width:96%;
         }
         .content-right{
-            display:none;
+            /*display:none;*/
+        }
+    }
+    @media screen and (max-width:720px){
+        .entry-cover i{
+            width:94px;
+        }
+        .entry-meta .fa{
+            padding:0;
+            margin-right:15px;
+        }
+        .excerpt{
+            -webkit-line-clamp: 1;
         }
     }
 {% endblock %}
@@ -147,22 +180,30 @@
         <div class="container">
             <div class="row">
                 <main class="col-md-8">
+                    {%for post in article%}
                     <article class="clearfix">
                         <div class="entry-cover">
-                            <i><img src="{% static 'excel.png' %}" alt=""></i>
+                            <i><img src="{% static '/blog/img/excel.png' %}" alt=""></i>
                         </div>
-                        <div class="entry-text">
+                        <div class="entry-header">
                             <div class="entry-title">
                                 <h1>这是一段测试标题</h1>
                             </div>
                             <div class="entry-meta">
-                                <i class="fa fa-eye fa-fw"></i>
-                                222
-                                <div class="test">111</div>
+                                <i class="fa fa-clock-o time">&nbsp;&nbsp;{{post.created_time}}</i>
+                                <i class="fa fa-eye">&nbsp;&nbsp;{{post.views}}</i>
+                                <i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{post.thumbs_up}}</i>
+                                <i class="fa fa-comment-o">&nbsp;&nbsp;{{post.comments}}</i>
+                            </div>
+                        </div>
+                        <div class="entry-content">
+                            <div class="excerpt">
+                                {{post.excerpt}}
                             </div>
                         </div>
                     </article>
-                    <article class="post post-{{article.0}}">
+                    {% endfor %}
+                    <!-- <article class="post post-{{article.0}}">
                         <header class="entry-header">
                             <h1 class="entry-title">
                                 <a href="{{article.0.get_absolute_url}}">测试链接</a>
@@ -252,7 +293,7 @@
                                 <a href="#" class="more-link">继续阅读 <span class="meta-nav">→</span></a>
                             </div>
                         </div>
-                    </article>
+                    </article> -->
                     <!-- 简单分页效果
                     <div class="pagination-simple">
                         <a href="#">上一页</a>
@@ -367,7 +408,7 @@
                 <img src="{% static '/blog/img/color1.jpg' %}" alt="">
             </div>
             <div class="right-avatar">
-                <img src="{% static 'rabbit.jpg' %}" alt="">
+                <img src="{% static '/image/rabbit.jpg' %}" alt="">
             </div>
             <div class="right-text">
                 <h3>亚甲基蓝</h3>
@@ -389,6 +430,11 @@
         </div>
     </div>
 </footer> -->
+<script>
+    var a = document.getElementsByClassName('time')[0];
+    a.innerText=a.innerText.split(' ')[0].replace(/[年月]/g,'-').replace(/日/g,'');
+</script>
+<script src="/static/blog/js/script.js"></script>
 {% endblock %}
 <!-- Mobile Menu -->
 <div class="overlay overlay-hugeinc">
@@ -403,7 +449,6 @@
     </nav>
 </div>
 
-<script src="/static/blog/js/script.js"></script>
 
 </body>
 </html>
