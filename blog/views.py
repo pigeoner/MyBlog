@@ -20,7 +20,38 @@ def reindex(request):
 def index(request):
     # return redirect(reverse('blog:test', args=['chouba']))
     article = Article.objects.all().order_by('-created_time')
-    return render(request, '../templates/blog/index.html', context={'article': article})
+    try:
+        dlist = []
+        paginator = Paginator(dlist, 6)
+        page_num = request.GET.get('page', default='1')
+        try:
+            page = paginator.page(page_num)
+        except PageNotAnInteger as e:
+            page_num = 1
+            page = paginator.page(page_num)
+        except EmptyPage as e:
+            if int(page_num) > paginator.num_pages:
+                page = paginator.page(paginator.num_pages)
+            else:
+                page_num = 1
+                page = paginator.page(page_num)
+        # 这部分是为了再有大量数据时，仍然保证所显示的页码数量不超过10，
+        page_num = int(page_num)
+        if page_num < 6:
+            if paginator.num_pages <= 10:
+                dis_range = range(1, paginator.num_pages + 1)
+            else:
+                dis_range = range(1, 11)
+        elif page_num >= 6 and page_num <= paginator.num_pages - 5:
+            dis_range = range(page_num - 5, page_num + 5)
+        else:
+            dis_range = range(paginator.num_pages - 9, paginator.num_pages + 1)
+        context = {'page': page, 'dis_range': dis_range, 'article': article}
+        # return render(request, '../templates/blog/district.html', context)
+        return render(request, '../templates/blog/index.html', context)
+    except Exception as e:
+        print(e)
+        return HttpResponse('<h3>没有找到对应信息！</h3>')
 
 
 def setCookie(request):
@@ -100,7 +131,8 @@ def pageinfo(request):
         else:
             dis_range = range(paginator.num_pages - 9, paginator.num_pages + 1)
         context = {'page': page, 'dis_range': dis_range}
-        return render(request, '../templates/blog/district.html', context)
+        # return render(request, '../templates/blog/district.html', context)
+        return render(request, '../templates/blog/index.html', context)
     except Exception as e:
         print(e)
         return HttpResponse('<h3>没有找到对应信息！</h3>')

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}首页{% endblock %}</title>
+    <title>{% block title %}亚甲基蓝个人博客{% endblock %}</title>
     <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="/static/blog/assets/waifu.min.css?v=1.4.2"/>
     {% block head %}
@@ -30,30 +30,30 @@
         li{
             list-style-type: none;
         }
-        .header::before {
+        /* .header::before {
             background: #000 linear-gradient(to left, #28be9b, #3476d8, #6c4ad6, #9209ac, #1aa9ee);
             content: "";
             height: 5px;
             position: absolute;
             top: 0;
             width: 100%;
-        }
+        } */
         .header{
-            height: 70px;
-            background-color: #000;
+            height: 60px;
+            background-color: #1b1b1bea;
             box-shadow: 0 0px 1px 0.5px rgba(131, 131, 131, 0.418);
         }
         .icon{
             float: left;
-            line-height: 70px;
+            line-height: 60px;
         }
         .icon img{
             float: left;
             margin-left: 80px;
             margin-top:10px;
-            height: 50px;
+            height: 40px;
         }
-        .icon h2{
+        .icon h3{
             margin-left: 20px;
             display: inline-block;
             color: #fff;
@@ -61,7 +61,7 @@
         }
         .nav{
             float:right;
-            line-height: 70px;
+            line-height: 60px;
         }
         .nav ul{
             position: relative;
@@ -69,13 +69,13 @@
         }
         .nav ul li{
             float: left;
-            height: 70px;
+            height: 60px;
             transition: background-color 0.3s;
         }
         .nav ul li a{
             display: block;
             padding:0 30px;
-            font-size: large;
+            font-size: normal;
             color:#f6f6f6;
             transition: color 0.5s;
         }
@@ -117,6 +117,9 @@
             text-align: center;
             line-height: 32px;
         }
+        .fa::after{
+            content:"\00A0";
+        }
     </style>
 </head>
 <body>
@@ -125,17 +128,25 @@
         <div class="icon">
             <a href="{% url 'blog:index' %}">
                 <img src="{% static '/image/header_reverse.png' %}" alt="">
-                <h2>
+                <h3>
                     A101E-LAB
-                </h2>
+                </h3>
             </a>
         </div>
         <div class="nav">
             <ul>
-                <li><a href="{% url 'blog:index' %}">首页</a></li>
-                <li><a href="#">博文</a></li>
-                <li><a href="#">小工具</a></li>
-                <li><a href="#">关于我们</a></li>
+                <li><a href="{% url 'blog:index' %}">
+                    <i class="fa fa-home"></i>首页
+                </a></li>
+                <li><a href="#">
+                    <i class="fa fa-edit"></i>博文
+                </a></li>
+                <li><a href="#">
+                    <i class="fa fa-wrench"></i>小工具
+                </a></li>
+                <li><a href="#">
+                    <i class="fa fa-mortar-board"></i>关于我们
+                </a></li>
             </ul>
         </div>
     </div>
@@ -162,7 +173,7 @@
     <!-- 实现拖动效果，需引入 JQuery UI -->
     <script src="/static/blog/assets/jquery-ui.min.js"></script>
     
-    <!-- <div class="waifu">
+    <div class="waifu">
         <div class="waifu-tips"></div>
         <canvas id="live2d" class="live2d"></canvas>
         <div class="waifu-tool">
@@ -174,7 +185,7 @@
             <span class="fui-info-circle"></span>
             <span class="fui-cross"></span>
         </div>
-    </div> -->
+    </div>
         
     <script src="/static/blog/assets/waifu-tips.min.js?v=1.4.2"></script>
     <script src="/static/blog/assets/live2d.min.js?v=1.0.5"></script>
