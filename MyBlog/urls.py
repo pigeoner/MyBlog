@@ -20,7 +20,6 @@ from django.conf.urls.static import static
 from django.views.static import serve as static_serve
 import MyBlog.views as view
 import os
-from DjangoUeditor import urls as DjangoUeditor_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,9 +27,7 @@ urlpatterns = [
     path('', include('blog.urls', namespace='blog')),
     re_path(r'^static/(?P<path>.*)$', static_serve,
             {'document_root': settings.STATIC_ROOT}, name='static'),
-    # 添加DjangoUeditor的URL
-    path('ueditor/', include(DjangoUeditor_urls)),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('mdeditor/', include('mdeditor.urls')),
 ]  # + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

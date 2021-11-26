@@ -32,9 +32,6 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'simpleui',
-    'DjangoUeditor',
-    'ckeditor',
-    'ckeditor_uploader',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
+    'mdeditor',
 ]
 
 MIDDLEWARE = [
@@ -131,102 +129,42 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-    "/home/web/MyBlog/static",
-]
+if DEBUG == True:
 
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+        "/home/web/MyBlog/static",
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-CKEDITOR_UPLOAD_PATH = 'article_img/'
-# 使用ck的工具栏并修改，宽度自适应
-# CKEDITOR_CONFIGS = {
-#     # django-ckeditor默认使用default配置
-#     'default': {
-#         # 编辑器宽度自适应
-#         'width': 'auto',
-#         'height': '300px',
-#         # tab键转换空格数
-#         'tabSpaces': 4,
-#         # 工具栏风格
-#         'toolbar': 'Custom',
-#         # 工具栏按钮
-#         'toolbar_Custom': [
-#             # 预览、表情
-#             ['Preview', 'Smiley'],
-#             # 字体风格
-#             ['Bold', 'Italic', 'Underline', 'RemoveFormat', 'Blockquote'],
-#             # 字体颜色
-#             ['TextColor', 'BGColor'],
-#             # 格式、字体、大小
-#             ['Format', 'Font', 'FontSize'],
-#             # 链接
-#             ['Link', 'Unlink'],
-#             # 列表
-#             ['Image', 'NumberedList', 'BulletedList'],
-#             # 居左，居中，居右
-#             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-#             # 最大化
-#             ['Maximize']
-#         ],
-#         # 加入代码块插件
-#         'extraPlugins': ','.join(['codesnippet', 'image2', 'filebrowser', 'widget', 'lineutils']),
-#     },
-#     # 评论
-#     'comment': {
-#         # 编辑器宽度自适应
-#         'width': 'auto',
-#         'height': '140px',
-#         # tab键转换空格数
-#         'tabSpaces': 4,
-#         # 工具栏风格
-#         'toolbar': 'Custom',
-#         # 工具栏按钮
-#         'toolbar_Custom': [
-#             # 表情 代码块
-#             ['Smiley', 'CodeSnippet'],
-#             # 字体风格
-#             ['Bold', 'Italic', 'Underline', 'RemoveFormat', 'Blockquote'],
-#             # 字体颜色
-#             ['TextColor', 'BGColor'],
-#             # 链接
-#             ['Link', 'Unlink'],
-#             # 列表
-#             ['NumberedList', 'BulletedList'],
-#         ],
-#         # 加入代码块插件
-#         'extraPlugins': ','.join(['codesnippet']),
-#     }
-# }
-CKEDITOR_CONFIGS = {
+MDEDITOR_CONFIGS = {
     'default': {
-        # 编辑器宽度自适应
-        'width': 'auto',
-        'height': '300px',
-        # tab键转换空格数
-        'tabSpaces': 4,
-        # 工具栏风格
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['div', 'Source', '-', 'Save', 'NewPage', 'Preview', '-', 'Templates'],
-            ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord',
-                '-', 'Print', 'SpellChecker', 'Scayt'],
-            ['Undo', 'Redo', '-', 'Find', 'Replace',
-                '-', 'SelectAll', 'RemoveFormat'],
-            ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea',
-                'Select', 'Button', 'ImageButton', 'HiddenField'],
-            ['Bold', 'Italic', 'Underline', 'Strike',
-                '-', 'Subscript', 'Superscript'],
-            ['NumberedList', 'BulletedList', '-',
-                'Outdent', 'Indent', 'Blockquote'],
-            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink', 'Anchor'],
-            ['Image', 'Flash', 'Table', 'HorizontalRule',
-                'Smiley', 'SpecialChar', 'PageBreak'],
-            ['Styles', 'Format', 'Font', 'FontSize'],
-            ['TextColor', 'BGColor'],
-            ['Maximize', 'ShowBlocks', '-', 'About', 'pbckcode'],
-        ],
+        'width': '90% ',  # Custom edit box width  宽度，整个页面的百分之多少
+        'height': 500,  # Custom edit box height   高度，单位为px
+        'toolbar': ["undo", "redo", "|",
+                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                    "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime",
+                    "emoji", "html-entities", "pagebreak", "goto-line", "|",
+                    "help", "info",
+                    "|", "preview", "watch", "fullscreen"],  # custom edit box toolbar   工具栏
+        # image upload format type  允许上传的图片 的格式，不在这个里面的格式将不允许被上传
+        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+        # image save the folder name   上传图片后存放的目录，BASE_DIR/MEDIA_ROOT/editor
+        'image_floder': 'editor',
+        'theme': 'default',  # edit box theme, dark / default  mdeditor主题，dark/default两种
+        # Preview area theme, dark / default  内容显示区主题 dark/default
+        'preview_theme': 'default',
+        # edit area theme, pastel-on-dark / default   文本编辑区主题  pastel-on-dark / default
+        'editor_theme': 'default',
+        'toolbar_autofixed': True,  # Whether the toolbar capitals
+        'search_replace': True,  # Whether to open the search for replacement  是否打开搜索替换
+        'emoji': True,  # whether to open the expression function  是否允许使用emoji表情
+        'tex': True,  # whether to open the tex chart function   是否打开tex图表功能
+        'flow_chart': True,  # whether to open the flow chart function   是否打开流程图功能
+        'sequence': True  # Whether to open the sequence diagram function   是否打开序列图函数
     }
 }
