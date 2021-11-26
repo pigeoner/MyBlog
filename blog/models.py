@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
+from users.models import UserProfile
 from mdeditor.fields import MDTextField
 from django.urls import reverse
 
@@ -61,7 +62,8 @@ class Article(models.Model):
     #                      settings={}, command=None, blank=True
     #                      )
     body = MDTextField(verbose_name='内容')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')
+    user = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, verbose_name='作者')
     """
         文章作者，这里User是从django.contrib.auth.models导入的。
         这里我们通过 ForeignKey 把文章和 User 关联了起来。

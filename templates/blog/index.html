@@ -158,7 +158,7 @@
         border-radius: 3px;
         overflow: hidden;
         float: left;
-        margin-right: 2%;
+        margin-right: 5%;
     }
     .entry-cover i img{
         width:100%;
@@ -278,9 +278,10 @@
                 </div>
                 <div class="entry-header">
                     <div class="entry-title">
-                        <h1>这是一段测试标题</h1>
+                        <h1>{{post.title}}</h1>
                     </div>
                     <div class="entry-meta">
+                        <i class="fa fa-user-o">&nbsp;&nbsp;{{post.user.nick_name}}</i>
                         <i class="fa fa-clock-o time">&nbsp;&nbsp;{{post.created_time}}</i>
                         <i class="fa fa-eye">&nbsp;&nbsp;{{post.views}}</i>
                         <i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{post.thumbs_up}}</i>
@@ -377,7 +378,7 @@
                 <ul>
                     {% for cat in category %}
                     <li>
-                        <a href="#">{{cat}}<span class="post-count">(13)</span></a>
+                        <a href="#">{{cat}}</a>
                     </li>
                     {% endfor %}
                 </ul>
