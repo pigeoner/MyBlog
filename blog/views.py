@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import time
 import os
 
-from blog.models import Article
+from blog.models import Article, Tag, Category
 
 # Create your views here.
 
@@ -20,6 +20,8 @@ def reindex(request):
 def index(request):
     # return redirect(reverse('blog:test', args=['chouba']))
     article = Article.objects.all().order_by('-created_time')
+    tags = Tag.objects.all()
+    cat = Category.objects.all()
     try:
         dlist = []
         paginator = Paginator(dlist, 6)
@@ -46,7 +48,8 @@ def index(request):
             dis_range = range(page_num - 5, page_num + 5)
         else:
             dis_range = range(paginator.num_pages - 9, paginator.num_pages + 1)
-        context = {'page': page, 'dis_range': dis_range, 'article': article}
+        context = {'page': page, 'dis_range': dis_range,
+                   'article': article, 'tags': tags, 'category': cat}
         # return render(request, '../templates/blog/district.html', context)
         return render(request, '../templates/blog/index.html', context)
     except Exception as e:

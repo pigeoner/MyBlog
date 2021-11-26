@@ -1,7 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.contrib.auth.models import User
-from DjangoUeditor.models import UEditorField
+from ckeditor.fields import RichTextField
 from django.urls import reverse
 
 # Create your models here.
@@ -55,11 +55,12 @@ class Article(models.Model):
     # 使用外键关联标签表与标签是多对多关系
     img = models.ImageField(upload_to='article_img/%Y/%m/%d/',
                             verbose_name='文章图片', blank=True, null=True)
-    body = UEditorField('内容', width=800, height=500,
-                        toolbars="full", imagePath="upimg/", filePath="upfile/",
-                        upload_settings={"imageMaxSize": 1204000},
-                        settings={}, command=None, blank=True
-                        )
+    # body = RichTextField('内容', width=800, height=500,
+    #                      toolbars="full", imagePath="upimg/", filePath="upfile/",
+    #                      upload_settings={"imageMaxSize": 1204000},
+    #                      settings={}, command=None, blank=True
+    #                      )
+    body = RichTextField(verbose_name='内容')
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='作者')
     """
         文章作者，这里User是从django.contrib.auth.models导入的。

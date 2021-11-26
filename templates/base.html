@@ -127,7 +127,7 @@
     <div class="header">
         <div class="icon">
             <a href="{% url 'blog:index' %}">
-                <img src="{% static '/image/header_reverse.png' %}" alt="">
+                <img src="{% static '/image/header.png' %}" alt="">
                 <h3>
                     A101E-LAB
                 </h3>
@@ -203,6 +203,7 @@
         live2d_settings['waifuToolLine'] = '30px';       // 工具栏行高
         live2d_settings['waifuToolTop'] = '0px';       // 工具栏顶部边距
         live2d_settings['waifuDraggable'] = 'unlimited';    // 拖拽样式
+        live2d_settings['waifuEdgeSide'] = 'right:10';   //左右位置
         /* 在 initModel 前添加 */
         initModel("/static/blog/assets/waifu-tips.json?v=1.4.2")
     </script>

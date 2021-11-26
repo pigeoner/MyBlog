@@ -62,7 +62,7 @@
     }
     .widget:first-child{
         margin:0;
-        padding:0;
+        padding:0 0 10px 0;
         text-align:center;
     }
     .widget-title{
@@ -115,8 +115,6 @@
     .widget-tag-cloud ul li a{
         color:#fff;
     }
-    .right-bgi{
-    }
     .right-bgi img{
         width:100%;
         height:100px;
@@ -130,17 +128,23 @@
     }
     .right-text{
         color:#424242;
-        line-height:42px;
+        line-height:36px;
     }
-    .right-text h3{
+    .right-text h3:first-child{
+        margin:0 20px 10px 20px;
+        padding:0 0 16px 0;
+        border-bottom:1px solid #ddd;
+    }
+    .right-text h3 a{
         display:inline-block;
+        margin:5px 0 0 0;
         padding:8px 12px;
         color:#f6f6f6;
         /*background-color:#e1e1e1;*/
         background-color:#1242af;
         border-radius:3px;
         font-weight:700;
-        line-height:25px;
+        line-height:20px;
     }
     article{
         padding:5% 5%;
@@ -326,11 +330,10 @@
                     <img src="{% static '/blog/img/color1.jpg' %}" alt="">
                 </div>
                 <div class="right-avatar">
-                    <img src="{% static '/image/rabbit.jpg' %}" alt="">
+                    <a href="#"><img src="{% static '/image/rabbit.jpg' %}" alt=""></a>
                 </div>
                 <div class="right-text">
-                    <h3>亚甲基蓝</h3>
-                    <hr style="margin: 12px 20px;">
+                    <h3><a href="#">亚甲基蓝</a></h3>
                     <p>啥也不是，净唠比嗑</p>
                     <p>沉舟侧畔千帆过，病树前头万木春。</p>
                 </div>
@@ -372,15 +375,11 @@
                     <i class="fa fa-folder-open-o">&nbsp;&nbsp;</i>分类
                 </h4>
                 <ul>
+                    {% for cat in category %}
                     <li>
-                        <a href="#">Django 博客教程 <span class="post-count">(13)</span></a>
+                        <a href="#">{{cat}}<span class="post-count">(13)</span></a>
                     </li>
-                    <li>
-                        <a href="#">Python 教程 <span class="post-count">(11)</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Django 用户认证 <span class="post-count">(8)</span></a>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
 
@@ -389,36 +388,11 @@
                     <i class="fa fa-tags">&nbsp;&nbsp;</i>标签云
                 </h4>
                 <ul>
+                    {% for tag in tags %}
                     <li>
-                        <a href="#">Django</a>
+                        <a href="#">{{tag}}</a>
                     </li>
-                    <li>
-                        <a href="#">Python</a>
-                    </li>
-                    <li>
-                        <a href="#">Java</a>
-                    </li>
-                    <li>
-                        <a href="#">笔记</a>
-                    </li>
-                    <li>
-                        <a href="#">文档</a>
-                    </li>
-                    <li>
-                        <a href="#">AngularJS</a>
-                    </li>
-                    <li>
-                        <a href="#">CSS</a>
-                    </li>
-                    <li>
-                        <a href="#">JavaScript</a>
-                    </li>
-                    <li>
-                        <a href="#">Snippet</a>
-                    </li>
-                    <li>
-                        <a href="#">jQuery</a>
-                    </li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="rss">
