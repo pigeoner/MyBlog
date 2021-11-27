@@ -12,7 +12,7 @@
         //请求依赖库，及成功后调用初始化方法
         $('head').append(`<link href='${path}/css/waifu_2.css' rel="stylesheet"/>`);
         $.getScript(`${path}/js/live2d.min.js`).then(() => {
-            return $.getScript(`${path}/js/waifu-tips_2.js`)
+            return $.getScript(`${path}/js/waifu-tips.js`)
         }).then(() => {
             let modelCfgJson = `${path}/useLive2d/live2dModel/${modelType}/model.json`;
             console.log(modelCfgJson)
