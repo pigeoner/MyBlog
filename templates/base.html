@@ -39,9 +39,16 @@
             width: 100%;
         } */
         .header{
+            text-align: center;
             height: 60px;
             background-color: #1b1b1bea;
             box-shadow: 0 0px 1px 0.5px rgba(131, 131, 131, 0.418);
+        }
+        .header-box{
+            width: 96%;
+            padding:0 10px;
+            margin: auto;
+            max-width: 1260px;
         }
         .icon{
             float: left;
@@ -49,8 +56,7 @@
         }
         .icon img{
             float: left;
-            margin-left: 80px;
-            margin-top:10px;
+            margin:10px 0 0 0;
             height: 40px;
         }
         .icon h3{
@@ -86,7 +92,7 @@
             color:#000;
         }
         .content{
-            margin: 50px 100px;
+            margin:auto;
             text-align: center;
         }
         {% block style %}
@@ -125,29 +131,31 @@
 <body>
     {% load static %}
     <div class="header">
-        <div class="icon">
-            <a href="{% url 'blog:index' %}">
-                <img src="{% static '/image/header.png' %}" alt="">
-                <h3>
-                    A101E-LAB
-                </h3>
-            </a>
-        </div>
-        <div class="nav">
-            <ul>
-                <li><a href="{% url 'blog:index' %}">
-                    <i class="fa fa-home"></i>首页
-                </a></li>
-                <li><a href="#">
-                    <i class="fa fa-edit"></i>博文
-                </a></li>
-                <li><a href="#">
-                    <i class="fa fa-wrench"></i>小工具
-                </a></li>
-                <li><a href="#">
-                    <i class="fa fa-mortar-board"></i>关于我们
-                </a></li>
-            </ul>
+        <div class="header-box">
+            <div class="icon">
+                <a href="{% url 'blog:index' %}">
+                    <img src="{% static '/image/header.png' %}" alt="">
+                    <h3>
+                        A101E-LAB
+                    </h3>
+                </a>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li><a href="{% url 'blog:index' %}">
+                        <i class="fa fa-home"></i>首页
+                    </a></li>
+                    <li><a href="#">
+                        <i class="fa fa-edit"></i>博文
+                    </a></li>
+                    <li><a href="#">
+                        <i class="fa fa-wrench"></i>小工具
+                    </a></li>
+                    <li><a href="#">
+                        <i class="fa fa-mortar-board"></i>关于我们
+                    </a></li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="content">
