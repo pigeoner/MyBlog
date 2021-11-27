@@ -244,18 +244,37 @@
             display:none;
         }
     }
-    @media screen and (max-width:480px){
-        .entry-cover i{
-            width:94px;
+    @media screen and (max-width:720px){
+        .entry-cover{
+            float:none;
+            width:100%;
+            height:200px;
+            text-align:center;
         }
+        .entry-cover a{
+            text-align:center;
+        }
+    }
+    @media screen and (max-width:640px){
         .entry-meta .fa{
             padding:0;
             margin-right:15px;
         }
         .excerpt{
-            -webkit-line-clamp: 1;
+            -webkit-line-clamp: 2;
         }
         .img-round{
+            height:150px;
+        }
+        .entry-meta :nth-child(n+3){
+            display:none;
+        }
+        .entry-title{
+            margin-top:10px;
+        }
+    }
+    @media screen and (max-width:480px){
+        .entry-cover{
             height:150px;
         }
     }
