@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from users.models import UserProfile
 from mdeditor.fields import MDTextField
 from django.urls import reverse
+import time
 
 # Create your models here.
 
@@ -45,7 +46,15 @@ class Recommend(models.Model):
         return self.name
 
 
+def user_directory_path(instance, filename):
+    ext = filename.split('.').pop()
+    filename = '{0}.{1}'.format(
+        'cover/post_'+str(instance.user)+'_'+str(int(time.time())), ext)
+    return filename  # 系统路径分隔符差异，增强代码重用性
+
 # 文章
+
+
 class Article(models.Model):
     title = models.CharField('标题', max_length=70)
     excerpt = models.TextField('摘要', max_length=200, blank=True)
@@ -54,7 +63,7 @@ class Article(models.Model):
     # 使用外键关联分类表与分类是一对多关系
     tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
     # 使用外键关联标签表与标签是多对多关系
-    img = models.ImageField(upload_to='cover/%Y/%m/%d/',
+    img = models.ImageField(upload_to=user_directory_path,
                             verbose_name='文章图片', blank=True, null=True)
     # body = RichTextField('内容', width=800, height=500,
     #                      toolbars="full", imagePath="upimg/", filePath="upfile/",

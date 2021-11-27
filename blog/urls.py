@@ -9,10 +9,7 @@ urlpatterns = [
     path('', views.reindex, name='reindex'),
     path('index/', views.index, name='index'),
     path('cookie/', views.setCookie, name='setCookie'),
-    path('reqtest/', views.reqtest, name='reqtest'),
     path('upload/', views.upload, name='upload'),
     path('dealfile/', views.dealfile, name='dealfile'),
-    path('pageinfo/', views.pageinfo, name='pageinfo'),
     path('detail/<int:id>', views.detail, name='detail'),
-    path('base/', views.base, name='base'),
 ]

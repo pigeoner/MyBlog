@@ -271,26 +271,26 @@
             </div>
         </div>
         <div class="container">
-            {%for post in article%}
+            {% for post in page %}
             <article class="clearfix">
                 <div class="entry-cover">
-                    <i><img src="{% static '/blog/img/excel.png' %}" alt=""></i>
+                    <i><img src="/media/{{ post.img }}" alt=""></i>
                 </div>
                 <div class="entry-header">
                     <div class="entry-title">
-                        <h1>{{post.title}}</h1>
+                        <h1>{{ post }}</h1>
                     </div>
                     <div class="entry-meta">
-                        <i class="fa fa-user-o">&nbsp;&nbsp;{{post.user.nick_name}}</i>
-                        <i class="fa fa-clock-o time">&nbsp;&nbsp;{{post.created_time}}</i>
-                        <i class="fa fa-eye">&nbsp;&nbsp;{{post.views}}</i>
-                        <i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{post.thumbs_up}}</i>
-                        <i class="fa fa-comment-o">&nbsp;&nbsp;{{post.comments}}</i>
+                        <i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i>
+                        <i class="fa fa-clock-o time">&nbsp;&nbsp;{{ post.created_time }}</i>
+                        <i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i>
+                        <i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i>
+                        <i class="fa fa-comment-o">&nbsp;&nbsp;{{ post.comments }}</i>
                     </div>
                 </div>
                 <div class="entry-content">
                     <div class="excerpt">
-                        {{post.excerpt}}
+                        {{ post.excerpt }}
                     </div>
                 </div>
             </article>
