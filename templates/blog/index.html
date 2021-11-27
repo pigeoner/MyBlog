@@ -277,6 +277,9 @@
         .entry-cover{
             height:150px;
         }
+        .entry-content{
+            overflow:hidden;
+        }
     }
 {% endblock %}
 
@@ -315,7 +318,7 @@
                         {% if post.excerpt %}
                         {{ post.excerpt }}
                         {% else %}
-                        {{ post.content }}
+                        {{ post.body }}
                         {% endif %}
                     </a>
                 </div>

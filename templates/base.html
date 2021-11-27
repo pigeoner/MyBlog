@@ -215,5 +215,40 @@
         /* 在 initModel 前添加 */
         initModel("/static/blog/assets/waifu-tips.json?v=1.4.2")
     </script>
+
+    <!-- 血小板 -->
+    <div id="landlord" style="left: 2px; bottom: 1px; display: block;">
+        <div class="message" style="opacity: 1;"></div>
+        <canvas id="live2d" width="500" height="560" class="live2d"></canvas>
+        <div class="live_talk_input_body" style="display:none">
+            <div class="live_talk_input_name_body">
+                <input name="name" type="text" class="live_talk_name white_input" id="AIuserName" autocomplete="off" placeholder="你的名字">
+            </div>
+            <div class="live_talk_input_text_body">
+                <input name="talk" type="text" class="live_talk_talk white_input" id="AIuserText" autocomplete="off" placeholder="要和我聊什么呀？">
+                <button type="button" class="live_talk_send_btn" id="talk_send">发送</button>
+            </div>
+        </div>
+        <input name="live_talk" id="live_talk" value="1" type="hidden">
+        <div class="live_ico_box">
+            <div class="live_ico_item type_info" id="showInfoBtn" style="display: none;"></div>
+            <div class="live_ico_item type_talk" id="showTalkBtn" style="display: none;"></div>
+            <div class="live_ico_item type_music" id="musicButton" style="display: none;"></div>
+            <div class="live_ico_item type_youdu" id="youduButton" data-type=""></div>
+            <div class="live_ico_item type_quit" id="hideButton"></div>
+            <input name="live_statu_val" id="live_statu_val" value="0" type="hidden">
+            
+            <input id="duType" value="douqilai,l2d_caihong" type="hidden">
+        </div>
+    </div>
+    <script type="text/javascript">
+        var message_Path = '';
+        var model_Path = '/static/blog/assets/model/';
+        var model_textures = ["texture.png"];
+        var home_Path = '//www.hmchang.com';
+        var talkAPI = "";
+    </script>
+    <script type="text/javascript" src="https://www.hmchang.com/live2d/js/live2d.js"></script>
+    <script type="text/javascript" src="https://www.hmchang.com/live2d/js/message.js"></script>
 </body>
 </html>
