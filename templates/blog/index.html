@@ -1,9 +1,5 @@
 {%extends "base.html"%}
 {% block head %}
-    <!-- meta -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- css -->
     <!-- <link rel="stylesheet" href="/static/blog/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -274,6 +270,9 @@
         }
     }
     @media screen and (max-width:480px){
+        .content-left{
+            width:100%;
+        }
         .entry-cover{
             height:150px;
         }
@@ -294,6 +293,7 @@
             </div>
         </div>
         <div class="container">
+            {% load blogExtras %}
             {% for post in page %}
             <article class="clearfix">
                 <div class="entry-cover">
@@ -303,7 +303,7 @@
                 </div>
                 <div class="entry-header">
                     <div class="entry-title">
-                        <h1><a href="">{{ post }}</h1></a>
+                        <h1><a href="{% url 'blog:detail' %}?post={{post.id}}">{{ post.title }}</h1></a>
                     </div>
                     <div class="entry-meta">
                         <a href="#"><i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i></a>
@@ -314,7 +314,7 @@
                     </div>
                 </div>
                 <div class="entry-content">
-                    <a href="#" class="excerpt">
+                    <a href="{% url 'blog:detail' %}?post={{post.id}}" class="excerpt">
                         {% if post.excerpt %}
                         {{ post.excerpt }}
                         {% else %}
@@ -368,22 +368,50 @@
                     <p>沉舟侧畔千帆过，病树前头万木春。</p>
                 </div>
             </div>
-            <div class="widget widget-recent-posts">
+            <!-- <div class="widget widget-recent-posts">
                 <h4 class="widget-title">
                     <i class="fa fa-send-o">&nbsp;&nbsp;</i>最新文章
                 </h4>
                 <ul class="widget-recent-content">
                     {% for post in article %}
                     <li>
-                        <a href="#">
+                        <a href="{% url 'blog:detail' %}?post={{post.id}}">
                             <i class="fa fa-file-text-o"></i>
                             {{post.title}}
                         </a>
                     </li>
                     {% endfor %}
                 </ul>
-            </div>
-            <div class="widget widget-archives">
+            </div> -->
+            {% get_sidebar_list as sidebars %}
+            {% for sidebar in sidebars %}
+                <div class="widget widget-recent-posts">
+                    <h4 class="widget-title">
+                        <a href="#">
+                            <i class="{% if sidebar.display_type == 1 %} 
+                                        fa fa-search
+                                        {% elif sidebar.display_type == 2 %}
+                                        fa fa-send-o
+                                        {% elif sidebar.display_type == 3 %}
+                                        fa fa-fire
+                                        {% elif sidebar.display_type == 4 %}
+                                        fa fa-archive
+                                        {% elif sidebar.display_type == 5 %}
+                                        fa fa-folder-open-o
+                                        {% elif sidebar.display_type == 6 %}
+                                        fa fa-comment-o
+                                        {% else %}
+                                        fa fa-bars
+                                    {% endif %}">
+                            </i>{{ sidebar.title }}
+                        </a>
+                    </h4>
+                    <ul class="widget-recent-content">
+                        {{ sidebar.get_content|safe }}
+                    </ul>
+                </div>
+            {% endfor %}
+            <!-- <div class="widget widget-archives">
                 <h4 class="widget-title">
                     <i class="fa fa-archive">&nbsp;&nbsp;</i>归档
                 </h4>
@@ -427,7 +455,7 @@
             </div>
             <div class="rss">
                 <a href=""><span class="ion-social-rss-outline"></span> RSS 订阅</a>
-            </div>
+            </div> -->
         </aside>
     </div>
     <script>

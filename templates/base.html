@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}亚甲基蓝个人博客{% endblock %}</title>
     <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/blog/js/jquery.min.js">
     <!-- <link rel="stylesheet" type="text/css" href="/static/blog/css/waifu.min.css?v=1.4.2"/> -->
     {% block head %}
     {% endblock %}
@@ -41,7 +42,7 @@
         .header{
             text-align: center;
             height: 60px;
-            background-color: #1b1b1bea;
+            background-color: #1b1b1b;
             box-shadow: 0 0px 1px 0.5px rgba(131, 131, 131, 0.418);
         }
         .header-box{
@@ -162,6 +163,8 @@
         {% block content %}
             内容预留区域
         {% endblock %}
+        {% block archives %}
+        {% endblock %}
     </div>
     <footer>
         <div class="box">
@@ -178,7 +181,7 @@
     <!-- waifu-tips.js 依赖 JQuery 库 -->
     <script src="/static/blog/js/jquery.min.js?v=3.3.1"></script>
     
-    实现拖动效果，需引入 JQuery UI
+    <!-- 实现拖动效果，需引入 JQuery UI -->
     <script src="/static/blog/js/jquery-ui.min.js"></script>
     
     <!-- <div class="waifu">
@@ -214,7 +217,7 @@
         live2d_settings['waifuDraggable'] = 'unlimited';    // 拖拽样式
         live2d_settings['waifuEdgeSide'] = 'right:10';   //左右位置
         /* 在 initModel 前添加 */
-        initModel("/static/blog/assets/waifu-tips.json?v=1.4.2")
+        initModel("/static/blog/json/waifu-tips.json?v=1.4.2")
     </script>
 
     <!-- 另一个版本 -->

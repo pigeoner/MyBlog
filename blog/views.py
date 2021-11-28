@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 import time
 import os
 
-from blog.models import Article, Tag, Category
+from blog.models import Article, SideBar, Tag, Category
 
 # Create your views here.
 
@@ -20,8 +20,6 @@ def reindex(request):
 def index(request):
     # 注：Django3.2的paginator类新增一种方法get_elided_page_range
     article = Article.objects.all().order_by('-created_time')
-    tags = Tag.objects.all()
-    cat = Category.objects.all()
     paginator = Paginator(article, 3)
     page_num = request.GET.get('page', default='1')
     try:
@@ -46,8 +44,7 @@ def index(request):
         dis_range = range(page_num - 5, page_num + 5)
     else:
         dis_range = range(paginator.num_pages - 9, paginator.num_pages + 1)
-    context = {'page': page, 'dis_range': dis_range,
-               'tags': tags, 'category': cat, 'article': article}
+    context = {'page': page, 'dis_range': dis_range}
     return render(request, '../templates/blog/index.html', context)
 
 
@@ -93,7 +90,16 @@ def dealfile(request):
     )
 
 
-def detail(request, id):
-    # article = get_object_or_404(Article, pnum=pnum)
-    article = Article.objects.filter(id=id)
-    return render(request, '../templates/blog/detail.html', context={'article': article})
+def detail(request):
+    id = request.GET.get('post')
+    post = Article.objects.get(id=id)
+    post.increase_views()
+    return render(request, "../templates/blog/edit.html", {"post": post})
+
+
+def archives(request, year, month):
+    # 文章归档列表页
+    post_list = Article.objects.filter(
+        create_time__year=year, create_time__month=month)
+    context = {'post_list': post_list, 'year': year, 'month': month}
+    return render(request, '../templates/blog/archives_list.html', context)

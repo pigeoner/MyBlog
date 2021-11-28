@@ -1,0 +1,25 @@
+{%extends "base.html"%}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="/static/mdeditor/css/editormd.min.css">
+    
+    <!--引入js文件-->
+    <script src="/static/blog/js/zepto.min.js"></script>
+    <script src="/static/mdeditor/js/lib/prettify.min.js"></script>
+    <script src="/static/mdeditor/js/lib/marked.min.js"></script>
+    <script src="/static/mdeditor/js/editormd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="article_content">
+    <textarea>{{post.body|safe}}</textarea>
+</div>
+
+<!--处理逻辑-->
+<script>
+    editormd.markdownToHTML("article_content", { //article_content是html文档的ID
+        emoji: true,
+        taskList: true,
+    });
+</script>
+{% endblock %}

@@ -3,7 +3,7 @@
         window.use2dParam = cfg; //注入供全局使用
         let { path, modelType, canvasStyle } = cfg;
         // 创建人物所占空间元素节点 
-        let domNode = `<div class="waifu" >
+        let domNode = `<div class="waifu">
             <div class="waifu-tips"></div>
             <canvas id="live2d" class="live2d" width="300px" height="380px"></canvas>
         </div>`;

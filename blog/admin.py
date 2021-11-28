@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Category, Recommend, Tag, Article
+from .models import Category, Recommend, Tag, Article, SideBar
 # 导入需要管理的数据库表
 
 
@@ -31,3 +31,6 @@ class TagAdmin(admin.ModelAdmin):
 @admin.register(Recommend)
 class TuiAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+
+
+admin.site.register(SideBar)

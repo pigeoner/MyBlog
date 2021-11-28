@@ -3686,6 +3686,7 @@
      */
 
     editormd.markdownToHTML = function (id, options) {
+        console.log('init')
         var defaults = {
             gfm: true,
             toc: true,
@@ -3721,6 +3722,11 @@
         }
 
         var markdownDoc = (settings.markdown === "") ? saveTo.val() : settings.markdown;
+        /*  这一段代码可以保证兼容HTML  */
+        // if (markdownDoc.startsWith('<') || markdownDoc.endsWith('>')) {
+        //     $("#" + id).html(markdownDoc)
+        //     return
+        // }
         var markdownToC = [];
 
         var rendererOptions = {
@@ -3752,6 +3758,7 @@
         markdownDoc = new String(markdownDoc);
 
         var markdownParsed = marked(markdownDoc, markedOptions);
+        console.log(markdownParsed)
 
         markdownParsed = editormd.filterHTMLTags(markdownParsed, settings.htmlDecode);
 

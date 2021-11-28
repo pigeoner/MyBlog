@@ -1,0 +1,5 @@
+{% load blogExtras %}
+{% get_hot_post as post_list %}
+{% for post in post_list %}
+    <li><a href="{% url 'blog:detail' %}?post={{post.id}}">{{ post.title }}</a></li>
+{% endfor %}
