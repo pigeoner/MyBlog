@@ -1,5 +1,10 @@
 {% load blogExtras %}
 {% get_archives as archives_list %}
 {% for archive in archives_list %}
-    <li><a href="{% url 'blog:archives' archive.year archive.month %}">{{ archive.year }}年{{ archive.month }}月</a></li>
+    <li>
+        <a href="{% url 'blog:archives' archive.year archive.month %}">
+            <i class="fa fa-folder-open-o"></i>
+            {{ archive.year }}年{{ archive.month }}月
+        </a>
+    </li>
 {% endfor %}

@@ -2,7 +2,9 @@
 {% get_hot_post as post_list %}
 {% for post in post_list %}
     <li>
-        <span class="hot-rank" style="float:left;">{{forloop.counter}}</span>
-        <a href="{% url 'blog:detail' post.id %}">{{ post.title }}</a>
+        <a href="{% url 'blog:detail' post.id %}">
+            <span class="hot-rank" style="float:left;">{{forloop.counter}}</span>
+            {{ post.title }}
+        </a>
     </li>
 {% endfor %}

@@ -1,5 +1,9 @@
 {% load blogExtras %}
 {% get_new_post as post_list %}
 {% for post in post_list %}
-    <li><a href="{% url 'blog:detail' post.id %}">{{ post.title }}</a></li>
+    <li>
+        <a href="{% url 'blog:detail' post.id %}">
+            <i class="fa fa-file-text-o">&nbsp;</i>{{ post.title }}
+        </a>
+    </li>
 {% endfor %}

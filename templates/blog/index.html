@@ -100,8 +100,14 @@
         margin:0 10px 0 0;
         text-align:center;
     }
-    .hot-rank:nth-child(n+1){
-        background-color:#f00;
+    .widget li:nth-child(1) .hot-rank{
+        background-color:#FF3300;
+    }
+    .widget li:nth-child(2) .hot-rank{
+        background-color:#FF6600;
+    }
+    .widget li:nth-child(3) .hot-rank{
+        background-color:#FF9900;
     }
     .widget-tag-cloud ul li{
         display:inline-block;
@@ -185,6 +191,10 @@
     }
     .entry-title a{
         color: #666;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
     }
     .entry-meta{
         line-height:48px;
@@ -211,29 +221,30 @@
         overflow: hidden;
     }
     .pagination{
-        display:table;
         text-align:center;
         margin:50px auto;
-        margin-bottom:0;
-        word-spacing:-1em;
     }
     .pagination li{
         display:inline-block;
+        margin:0 3px;
         width:35px;
         height:35px;
         border:1px solid #eaeaea;
+        border-radius: 5px;
         border-collapse:collapse;
         line-height:35px;
         background-color:#fff;
     }
-    .pagination li:hover{
-        background-color:#66ccff;
+    .pagination li a:hover{
+        background-color:#3388DD;
     }
     .pagination li.active{
-        background-color:#00ca65;
+        background-color:#3388DD;
     }
     .pagination li a{
         display:block;
+        border-radius: 5px;
+        color:#000044;
         width:100%;
         height:100%;
     }
@@ -345,7 +356,10 @@
                     {% if page.has_previous %}
                     <a href="{% url 'blog:index' %}?page={{ page.previous_page_number }}" aria-label="Previous">
                     {% endif %}
-                    <span aria-hidden="true">&laquo;</span>
+                    <!-- <span aria-hidden="true">&laquo;</span> -->
+                    <span aria-hidden="true">
+                        <i class="fa fa-caret-left"></i>
+                    </span>
                     </a>
                 </li>
         
@@ -362,7 +376,10 @@
                     {% if page.has_next %}
                     <a href="{% url 'blog:index' %}?page={{ page.next_page_number }}" aria-label="Next">
                     {% endif %}
-                    <span aria-hidden="true">&raquo;</span>
+                    <!-- <span aria-hidden="true">&raquo;</span> -->
+                    <span aria-hidden="true">
+                        <i class="fa fa-caret-right"></i>
+                    </span>
                     </a>
                 </li>
             </ul>
