@@ -20,7 +20,7 @@ def reindex(request):
 def index(request):
     # 注：Django3.2的paginator类新增一种方法get_elided_page_range
     article = Article.objects.all().order_by('-created_time')
-    paginator = Paginator(article, 3)
+    paginator = Paginator(article, 10)
     page_num = request.GET.get('page', default='1')
     try:
         page = paginator.get_page(page_num)
@@ -90,8 +90,7 @@ def dealfile(request):
     )
 
 
-def detail(request):
-    id = request.GET.get('post')
+def detail(request, id):
     post = Article.objects.get(id=id)
     post.increase_views()
     return render(request, "../templates/blog/edit.html", {"post": post})
@@ -100,6 +99,6 @@ def detail(request):
 def archives(request, year, month):
     # 文章归档列表页
     post_list = Article.objects.filter(
-        create_time__year=year, create_time__month=month)
+        created_time__year=year, created_time__month=month)
     context = {'post_list': post_list, 'year': year, 'month': month}
     return render(request, '../templates/blog/archives_list.html', context)

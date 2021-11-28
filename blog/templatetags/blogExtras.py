@@ -57,9 +57,3 @@ def get_hot_post():
 def get_archives():
     # 文章归档
     return Article.objects.dates('created_time', 'month', order='DESC')[:8]
-
-
-@register.simple_tag
-def get_tags():
-    # 获取热门文章
-    return Tag.objects.all()[:5]

@@ -1,1 +1,5 @@
-标签云
+{% load blogExtras %}
+{% total_tags as tags %}
+{% for tag in tags %}
+    <li><a href="#">{{ tag }}</a></li>
+{% endfor %}

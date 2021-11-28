@@ -11,6 +11,6 @@ urlpatterns = [
     path('cookie/', views.setCookie, name='setCookie'),
     path('upload/', views.upload, name='upload'),
     path('dealfile/', views.dealfile, name='dealfile'),
-    path('detail/', views.detail, name='detail'),
-    path('archives/<int:year>/<int:month>', views.archives, name='archives'),
+    path('detail/<int:id>/', views.detail, name='detail'),
+    path('archives/<int:year>/<int:month>/', views.archives, name='archives'),
 ]
