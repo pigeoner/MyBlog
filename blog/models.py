@@ -7,9 +7,9 @@ from django.urls import reverse
 import time
 from django.utils.functional import cached_property  # 缓存装饰器
 from django.template.loader import render_to_string  # 渲染模板
-import timezone
 import markdown
 from django.utils.html import strip_tags
+from django.utils import timezone
 
 # Create your models here.
 
@@ -62,7 +62,8 @@ def user_directory_path(instance, filename):
 
 class Article(models.Model):
     title = models.CharField('标题', max_length=70)
-    excerpt = models.TextField('摘要', max_length=200, blank=True)
+    excerpt = models.TextField(
+        '摘要', max_length=200, blank=True, editable=False)
     category = models.ForeignKey(
         Category, on_delete=models.DO_NOTHING, verbose_name='分类', blank=True, null=True)
     # 使用外键关联分类表与分类是一对多关系
@@ -118,7 +119,7 @@ class Article(models.Model):
         # 先将 Markdown 文本渲染成 HTML 文本
         # strip_tags 去掉 HTML 文本的全部 HTML 标签
         # 从文本摘取前 54 个字符赋给 excerpt
-        self.excerpt = strip_tags(md.convert(self.body))[:54]
+        self.excerpt = strip_tags(md.convert(self.body))[:190]
 
         super().save(*args, **kwargs)
 
