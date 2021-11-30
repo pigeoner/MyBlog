@@ -93,7 +93,7 @@ def dealfile(request):
 def detail(request, id):
     post = Article.objects.get(id=id)
     post.increase_views()
-    return render(request, "../templates/blog/edit.html", {"post": post})
+    return render(request, "../templates/blog/detail.html", {"post": post})
 
 
 def archives(request, year, month):
