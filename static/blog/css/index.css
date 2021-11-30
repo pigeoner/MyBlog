@@ -313,8 +313,9 @@ article{
     .excerpt{
         -webkit-line-clamp: 2;
     }
-    .img-round{
-        height:150px;
+    .scroll{
+        height:200px!important;
+        overflow-y: hidden;
     }
     .entry-meta :nth-child(n+3){
         display:none;
