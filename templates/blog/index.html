@@ -63,7 +63,7 @@
             {% for post in page %}
             <article class="clearfix">
                 <div class="entry-cover">
-                    <a href="#">
+                    <a href="{% url 'blog:detail' post.id %}">
                         <img src="/media/{{ post.img }}" alt="">
                     </a>
                 </div>
@@ -74,9 +74,9 @@
                     <div class="entry-meta">
                         <a href="#"><i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i></a>
                         <i class="fa fa-clock-o time">&nbsp;&nbsp;{{ post.created_time }}</i>
-                        <a href="#"><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
-                        <a href="#"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>
-                        <a href="#"><i class="fa fa-comment-o">&nbsp;&nbsp;{{ post.comments }}</i></a>
+                        <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
+                        <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>
+                        <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-comment-o">&nbsp;&nbsp;{{ post.comments }}</i></a>
                     </div>
                 </div>
                 <div class="entry-content">
