@@ -130,13 +130,12 @@ def userlogin(request):
             response = HttpResponse(json.dumps({
                 "code": "1",
                 "msg": "success",
-                # "userInfo": userInfo,
+                "userInfo": userInfo,
             }))
             response.set_cookie('avatar', userInfo['image'], max_age=7*24*3600)
             response.set_cookie(
                 'username', userInfo['nick_name'], max_age=7*24*3600)
             return response
-            return
         else:
             # 返回登录失败信息
             return HttpResponse(json.dumps({

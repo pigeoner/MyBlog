@@ -430,7 +430,21 @@
                         <p id="user-nick-name">{{request.COOKIES.username}}</p>
                     </a>
                 </span>
+                <span class="login-box" style="display:none;">
+                    <a href="javascript:" id="login" onclick="userLogin()">
+                        <i class="fa fa-user"></i>&nbsp;登录/注册
+                    </a>
+                </span>
                 {% else %}
+                <span class="user" id="user" style="display:none;">
+                    <a href="#" id="user-avatar">
+                        <img src="/media/{{request.COOKIES.avatar}}" alt="">
+                    </a>
+                    <div class="help"></div>
+                    <a href="#">
+                        <p id="user-nick-name">{{request.COOKIES.username}}</p>
+                    </a>
+                </span>
                 <span class="login-box">
                     <a href="javascript:" id="login" onclick="userLogin()">
                         <i class="fa fa-user"></i>&nbsp;登录/注册
@@ -574,15 +588,13 @@
                     "savedate": strSaveDate
                 },
                 type: "POST",
-                success: function(res) {
-                    console.log(res.code);
-                    console.log(res.msg);
-                    console.log(res.userInfo);
+                success: function(res,status,xhr) {
+                    // console.log(xhr.getResponseHeader('Set-Cookie'));
                     // window.location.reload();
                     signShow();
                     $("#login").hide();
-                    $("#user-nick-name").text(res.userInfo.nick_name);
-                    $("#user-avatar img").attr("src", "/media/" + res.userInfo.image);
+                    $("#user-nick-name").text(res["userInfo"]["nick_name"]);
+                    $("#user-avatar img").attr("src", "/media/" + res["userInfo"]["image"]);
                     $("#user").show();
                 },
                 error: function(ree) { 
