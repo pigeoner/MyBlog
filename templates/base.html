@@ -79,6 +79,7 @@
         .nav ul{
             position: relative;
             float:left;
+            margin:0 0 0 30px;
         }
         .nav ul li{
             float: left;
@@ -419,20 +420,23 @@
                         </a>
                     </li>
                 </ul>
+                {% if request.user.is_authenticated %}
+                <span class="user" id="user">
+                    <a href="#" id="user-avatar">
+                        <img src="/media/{{request.COOKIES.avatar}}" alt="">
+                    </a>
+                    <div class="help"></div>
+                    <a href="#">
+                        <p id="user-nick-name">{{request.COOKIES.username}}</p>
+                    </a>
+                </span>
+                {% else %}
                 <span class="login-box">
                     <a href="javascript:" id="login" onclick="userLogin()">
                         <i class="fa fa-user"></i>&nbsp;登录/注册
                     </a>
                 </span>
-                <span class="user" id="user" style="display:none;">
-                    <a href="#" id="user-avatar">
-                        <img src="#" alt="">
-                    </a>
-                    <div class="help"></div>
-                    <a href="#">
-                        <p id="user-nick-name"></p>
-                    </a>
-                </span>
+                {% endif %}
             </div>
         </div>
     </div>
