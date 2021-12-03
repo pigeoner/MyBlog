@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, update_last_login
 from users.models import UserProfile
 from mdeditor.fields import MDTextField
 from django.urls import reverse
@@ -102,6 +102,14 @@ class Article(models.Model):
     def increase_views(self):
         self.views += 1
         self.save(update_fields=['views'])
+
+    def increase_thumbs_up(self):
+        self.thumbs_up += 1
+        self.save(update_fields=['thumbs_up'])
+
+    def increase_comments(self):
+        self.comments += 1
+        self.save(update_fields=['comments'])
 
     def get_absolute_url(self):
         return reverse('blog:detail', kwargs={"id": self.id})

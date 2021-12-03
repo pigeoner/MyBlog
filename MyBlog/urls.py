@@ -27,10 +27,13 @@ urlpatterns = [
     path('', include('blog.urls', namespace='blog')),
     re_path(r'^static/(?P<path>.*)$', static_serve,
             {'document_root': settings.STATIC_ROOT}, name='static'),
+    re_path(r'^media/(?P<path>.*)$', static_serve,
+            {'document_root': settings.MEDIA_ROOT}),
     path('mdeditor/', include('mdeditor.urls')),
-]  # + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+# urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # handler404 = view.page_not_found
 # handler500 = view.page_error

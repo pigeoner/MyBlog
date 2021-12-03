@@ -1,11 +1,17 @@
 from django.http import response
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponseServerError
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.urls import reverse
+from django.contrib.auth import authenticate, login
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from users.models import UserProfile
+from django.forms.models import model_to_dict
+from django.core.serializers import serialize
 
 import time
 import os
+import json
+import hashlib
 
 from blog.models import Article, SideBar, Tag, Category
 
@@ -93,7 +99,8 @@ def dealfile(request):
 def detail(request, id):
     post = Article.objects.get(id=id)
     post.increase_views()
-    return render(request, "../templates/blog/detail.html", {"post": post})
+    print('----------------increase------------------')
+    return render(request, "../templates/blog/detail.html", {"post": post, "increase_thumbs_up": post.increase_thumbs_up})
 
 
 def archives(request, year, month):
@@ -102,3 +109,32 @@ def archives(request, year, month):
         created_time__year=year, created_time__month=month)
     context = {'post_list': post_list, 'year': year, 'month': month}
     return render(request, '../templates/blog/archives_list.html', context)
+
+
+def userlogin(request):
+    if request.method == 'POST':   # 判断采用的是何种请求
+        # request.POST[]或request.POST.get()获取数据
+        username = request.POST['username']
+        password = request.POST['password']
+        # 与数据库中的用户名和密码比对，django默认保存密码是以哈希形式存储，并不是明文密码，这里的password验证默认调用的是User类的check_password方法，以哈希值比较。
+        user = authenticate(request, username=username, password=password)
+
+        userInfo = model_to_dict(UserProfile.objects.get(id=user.id))
+        userInfo['image'] = str(userInfo['image'])
+
+        # 验证如果用户不为空
+        if user is not None and user.is_active:
+            # login方法登录
+            login(request, user)
+            # 返回登录成功信息
+            return HttpResponse(json.dumps({
+                "code": "1",
+                "msg": "success",
+                "userInfo": userInfo,
+            }))
+        else:
+            # 返回登录失败信息
+            return HttpResponse(json.dumps({
+                "code": "0",
+                "msg": "error"
+            }))

@@ -74,7 +74,6 @@
             /* font-style: italic; */
         }
         .nav{
-            float:right;
             line-height: 60px;
         }
         .nav ul{
@@ -134,6 +133,255 @@
         .fa::after{
             content:"\00A0";
         }
+        #sign{
+            position:fixed;
+            visibility: hidden;
+            opacity: 0.0;
+            z-index: 100001;
+            transition: visibility .3s,opacity .3s;
+        }
+        #sign .sign-mask{
+            position: fixed;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: #313B43;
+            opacity: 0.90;
+            filter: alpha(opacity=80);
+        }
+        #sign .sign-container {
+            background-color: #ffffff;
+            border-radius: 2px;
+            width: 400px;
+            min-width: 262px;
+            position: fixed;
+            height: 330px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            z-index: 100009;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            -ms-transition: all 0.3s;
+            -o-transition: all 0.3s;
+            perspective: 500px;
+            transform: rotateX(-20deg) translateZ(200px) translateY(20%);
+            transition: all 0.3s;
+        }
+        .sign-tips {
+            position: absolute;
+            bottom: 0;
+            background-color: #3e3e3e;
+            left: 0;
+            right: 0;
+            height: 6px;
+            line-height: 29px;
+            padding: 0 50px;
+            color: #fff;
+            font-size: 12px;
+            overflow: hidden;
+        }
+        .sign-social {
+            border-bottom: 1px solid #eaeaea;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .sign-social h2 {
+            padding:20px;
+            color:#474747;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .login-error h4 {
+            display: none;
+            margin: 0 0 10px 0;
+            padding: 0 30px;
+            color: #e4393c;
+        }
+        .sign form {
+            padding: 0 30px;
+        }
+        button, input, select, textarea {
+            font-size: inherit;
+            font-family: inherit;
+            line-height: inherit;
+        }
+        input[type=text], input[type=email], input[type=url], input[type=password], textarea {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 5px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+        }
+        input[type="hidden" i] {
+            appearance: none;
+            background-color: initial;
+            cursor: default;
+            display: none !important;
+            padding: initial;
+            border: initial;
+        }
+        input {
+            -webkit-writing-mode: horizontal-tb !important;
+            text-rendering: auto;
+            color: -internal-light-dark(black, white);
+            letter-spacing: normal;
+            word-spacing: normal;
+            line-height: normal;
+            text-transform: none;
+            text-indent: 0px;
+            text-shadow: none;
+            display: inline-block;
+            text-align: start;
+            appearance: auto;
+            -webkit-rtl-ordering: logical;
+            cursor: text;
+            background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+            margin: 20px 0 0 0;
+            padding: 1px 2px;
+            border-width: 2px;
+            border-style: inset;
+            border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+            border-image: initial;
+        }
+        .sign h6 {
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .sign .form-control {
+            background: #e6eaed;
+            border: none;
+            outline: none;
+            min-height: 40px;
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 32px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        }
+        .sign h6 i {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 16px;
+        }
+        .sign .sign-submit {
+            overflow: hidden;
+            text-align: left;
+            line-height: 0;
+            padding-bottom: 20px;
+        }
+        .sign .sign-submit .btn {
+            min-width: 100px;
+            min-height: 40px;
+            width: 100%;
+            display: block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            outline: none;
+            font-weight: normal;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-appearance: button;
+            -webkit-transition: all .2s ease-in;
+            -moz-transition: all .2s ease-in;
+            -o-transition: all .2s ease-in;
+            transition: all .2s ease-in;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: #009688;
+            border-color: #2e6da4;
+        }
+        .sign .sign-submit label {
+            color:#646464;
+            margin-top: -8px;
+            font-weight: normal;
+            display: inline-block;
+            max-width: 100%;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .sign .sign-submit label input {
+            position: relative;
+            top: 2px;
+            margin-right: 4px;
+        }
+        .login-box{
+            float:right;
+            transition: background-color .5s;
+        }
+        .login-box,
+        .login-box a{
+            color:white;
+        }
+        .login-box a{
+            display: block;
+            padding:0 30px;
+            font-size: normal;
+            color:#f6f6f6;
+            transition: color .3s;
+        }
+        .login-box:hover{
+            background-color: rgb(241, 241, 241);
+        }
+        .login-box a:hover{
+            color:#000;
+        }
+        #user{
+            float:right;
+        }
+        #user-avatar{
+            display:inline-block;
+        }
+        #user-avatar img{
+            height: 40px;
+            width: 40px;
+            border-radius:50%;
+            vertical-align: middle;
+        }
+        #user-nick-name{
+            display:inline-block;
+            color:#f6f6f6;
+            line-height:60px;
+        }
+        .help{
+            width: 0;
+            height: 100%;
+            display: inline-block;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body>
@@ -150,19 +398,41 @@
             </div>
             <div class="nav">
                 <ul>
-                    <li><a href="{% url 'blog:index' %}">
-                        <i class="fa fa-home"></i>首页
-                    </a></li>
-                    <li><a href="#">
-                        <i class="fa fa-edit"></i>博文
-                    </a></li>
-                    <li><a href="#">
-                        <i class="fa fa-wrench"></i>小工具
-                    </a></li>
-                    <li><a href="#">
-                        <i class="fa fa-mortar-board"></i>关于我
-                    </a></li>
+                    <li>
+                        <a href="{% url 'blog:index' %}">
+                            <i class="fa fa-home"></i>首页
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-edit"></i>博文
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-wrench"></i>小工具
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-mortar-board"></i>关于我
+                        </a>
+                    </li>
                 </ul>
+                <span class="login-box">
+                    <a href="javascript:" id="login" onclick="userLogin()">
+                        <i class="fa fa-user"></i>&nbsp;登录/注册
+                    </a>
+                </span>
+                <span class="user" id="user" style="display:none;">
+                    <a href="#" id="user-avatar">
+                        <img src="#" alt="">
+                    </a>
+                    <div class="help"></div>
+                    <a href="#">
+                        <p id="user-nick-name"></p>
+                    </a>
+                </span>
             </div>
         </div>
     </div>
@@ -183,6 +453,34 @@
             </div>
         </div>
     </footer>
+    <div class="sign" id="sign">
+        <!-- <div class="sign-mask-outer"> -->
+        <div class="sign-mask" id="sign-mask" onclick="signShow()"></div>
+        <!-- </div> -->
+        <div class="sign-container" id="sign-container">
+            <div class="sign-tips"></div>
+            <div class="sign-social">
+                <h2>用户登录</h2>
+            </div>
+            <div class="sign-form">
+                <div class="login-error">
+                    <h4>帐号或密码错误,请重试.</h4>
+                </div>
+                <form id="sign-in" method="post">
+                    <input type="hidden" name="username" id="username" value="">
+                    <input type="hidden" name="password" id="password" value="">
+                    <input type="hidden" name="savedate" id="savedate" value="1">
+                    <h6><input type="text" name="edtUserName" class="form-control" id="edtUserName" checked="checked" required="required" value="" placeholder="用户名"><i class="fa fa-user"></i></h6>
+                    <h6><input type="password" name="edtPassWord" class="form-control" id="edtPassWord" checked="checked" required="required" placeholder="密码"><i class="fa fa-lock" style="font-size:18px;"></i></h6>
+                    <div class="sign-submit">
+                        <label><input type="checkbox" name="chkRemember" id="chkRemember" tabindex="3">下次自动登录</label>
+                        <input type="submit" class="btn btn-primary signinsubmit-loader" id="btnPosts" name="btnPosts" value="登录">
+                        <input type="hidden" name="action" value="signin">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <!-- waifu-tips.js 依赖 JQuery 库 -->
     <script src="/static/blog/js/jquery.min.js?v=3.3.1"></script>
     
@@ -235,5 +533,67 @@
         })
     </script>
     <!-- <script type="text/javascript" src="/static/blog/js/message.js"></script>  -->
+    <script type="text/javascript" src="{% static 'blog/js/md5.js'%}"></script>
+    <script>
+        var userLogin = function () {
+            $('#sign').css("visibility","visible");
+            $('#sign').css("opacity","1.0");
+            $('#sign-container').css("transform","rotateX(0deg) translateZ(0px) translateY(0%)");
+        }
+        var signShow = function(){
+            $('#sign').css("visibility","hidden");
+            $('#sign').css("opacity","0.0");
+            $('#sign-container').css("transform","rotateX(-20deg) translateZ(200px) translateY(20%)");
+            $(".login-error h4").hide();
+            $("#edtUserName").val('');
+            $("#edtPassWord").val('');
+            $(".sign .sign-container").css("height", "330px");
+        }
+    </script>
+    <script type="text/javascript">
+        $("#btnPosts").click(function() {
+            var strUserName = $("#edtUserName").val();
+            var strPassWord = $("#edtPassWord").val();
+            var strSaveDate = $("#savedate").val();
+            if ((strUserName == "") || (strPassWord == "")) { 
+                alert("用户名和密码不能为空");return false;
+            };
+            $.ajaxSetup({
+                data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+            });
+            $.ajax({ 
+                url: "{% url 'blog:userlogin' %}",
+                dataType: "json",
+                data: { 
+                    "username": strUserName,
+                    "password": strPassWord,
+                    "savedate": strSaveDate
+                },
+                type: "POST",
+                success: function(res) {
+                    console.log(res.code);
+                    console.log(res.msg);
+                    console.log(res.userInfo);
+                    // window.location.reload();
+                    signShow();
+                    $("#login").hide();
+                    $("#user-nick-name").text(res.userInfo.nick_name);
+                    $("#user-avatar img").attr("src", "/media/" + res.userInfo.image);
+                    $("#user").show();
+                },
+                error: function(ree) { 
+                    console.error(ree.status,ree.responseText);
+                    if (ree.status == 500) { 
+                        $(".login-error h4").show(100);
+                        $(".sign .sign-container").css("height", "370px");
+                    }
+                }
+            });
+            return false;
+        });
+        $("#chkRemember").click(function() { 
+            $("#savedate").attr("value", $("#chkRemember").attr("checked") == "checked" ? 30 : 1); 
+        });
+    </script>
 </body>
 </html>
