@@ -1,3 +1,4 @@
+from django.db.models import base
 from django.http import response
 from django.http.response import Http404, HttpResponseServerError
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
@@ -12,6 +13,8 @@ import time
 import os
 import json
 import hashlib
+from urllib import parse
+import base64
 
 from blog.models import Article, SideBar, Tag, Category
 
@@ -132,9 +135,10 @@ def userlogin(request):
                 "msg": "success",
                 "userInfo": userInfo,
             }))
-            response.set_cookie('avatar', userInfo['image'], max_age=7*24*3600)
+            response.set_cookie('avatar', base64.b64encode(
+                userInfo['image'].encode('utf8')).decode('utf8'), max_age=7*24*3600)
             response.set_cookie(
-                'username', userInfo['nick_name'], max_age=7*24*3600)
+                'username', base64.b64encode(userInfo['nick_name'].encode('utf8')).decode('utf8'), max_age=7*24*3600)
             return response
         else:
             # 返回登录失败信息

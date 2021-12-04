@@ -27,9 +27,6 @@
         .article-meta a{
             color: #aaa;
         }
-        .article-meta a:hover{
-            cursor: pointer;
-        }
         .article-meta .fa{
             padding:0 5px;
             margin-right:15px;
@@ -61,8 +58,8 @@
         <div class="article-meta">
             <a href="#"><i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i></a>
             <a><i class="fa fa-clock-o time">&nbsp;&nbsp;{{ post.created_time }}</i></a>
-            <a href="#"><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
-            <a onclick="giveThumbsUp()"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>
+            <a><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
+            <a href="javascript:giveThumbsUp()" id="praise-login"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>
             <a href="#"><i class="fa fa-comment-o">&nbsp;&nbsp;{{ post.comments }}</i></a>
             <div class="article-tags-box">
                 <i class="article-tags-label fa fa-tags"></i>
@@ -84,7 +81,11 @@
     </script>
     <script>
         var giveThumbsUp = ()=>{
-
+            if(!getCookie('username')){
+                userLogin();
+            }else{
+                alert('ok');
+            }
         };
     </script>
 {% endblock %}
