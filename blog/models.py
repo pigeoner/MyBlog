@@ -84,7 +84,7 @@ class Article(models.Model):
         这里我们通过 ForeignKey 把文章和 User 关联了起来。
         """
     views = models.PositiveIntegerField('阅读量', default=0, editable=False)
-    thumbs_up = models.PositiveIntegerField('点赞数', default=0, editable=False)
+    thumbs_up = models.PositiveIntegerField('点赞数', default=0)
     comments = models.PositiveBigIntegerField('评论数', default=0, editable=False)
     tui = models.ForeignKey(Recommend, on_delete=models.DO_NOTHING,
                             verbose_name='推荐位', blank=True, null=True)
@@ -132,7 +132,21 @@ class Article(models.Model):
         super().save(*args, **kwargs)
 
 
+class ArticlePraise(models.Model):
+    userId = models.IntegerField('点赞用户')
+    articleId = models.IntegerField('点赞文章')
+    praiseTime = models.DateTimeField('点赞时间', auto_now_add=True)
+
+    class Meta:
+        verbose_name = '点赞数据'
+        verbose_name_plural = '点赞数据'
+
+    def __str__(self) -> str:
+        return 'Article '+str(self.articleId)+' praised by '+UserProfile.objects.filter(id=self.userId).first().nick_name
+
 # 侧边栏
+
+
 class SideBar(models.Model):
     STATUS = (
         (1, '隐藏'),

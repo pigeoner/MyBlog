@@ -59,7 +59,7 @@
             <a href="#"><i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i></a>
             <a><i class="fa fa-clock-o time">&nbsp;&nbsp;{{ post.created_time }}</i></a>
             <a><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
-            <a href="javascript:giveThumbsUp()" id="praise-login"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>
+            <a href="javascript:" id="article-praise"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>
             <a href="#"><i class="fa fa-comment-o">&nbsp;&nbsp;{{ post.comments }}</i></a>
             <div class="article-tags-box">
                 <i class="article-tags-label fa fa-tags"></i>
@@ -80,12 +80,37 @@
         });
     </script>
     <script>
-        var giveThumbsUp = ()=>{
+        $('#article-praise').click(function () {
             if(!getCookie('username')){
                 userLogin();
             }else{
-                alert('ok');
-            }
-        };
+                $.ajaxSetup({
+                    // data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+                    data:{csrfmiddlewaretoken:getCookie('csrftoken')},
+                });
+                $.ajax({
+                    url: '/praise/',
+                    type: 'post',
+                    data: {
+                        'articleId': '{{ post.id }}',
+                    },
+                    success: function (res) {
+                        if (res.isPraise) {
+                            // Ajax 局部刷新!!!
+                            var val = parseInt($('#article-praise').text());
+                            $('#article-praise i').html("&nbsp;&nbsp;");
+                            $('#article-praise i').text($('#article-praise i').text()+(val+1).toString());
+                        }else {
+                            alert('你已经点过赞了');
+                            $('#digg_tips').html('你已经推荐过');
+                            setTimeout(function () {  // 设置时钟函数，一秒钟后消失
+                                $('#digg_tips').html('')  //清空
+                            }, 1000)
+
+                        }
+                    }
+                })
+            };
+        });
     </script>
 {% endblock %}

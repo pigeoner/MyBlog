@@ -1,6 +1,6 @@
 from django.db.models import base
 from django.http import response
-from django.http.response import Http404, HttpResponseServerError
+from django.http.response import Http404, HttpResponseServerError, JsonResponse
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from users.models import UserProfile
 from django.forms.models import model_to_dict
 from django.core.serializers import serialize
+from django.db.models import F  # 利用F来做自加1操作
 
 import time
 import os
@@ -16,14 +17,13 @@ import hashlib
 from urllib import parse
 import base64
 
-from blog.models import Article, SideBar, Tag, Category
+from blog.models import Article, SideBar, Tag, Category, ArticlePraise
 
 # Create your views here.
 
 
 def reindex(request):
     return redirect(reverse('blog:index'))
-    # return redirect(reverse('blog:base'))
 
 
 def index(request):
@@ -146,3 +146,29 @@ def userlogin(request):
                 "code": "0",
                 "msg": "error"
             }))
+
+
+def praise(request):
+    articleId = request.POST.get('articleId')
+    print('+++++++++articleId:', articleId)
+    # 点赞人即当前登陆人
+    userId = request.user.id
+
+    # 过滤已经点赞或者踩了的
+    obj = ArticlePraise.objects.filter(
+        userId=userId, articleId=articleId).first()
+    print("--------------------------------", obj)
+    # 返回json
+    response = {'code': 1, 'isPraise': True}
+
+    if not obj:
+        print('++++++++++++++create praise+++++++++++++')
+        ArticlePraise.objects.create(userId=userId, articleId=articleId)
+        # 生成了赞记录， 然后再来更新页面
+        Article.objects.filter(id=articleId).update(thumbs_up=F('thumbs_up')+1)
+    else:
+        print('++++++++++++++donot praise+++++++++++++')
+        response['code'] = 0
+        response['isPraise'] = False  # 将已经做过的操作提示
+
+    return JsonResponse(response)  # 必须用json返回
