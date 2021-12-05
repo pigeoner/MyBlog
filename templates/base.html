@@ -362,6 +362,7 @@
         }
         #user{
             float:right;
+            position: relative;
         }
         #user-avatar{
             display:inline-block;
@@ -382,6 +383,36 @@
             height: 100%;
             display: inline-block;
             vertical-align: middle;
+        }
+        .ins{
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: -50px;
+            min-width: 140px;
+            line-height: 32px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(204,204,204,0.6);
+            padding: 10px 0 0 0;
+            box-sizing: border-box;
+            border: 1px solid #DDD;
+            border-top: 0;
+        }
+        .ins a {
+            display: block;
+            font-size: 14px;
+            position: relative;
+            color: #17233f;
+            transition: all .3s;
+        }
+        .ins a:last-child{
+            margin-top: 10px;
+            background-color: rgb(231, 231, 231);
+        }
+        .ins a:hover{
+            background-color: rgb(218, 218, 218);
         }
     </style>
 </head>
@@ -420,39 +451,28 @@
                         </a>
                     </li>
                 </ul>
-                {% if request.user.is_authenticated %}
-                <span class="user" id="user">
-                    <a href="#" id="user-avatar">
+                <span class="user" id="user" {%if request.user.is_authenticated%}{%else%}style="display:none;"{%endif%}>
+                    <a href="javascript:" id="user-avatar">
                         <img src="/media/avatar/default.jpg" alt="">
                     </a>
                     <div class="help"></div>
-                    <a href="#">
+                    <a href="javascript:">
                         <p id="user-nick-name"></p>
                     </a>
+                    <div class="ins">
+                        <a href="/creative-center/index">创作中心</a>
+                        <a href="https://blog.51cto.com/u_15451117">我的博客</a>
+                        <a href="/cloumn/mine">订阅专栏</a>
+                        <a href="/stu/history">学习记录</a>
+                        <a href="https://home.51cto.com/space/favorite?uid=15441117" target="_blank">我的收藏</a>
+                        <a href="javascript:userLogout()">退出</a>
+                    </div>
                 </span>
-                <span class="login-box" style="display:none;">
+                <span class="login-box" {%if request.user.is_authenticated%}style="display:none;"{%else%}{%endif%}>
                     <a href="javascript:userLogin()" id="login">
-                        <i class="fa fa-user"></i>&nbsp;登录/注册
+                        <i class="fa fa-user"></i>&nbsp;登录
                     </a>
                 </span>
-                {% else %}
-                <span class="user" id="user" style="display:none;">
-                    <a href="#" id="user-avatar">
-                        <!-- <img src="/media/{{request.COOKIES.avatar}}" alt=""> -->
-                        <img src="/media/avatar/default.jpg" alt="">
-                    </a>
-                    <div class="help"></div>
-                    <a href="#">
-                        <!-- <p id="user-nick-name">{{request.COOKIES.username}}</p> -->
-                        <p id="user-nick-name"></p>
-                    </a>
-                </span>
-                <span class="login-box">
-                    <a href="javascript:" id="login" onclick="userLogin()">
-                        <i class="fa fa-user"></i>&nbsp;登录/注册
-                    </a>
-                </span>
-                {% endif %}
             </div>
         </div>
     </div>
@@ -676,6 +696,11 @@
             $("#edtPassWord").val('');
             $(".sign .sign-container").css("height", "330px");
         }
+        $("#user").hover(function(){
+            $('#user .ins').show(100);
+        },function(){
+            $('#user .ins').hide(100);
+        });
     </script>
     <script type="text/javascript">
         var showLoginForm = function () {
@@ -698,13 +723,12 @@
                 },
                 type: "POST",
                 success: function(res,status,xhr) {
-                    // console.log(xhr.getResponseHeader('Set-Cookie'));
-                    // window.location.reload();
-                    signShow();
-                    $("#login").hide();
-                    $("#user-nick-name").text(res["userInfo"]["nick_name"]);
-                    $("#user-avatar img").attr("src", "/media/" + res["userInfo"]["image"]);
-                    $("#user").show();
+                    window.location.reload();
+                    // signShow();
+                    // $("#login").hide();
+                    // $("#user-nick-name").text(res["userInfo"]["nick_name"]);
+                    // $("#user-avatar img").attr("src", "/media/" + res["userInfo"]["image"]);
+                    // $("#user").show();
                 },
                 error: function(ree) { 
                     console.error(ree.status,ree.responseText);
@@ -720,6 +744,20 @@
         $("#chkRemember").click(function() { 
             $("#savedate").attr("value", $("#chkRemember").attr("checked") == "checked" ? 30 : 1); 
         });
+    </script>
+    <script>
+        var userLogout=function(){
+            $.ajax({
+                url:"{% url 'blog:userlogout' %}",
+                type:'GET',
+                success:function(res){
+                    window.location.reload();
+                },
+                error: function(ree) { 
+                    console.error(ree.status,ree.responseText);
+                }
+            })
+        }
     </script>
 </body>
 </html>

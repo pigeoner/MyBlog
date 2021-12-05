@@ -133,11 +133,13 @@
                     <img src="{% static '/blog/img/color1.jpg' %}" alt="">
                 </div>
                 <div class="right-avatar">
-                    <a href="#"><img src="{% static '/image/rabbit.jpg' %}" alt=""></a>
+                    <a href="javascript:"><img src="{% static '/image/rabbit.jpg' %}" alt=""></a>
                 </div>
                 <div class="right-text">
                     <h3><a href="#">亚甲基蓝</a></h3>
-                    <a href="#" class="username">@pigeoner</a>
+                    <div class="username">
+                        <a href="javascript:">@pigeoner</a>
+                    </div>
                     <p>啥也不是，净唠比嗑</p>
                 </div>
                 <div class="contact-me clearfix">
@@ -164,42 +166,7 @@
                         </a>
                     </div>
                 </div>
-                    <!-- <div class="site-message">
-                        <div class="site-blogs-number site-message-item">
-                            <a href="#">
-                                <span class="site-message-item-name">日志</span>
-                                <span class="site-message-item-count">462</span>
-                            </a>
-                        </div>
-                        <div class="site-categories-number site-message-item">
-                            <a href="#">
-                                <span class="site-message-item-name">分类</span>
-                                <span class="site-message-item-count">34</span>
-                            </a>
-                        </div>
-                        <div class="site-tags-number site-message-item">
-                            <a href="#">
-                                <span class="site-message-item-name">标签</span>
-                                <span class="site-message-item-count">43</span>
-                            </a>
-                        </div>
-                    </div> -->
             </div>
-            <!-- <div class="widget widget-recent-posts">
-                <h4 class="widget-title">
-                    <i class="fa fa-send-o">&nbsp;&nbsp;</i>最新文章
-                </h4>
-                <ul class="widget-recent-content">
-                    {% for post in article %}
-                    <li>
-                        <a href="{% url 'blog:detail' %}?post={{post.id}}">
-                            <i class="fa fa-file-text-o"></i>
-                            {{post.title}}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div> -->
             {% get_sidebar_list as sidebars %}
             {% for sidebar in sidebars %}
                 <div class="widget {% if sidebar.display_type == 5 %} widget-tag-cloud {% endif %}">

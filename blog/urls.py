@@ -13,6 +13,7 @@ urlpatterns = [
     path('dealfile/', views.dealfile, name='dealfile'),
     path('detail/<int:id>/', views.detail, name='detail'),
     path('archives/<int:year>/<int:month>/', views.archives, name='archives'),
-    path('userlogin/', views.userlogin, name='userlogin'),
+    path('userlogin/', views.userLogin, name='userlogin'),
+    path('userlogout/', views.userLogout, name='userlogout'),
     path('praise/', views.praise, name='praise'),
 ]

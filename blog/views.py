@@ -3,7 +3,7 @@ from django.http import response
 from django.http.response import Http404, HttpResponseServerError, JsonResponse
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.urls import reverse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from users.models import UserProfile
 from django.forms.models import model_to_dict
@@ -109,7 +109,6 @@ def detail(request, id):
         print(isUserPraise)
         isActive = True if isUserPraise else False
     post.increase_views()
-    print('----------------increase------------------')
     return render(request, "../templates/blog/detail.html", {"post": post, "isActive": isActive})
 
 
@@ -121,7 +120,7 @@ def archives(request, year, month):
     return render(request, '../templates/blog/archives_list.html', context)
 
 
-def userlogin(request):
+def userLogin(request):
     if request.method == 'POST':   # 判断采用的是何种请求
         # request.POST[]或request.POST.get()获取数据
         username = request.POST['username']
@@ -153,6 +152,17 @@ def userlogin(request):
                 "code": "0",
                 "msg": "error"
             }))
+
+
+def userLogout(request):
+    logout(request)
+    response = JsonResponse({
+        'code': '1',
+        'msg': 'success'
+    })
+    response.delete_cookie('username')
+    response.delete_cookie('avatar')
+    return response
 
 
 def praise(request):

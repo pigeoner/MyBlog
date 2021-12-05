@@ -203,8 +203,7 @@
     font-weight:700;
     line-height:20px;
 }
-.right-text a.username{
-    display: block;
+.right-text .username a{
     font-size: 14px;
     color: #6d7586d0;
 }
