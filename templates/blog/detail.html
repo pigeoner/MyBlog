@@ -48,6 +48,28 @@
         .article-tags{
             display: inline-block;
         }
+        .action-box{
+            margin: 10px 0;
+            padding: 50px 0 0 10px;
+            border-top: 1px dashed #aaaaaaaa;
+        }
+        .action-box a{
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 10px;
+            color: #666;
+            border: 1px solid rgb(10, 129, 90);
+            border-radius: 5px;
+            transition: all .3s;
+        }
+        .action-box a:hover{
+            color:#fff;
+            background-color: rgb(10, 129, 90);
+        }
+        .praise-down{
+            color: #fff!important;;
+            background-color: rgb(10, 129, 90);
+        }
     </style>
 {% endblock %}
 {% block article %}
@@ -59,7 +81,9 @@
             <a href="#"><i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i></a>
             <a><i class="fa fa-clock-o time">&nbsp;&nbsp;{{ post.created_time }}</i></a>
             <a><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
-            <a href="javascript:" id="article-praise"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>
+            <a href="javascript:" id="article-praise-up" class="praise">
+                <i class="{%if isActive%}fa fa-thumbs-up{%else%}fa fa-thumbs-o-up{%endif%}">&nbsp;&nbsp;{{ post.thumbs_up }}</i>
+            </a>
             <a href="#"><i class="fa fa-comment-o">&nbsp;&nbsp;{{ post.comments }}</i></a>
             <div class="article-tags-box">
                 <i class="article-tags-label fa fa-tags"></i>
@@ -71,6 +95,22 @@
         <div id="article-content">
             <textarea>{{post.body|safe}}</textarea>
         </div>
+        <div class="action-box">
+            <a href="javascript:" id="article-praise-down" class="praise {%if isActive%}praise-down{%else%}{%endif%}">
+                <i class="fa fa-thumbs-o-up"></i>
+                <span>点赞</span>
+            </a>
+            <a href="">
+                <i class="fa fa-star-o"></i>
+                <span>收藏</span>
+            </a>
+            <a href="javascript:copyValue()">
+                <i class="fa fa-share"></i>
+                <span>分享</span>
+            </a>
+        </div>
+        <input type="hidden" id="shareUrl" value="">
+        <span id="copy"></span>
     </article>
     <!--处理逻辑-->
     <script>
@@ -80,7 +120,30 @@
         });
     </script>
     <script>
-        $('#article-praise').click(function () {
+        $("#shareUrl").attr('value',window.location.href);
+        function copyValue() {
+            try {
+                //追加内容
+                var copyURL ='<textarea style="color:#fff;width:1px;height:1px;font-size:1px;" id="hiddenUrl">'+$("#shareUrl").val()+"</textarea>";
+                //追加
+                $("#copy").append(copyURL);
+                //选中【复制内容】
+                $("#hiddenUrl").select();
+                //window.document.execCommand【不能复制隐藏域】
+                window.document.execCommand("Copy");
+                //移除
+                $("#copy").html("");
+                alert("已将链接复制到剪切板中！");
+            }
+            catch (e) {
+                alert("系统繁忙！请刷新页面重试！");
+                //保证页面样式不变
+                $("#copy").html("");
+                //打印错误信息
+                console.log(e);
+            }
+        };
+        $('.praise').click(function () {
             if(!getCookie('username')){
                 userLogin();
             }else{
@@ -97,16 +160,17 @@
                     success: function (res) {
                         if (res.isPraise) {
                             // Ajax 局部刷新!!!
-                            var val = parseInt($('#article-praise').text());
-                            $('#article-praise i').html("&nbsp;&nbsp;");
-                            $('#article-praise i').text($('#article-praise i').text()+(val+1).toString());
+                            var val = parseInt($('#article-praise-up').text());
+                            $('#article-praise-up i').html("&nbsp;&nbsp;");
+                            $('#article-praise-up i').text($('#article-praise-up i').text()+(val+1).toString());
+                            $('#article-praise-up i').attr('class','fa fa-thumbs-up');
+                            $('#article-praise-down').attr('class','praise praise-down');
                         }else {
                             alert('你已经点过赞了');
                             $('#digg_tips').html('你已经推荐过');
                             setTimeout(function () {  // 设置时钟函数，一秒钟后消失
                                 $('#digg_tips').html('')  //清空
                             }, 1000)
-
                         }
                     }
                 })

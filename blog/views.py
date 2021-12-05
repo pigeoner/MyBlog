@@ -101,9 +101,16 @@ def dealfile(request):
 
 def detail(request, id):
     post = Article.objects.get(id=id)
+    userId = request.user.id
+    isActive = False
+    if userId:
+        isUserPraise = ArticlePraise.objects.filter(
+            userId=userId, articleId=id)
+        print(isUserPraise)
+        isActive = True if isUserPraise else False
     post.increase_views()
     print('----------------increase------------------')
-    return render(request, "../templates/blog/detail.html", {"post": post, "increase_thumbs_up": post.increase_thumbs_up})
+    return render(request, "../templates/blog/detail.html", {"post": post, "isActive": isActive})
 
 
 def archives(request, year, month):
