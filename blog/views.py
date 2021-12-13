@@ -185,3 +185,8 @@ def praise(request):
         response['isPraise'] = False  # 将已经做过的操作提示
 
     return JsonResponse(response)  # 必须用json返回
+
+
+def space(request):
+    context = {}
+    return render(request, '../templates/blog/space.html', context)

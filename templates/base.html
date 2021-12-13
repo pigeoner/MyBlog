@@ -415,6 +415,11 @@
         .ins a:hover{
             background-color: rgb(218, 218, 218);
         }
+        .clearfix::after{
+            content:"";
+            display:block;
+            clear:both;
+        }
     </style>
 </head>
 <body>
@@ -461,7 +466,7 @@
                         <p id="user-nick-name"></p>
                     </a>
                     <div class="ins">
-                        <a href="/creative-center/index">创作中心</a>
+                        <a href="{% url 'blog:space' %}">创作中心</a>
                         <a href="https://blog.51cto.com/u_15451117">我的博客</a>
                         <a href="https://home.51cto.com/space/favorite?uid=15441117" target="_blank">我的收藏</a>
                         <a href="javascript:userLogout()">退出</a>
@@ -675,7 +680,7 @@
         }
         username = Base64.decode(getCookie('username'));
         avatarSrc = Base64.decode(getCookie('avatar'));
-        if(username&&avatarSrc){
+        if(username && avatarSrc){
             $('#user-nick-name').text(username);
             $('#user-avatar img').attr('src','/media/'+avatarSrc);
         }
@@ -697,8 +702,10 @@
         }
         $("#user").hover(function(){
             $('#user .ins').show(100);
+            $('#user-avatar img').css({"width":"60px","height":"60px"});
         },function(){
             $('#user .ins').hide(100);
+            $('#user-avatar img').css({"width":"40px","height":"40px"});
         });
     </script>
     <script type="text/javascript">
