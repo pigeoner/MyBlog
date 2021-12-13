@@ -29,7 +29,7 @@ def reindex(request):
 def index(request):
     # 注：Django3.2的paginator类新增一种方法get_elided_page_range
     article = Article.objects.all().order_by('-created_time')
-    paginator = Paginator(article, 10)
+    paginator = Paginator(article, 5)
     page_num = request.GET.get('page', default='1')
     try:
         page = paginator.get_page(page_num)
@@ -167,24 +167,20 @@ def userLogout(request):
 
 def praise(request):
     articleId = request.POST.get('articleId')
-    print('+++++++++articleId:', articleId)
     # 点赞人即当前登陆人
     userId = request.user.id
 
     # 过滤已经点赞或者踩了的
     obj = ArticlePraise.objects.filter(
         userId=userId, articleId=articleId).first()
-    print("--------------------------------", obj)
     # 返回json
     response = {'code': 1, 'isPraise': True}
 
     if not obj:
-        print('++++++++++++++create praise+++++++++++++')
         ArticlePraise.objects.create(userId=userId, articleId=articleId)
         # 生成了赞记录， 然后再来更新页面
         Article.objects.filter(id=articleId).update(thumbs_up=F('thumbs_up')+1)
     else:
-        print('++++++++++++++donot praise+++++++++++++')
         response['code'] = 0
         response['isPraise'] = False  # 将已经做过的操作提示
 
