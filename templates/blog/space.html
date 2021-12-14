@@ -1,4 +1,5 @@
 {%extends "base.html"%}
+{% load static %}
 {% block title %}个人中心{% endblock %}
 
 {% block head %}
@@ -127,11 +128,70 @@
     margin: 10px 0 0 0;
     color: #828282;
 }
+
+
+body{
+    background-image: url("{% static '/blog/img/dm-bg9.gif' %}");
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: auto;
+    background-position: center;
+}
+.up-content{
+    position: relative;
+    background-image:url("{% static '/blog/img/nature-bg1.jpg' %}");
+    background-size: 100% auto;
+    background-position: 0px 790px;
+    margin: -30px 0 0 0;
+    height: 200px;
+}
+.user-avatar-top{
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+}
+.user-avatar-top img{
+    height: 80px;
+    width: 80px;
+    border-radius:50%;
+}
+.user-nick-name-top{
+    position: absolute;
+    left: 120px;
+    bottom: 60px;
+    font-weight: 900;
+    font-size: 18px;
+    color: #fff;
+}
+.left-content{
+    float: left;
+    width: 68%;
+}
+.left-bar{
+    position: relative;
+    text-align: left;
+    height: 60px;
+    background-color: #f6f6f6;
+}
+.left-bar a{
+    position: relative;
+    float:left;
+    vertical-align: middle;
+    line-height: 60px;
+    padding: 0 30px;
+    transition: .3s ease;
+}
+.left-bar-after{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 3px solid #00a1d6;
+    transition: .3s ease;
+}
 {% endblock %}
 
 {% block content %}
-{% load static %}
-<div class="content-left clearfix">
+<!-- <div class="content-left clearfix">
     <div class="widget widget-self-info">
         <div class="widget-bgi">
             <img src="{% static '/blog/img/color1.jpg' %}" alt="">
@@ -161,5 +221,50 @@
         </div>
     </div>
 </div>
-<div class="content-right"></div>
+<div class="content-right"></div> -->
+<div class="up-content">
+    <a href="#" class="user-avatar user-avatar-top">
+        <img src="/media/avatar/default.jpg" alt="">
+    </a>
+    <p class="user-nick-name user-nick-name-top"></p>
+</div>
+<div class="left-content">
+    <div class="left-bar">
+        <a href="javascript:" class="left-bar-active">首页</a>
+        <a href="javascript:">博文</a>
+        <a href="javascript:">收藏</a>
+        <a href="javascript:">粉丝</a>
+        <a href="javascript:">暂定</a>
+        <div class="left-bar-after"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    var leftBarLeft = $(".left-bar").offset().left;
+    var activeLeft = $(".left-bar .left-bar-active").offset().left;
+
+    $(".left-bar-after").width($(".left-bar .left-bar-active").outerWidth());
+    $(".left-bar-after").css("left", activeLeft - leftBarLeft);
+    
+    $(".left-bar a").click(function(){
+        var aArr = $(".left-bar a").removeClass("left-bar-active");
+        $(this).addClass("left-bar-active");
+    });
+    $(".left-bar a").hover(
+        function(){
+            $(this).css("color","#00aaff");
+            var hoverLeft = $(this).offset().left;
+            $(".left-bar-after").width($(this).outerWidth());
+            $(".left-bar-after").css("left", hoverLeft - leftBarLeft);
+        },
+        function(){
+            $(this).css("color","#000");
+            activeLeft = $(".left-bar .left-bar-active").offset().left;
+            $(".left-bar-after").width($(".left-bar .left-bar-active").outerWidth());
+            $(".left-bar-after").css("left", activeLeft - leftBarLeft);
+        }
+    );
+</script>
 {% endblock %}

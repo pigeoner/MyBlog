@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}亚甲基蓝个人博客{% endblock %}</title>
-    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/blog/js/jquery.min.js">
+    <link rel="stylesheet" href="{% static '/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static '/blog/js/jquery.min.js' %}">
     <!-- <link rel="stylesheet" type="text/css" href="/static/blog/css/waifu.min.css?v=1.4.2"/> -->
     {% block head %}
     {% endblock %}
@@ -26,7 +26,7 @@
         body{
             background-color: #f6f6f6;
             /* background-image: url('/static/blog/img/dm-bg3.jpg'); */
-            background-image: url('/static/blog/img/earth2.jpg');
+            background-image: url("{% static '/blog/img/earth2.jpg' %}");
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: 100%;
@@ -414,17 +414,17 @@
         .login-box a:hover{
             color:#000;
         }
-        #user{
+        #header-user{
             float:right;
             position: relative;
             margin: 0 30px 0 0;
         }
-        #user-avatar{
+        #header-user-avatar{
             height: 40px;
             width: 40px;
             display:block;
         }
-        #user-avatar img{
+        #header-user-avatar img{
             position: absolute;
             left: 0;
             top: 10px;
@@ -435,7 +435,7 @@
             transition: all .3s;
             z-index: 10;
         }
-        #user-nick-name{
+        #header-user-nick-name{
             margin: 0 0 10px 0;
             padding: 0 0 10px 0;
             font-weight: 900;
@@ -449,14 +449,16 @@
             display: none;
             position: absolute;
             top: 60px;
-            left: -50px;
-            min-width: 140px;
+            /* left: -50px; */
+            /* min-width: 140px; */
+            left: -80px;
+            min-width: 200px;
             line-height: 32px;
             text-align: center;
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(204,204,204,0.6);
-            padding: 10px 0 0 0;
+            padding: 20px 0 0 0;
             box-sizing: border-box;
             border: 1px solid #DDD;
             border-top: 0;
@@ -528,19 +530,12 @@
                         </svg>
                     </button>
                 </form>
-                <!-- <form id="search-box">
-                    <input type="text">
-                    <button href="" style="display: inline-block;">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </form> -->
-                <span class="user" id="user" {%if request.user.is_authenticated%}{%else%}style="display:none;"{%endif%}>
-                    <a href="javascript:" id="user-avatar">
+                <span class="user" id="header-user" {%if request.user.is_authenticated%}{%else%}style="display:none;"{%endif%}>
+                    <a href="javascript:" id="header-user-avatar" class="user-avatar">
                         <img src="/media/avatar/default.jpg" alt="">
                     </a>
-                    <!-- <a href="javascript:" id="user-nick-name"></a> -->
                     <div class="ins">
-                        <p id="user-nick-name"></p>
+                        <p id="header-user-nick-name" class="user-nick-name"></p>
                         <a href="{% url 'blog:space' %}">创作中心</a>
                         <a href="https://blog.51cto.com/u_15451117">我的博客</a>
                         <a href="https://home.51cto.com/space/favorite?uid=15441117" target="_blank">我的收藏</a>
@@ -756,8 +751,8 @@
         username = Base64.decode(getCookie('username'));
         avatarSrc = Base64.decode(getCookie('avatar'));
         if(username && avatarSrc){
-            $('#user-nick-name').text(username);
-            $('#user-avatar img').attr('src','/media/'+avatarSrc);
+            $('.user-nick-name').text(username);
+            $('.user-avatar img').attr('src','/media/'+avatarSrc);
         }
     </script>
     <script>
@@ -775,17 +770,15 @@
             $("#edtPassWord").val('');
             $(".sign .sign-container").css("height", "330px");
         }
-        $("#user").hover(function(){
-            setTimeout(function(){$('#user .ins').show(100);},100);
-            $('#user-avatar img').css({"width":"60px","height":"60px"});
-            $('#user-avatar img').css({"left":"-10px"});
+        $("#header-user").hover(function(){
+            // setTimeout(function(){$('#user .ins').show(100);},100);
+            $('#header-user .ins').stop(true).show(100);
+            $('#header-user-avatar img').css({"width":"60px","height":"60px","left":"-10px","top":"16px"});
         },function(){
-            setTimeout(function(){$('#user .ins').hide(100);},100);
-            $('#user-avatar img').css({"width":"40px","height":"40px"});
-            $('#user-avatar img').css({"left":"0px"});
+            // setTimeout(function(){$('#user .ins').hide(100);},100);
+            $('#header-user .ins').stop(true).hide(100);
+            $('#header-user-avatar img').css({"width":"40px","height":"40px","left":"0px","top":"10px"});
         });
-    </script>
-    <script type="text/javascript">
         var showLoginForm = function () {
             var strUserName = $("#edtUserName").val();
             var strPassWord = $("#edtPassWord").val();
@@ -827,8 +820,6 @@
         $("#chkRemember").click(function() { 
             $("#savedate").attr("value", $("#chkRemember").attr("checked") == "checked" ? 30 : 1); 
         });
-    </script>
-    <script>
         var userLogout=function(){
             $.ajax({
                 url:"{% url 'blog:userlogout' %}",
@@ -840,7 +831,9 @@
                     console.error(ree.status,ree.responseText);
                 }
             })
-        }
+        };
     </script>
+    {% block script %}
+    {% endblock %}
 </body>
 </html>

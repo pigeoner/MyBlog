@@ -201,56 +201,59 @@
             </div> -->
         </aside>
     </div>
-    <script>
-        var a = document.getElementsByClassName('time');
-        for(var i=0;i<a.length;i++){
-            a[i].innerText=a[i].innerText.split(' ')[0].replace(/[年月]/g,'-').replace(/日/g,'');
-        }
-        var img = document.getElementsByClassName('img-round')[0].firstElementChild.firstElementChild;
-        var left = document.getElementsByClassName('content-left')[0];
-        if(img.clientWidth<left.offsetWidth){
-            img.style.width="100%";
-            img.style.height="auto";
-        }
-        else{
-            img.style.width="auto";
-            img.style.height="100%";
-        }
-    </script>
-    <script src="/static/blog/js/script.js"></script>
-    <script>
-        /* 首页图片轮播 */
-        var index = 0, i = 0;
-        var scroll = document.getElementsByClassName('img-round');
-        var scrollLength = scroll.length;
-        var trigger = document.getElementsByClassName('trigger')[0].children;
-        var triggerLength = trigger.length;
-        function scrollImg(){
-            for(i = 0; i < scrollLength; i++){
-                scroll[i].style.opacity = 0;
-            }
-            index = (index + 1) % scrollLength;
-            scroll[index].style.opacity = 1;
-
-            for(i = 0; i < scrollLength; i++){
-                scroll[i].style.zIndex = ((scroll[i].style.zIndex) % scrollLength) + 1;
-                trigger[i].className = "";
-            }
-            trigger[index].className = "active";
-        }
-
-        var scrollInterval = 0;
-        document.querySelectorAll('.trigger span').forEach((el,ind) => {
-            el.addEventListener('click',event=>{
-                clearInterval(scrollInterval);
-                index = ind - 1;
-                scrollImg();
-                scrollInterval = setInterval(scrollImg, 3000);
-            })
-        });
-        scrollInterval = setInterval(scrollImg, 3000);
-    </script>
 {% endblock %}
+
+{% block script %}
+<!-- <script src="{% static '/blog/js/script.js' %}"></script> -->
+<script>
+    var a = document.getElementsByClassName('time');
+    for(var i=0;i<a.length;i++){
+        a[i].innerText=a[i].innerText.split(' ')[0].replace(/[年月]/g,'-').replace(/日/g,'');
+    }
+    var img = document.getElementsByClassName('img-round')[0].firstElementChild.firstElementChild;
+    var left = document.getElementsByClassName('content-left')[0];
+    if(img.clientWidth<left.offsetWidth){
+        img.style.width="100%";
+        img.style.height="auto";
+    }
+    else{
+        img.style.width="auto";
+        img.style.height="100%";
+    }
+    
+    /* 首页图片轮播 */
+    var index = 0, i = 0;
+    var scroll = document.getElementsByClassName('img-round');
+    var scrollLength = scroll.length;
+    var trigger = document.getElementsByClassName('trigger')[0].children;
+    var triggerLength = trigger.length;
+    function scrollImg(){
+        for(i = 0; i < scrollLength; i++){
+            scroll[i].style.opacity = 0;
+        }
+        index = (index + 1) % scrollLength;
+        scroll[index].style.opacity = 1;
+
+        for(i = 0; i < scrollLength; i++){
+            scroll[i].style.zIndex = ((scroll[i].style.zIndex) % scrollLength) + 1;
+            trigger[i].className = "";
+        }
+        trigger[index].className = "active";
+    }
+
+    var scrollInterval = 0;
+    document.querySelectorAll('.trigger span').forEach((el,ind) => {
+        el.addEventListener('click',event=>{
+            clearInterval(scrollInterval);
+            index = ind - 1;
+            scrollImg();
+            scrollInterval = setInterval(scrollImg, 3000);
+        })
+    });
+    scrollInterval = setInterval(scrollImg, 3000);
+</script>
+{% endblock %}
+
 <!-- Mobile Menu -->
 <div class="overlay overlay-hugeinc">
     <button type="button" class="overlay-close"><span class="ion-ios-close-empty"></span></button>
@@ -263,7 +266,3 @@
         </ul>
     </nav>
 </div>
-
-
-</body>
-</html>

@@ -57,13 +57,6 @@ def index(request):
     return render(request, '../templates/blog/index.html', context)
 
 
-def setCookie(request):
-    response = HttpResponse('set cookie')
-    response.set_cookie('a', 'abc')
-    print(request.COOKIES.get('a', None))
-    return response
-
-
 def upload(request):
     return render(request, '../templates/blog/upload.html')
 
