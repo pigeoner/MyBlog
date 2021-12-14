@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static %}
 <head>
+    <link rel="shortcut icon" href="{% static '/image/favicon.ico' %}" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -339,6 +341,58 @@
             top: 2px;
             margin-right: 4px;
         }
+        #search-box{
+            /* float: right;
+            position: relative;
+            border-bottom: 1px solid #f6f6f6;
+            height: fit-content; */
+            height: 60px;
+            float: right;
+            align-items: center;
+            position: relative;
+            --submit-button-size: 30px;
+            opacity: .6;
+            margin: 0;
+            transition: .2s ease-out;
+        }
+        #search-box:hover{
+            opacity: .8;
+        }
+        #search-box input{
+            /* display: inline-block;
+            margin: 0;
+            background-color: rgba(255, 255, 255, 0);
+            border: 0;
+            border-bottom: 1px solid #f6f6f6; */
+            margin: 0;
+            border: none;
+            height: 60%;
+            background: 0 0;
+            border-bottom: 1.5px solid #f6f6f6!important;
+            border-radius: 0;
+            color: #f6f6f6;
+            cursor: pointer;
+            font-size: 14px;
+            box-sizing: border-box;
+            width: 250px;
+            padding-right: var(--submit-button-size);
+            padding-left: 4px;
+            outline: 0!important;
+            transition: .2s ease-out;
+        }
+        #search-box button{
+            background: 0 0;
+            border: none;
+            padding: 4px;
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+            top: 2px;
+            color: #fff;
+        }
+        #search-box path{
+            fill: #f6f6f6;
+        }
         .login-box{
             float:right;
             transition: background-color .5s;
@@ -363,26 +417,33 @@
         #user{
             float:right;
             position: relative;
+            margin: 0 30px 0 0;
         }
         #user-avatar{
-            display:inline-block;
+            height: 40px;
+            width: 40px;
+            display:block;
         }
         #user-avatar img{
+            position: absolute;
+            left: 0;
+            top: 10px;
             height: 40px;
             width: 40px;
             border-radius:50%;
             vertical-align: middle;
+            transition: all .3s;
+            z-index: 10;
         }
         #user-nick-name{
-            display:inline-block;
-            color:#f6f6f6;
-            line-height:60px;
-        }
-        .help{
-            width: 0;
-            height: 100%;
-            display: inline-block;
-            vertical-align: middle;
+            margin: 0 0 10px 0;
+            padding: 0 0 10px 0;
+            font-weight: 900;
+            border-bottom: 1px solid rgb(202, 202, 202);
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow: hidden;
+            /* color:#f6f6f6; */
         }
         .ins{
             display: none;
@@ -393,12 +454,13 @@
             line-height: 32px;
             text-align: center;
             background-color: #fff;
-            border-radius: 2px;
+            border-radius: 5px;
             box-shadow: 0 0 10px rgba(204,204,204,0.6);
             padding: 10px 0 0 0;
             box-sizing: border-box;
             border: 1px solid #DDD;
             border-top: 0;
+            z-index: 9;
         }
         .ins a {
             display: block;
@@ -423,7 +485,6 @@
     </style>
 </head>
 <body>
-    {% load static %}
     <div class="header">
         <div class="header-box">
             <div class="icon">
@@ -457,15 +518,29 @@
                         </a>
                     </li>
                 </ul>
+                <form id="search-box" autocomplete="off" target="_blank" method="get" action="">
+                    <input type="text" placeholder="啥也不是，净唠比嗑" name="keyword">
+                    <input type="hidden" name="from_source" value="nav_suggest_new">
+                    <a style="display: none" target="_blank" class="recommended-target" href="https://www.bilibili.com/video/BV1vU4y1N7xT"></a>
+                    <button type="submit" title="搜索" tabindex="-1">
+                        <svg style="width:22px;height:22px" viewBox="0 0 24 24">
+                            <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"></path>
+                        </svg>
+                    </button>
+                </form>
+                <!-- <form id="search-box">
+                    <input type="text">
+                    <button href="" style="display: inline-block;">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form> -->
                 <span class="user" id="user" {%if request.user.is_authenticated%}{%else%}style="display:none;"{%endif%}>
                     <a href="javascript:" id="user-avatar">
                         <img src="/media/avatar/default.jpg" alt="">
                     </a>
-                    <div class="help"></div>
-                    <a href="javascript:">
-                        <p id="user-nick-name"></p>
-                    </a>
+                    <!-- <a href="javascript:" id="user-nick-name"></a> -->
                     <div class="ins">
+                        <p id="user-nick-name"></p>
                         <a href="{% url 'blog:space' %}">创作中心</a>
                         <a href="https://blog.51cto.com/u_15451117">我的博客</a>
                         <a href="https://home.51cto.com/space/favorite?uid=15441117" target="_blank">我的收藏</a>
@@ -701,11 +776,13 @@
             $(".sign .sign-container").css("height", "330px");
         }
         $("#user").hover(function(){
-            $('#user .ins').show(100);
+            setTimeout(function(){$('#user .ins').show(100);},100);
             $('#user-avatar img').css({"width":"60px","height":"60px"});
+            $('#user-avatar img').css({"left":"-10px"});
         },function(){
-            $('#user .ins').hide(100);
+            setTimeout(function(){$('#user .ins').hide(100);},100);
             $('#user-avatar img').css({"width":"40px","height":"40px"});
+            $('#user-avatar img').css({"left":"0px"});
         });
     </script>
     <script type="text/javascript">
