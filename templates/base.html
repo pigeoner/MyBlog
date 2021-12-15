@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}亚甲基蓝个人博客{% endblock %}</title>
     <link rel="stylesheet" href="{% static '/font-awesome/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static '/blog/js/jquery.min.js' %}">
+    <script src="{% static '/blog/js/jquery.min.js' %}"></script>
     <link rel="stylesheet" href="{% static '/blog/css/base.css' %}">
     <link rel="stylesheet" type="text/css" href="/static/blog/css/waifu.min.css?v=1.4.2"/>
     {% block head %}
@@ -193,12 +193,12 @@
 
 
     <!-- 另一个版本 -->
-    <script type="text/javascript" src="/static/blog/useLive2d/message.js"></script> 
+    <!-- <script type="text/javascript" src="/static/blog/useLive2d/message.js"></script>  -->
     <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
     <script src="/static/blog/useLive2d/index.js"></script>
     <script type="text/javascript">
         useLive2dInit({
-            path:'/static/blog', //类库的位置
+            path:'/static/blog/useLive2d', //类库的位置
             modelType:'koharu'//模特类型，即所在live2Model下文件夹名
         });
     </script>
