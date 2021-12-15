@@ -17,7 +17,7 @@ import hashlib
 from urllib import parse
 import base64
 
-from blog.models import Article, SideBar, Tag, Category, ArticlePraise
+from blog.models import Article, SideBar, Tag, Category, ArticlePraise, ArticleStar
 
 # Create your views here.
 
@@ -95,14 +95,18 @@ def dealfile(request):
 def detail(request, id):
     post = Article.objects.get(id=id)
     userId = request.user.id
-    isActive = False
+    isPraise = False
+    isStar = False
     if userId:
         isUserPraise = ArticlePraise.objects.filter(
             userId=userId, articleId=id)
-        print(isUserPraise)
-        isActive = True if isUserPraise else False
+        isUserStar = ArticleStar.objects.filter(
+            userId=userId, articleId=id)
+        print(isUserStar)
+        isPraise = True if isUserPraise else False
+        isStar = True if isUserStar else False
     post.increase_views()
-    return render(request, "../templates/blog/detail.html", {"post": post, "isActive": isActive})
+    return render(request, "../templates/blog/detail.html", {"post": post, "isPraise": isPraise, "isStar": isStar})
 
 
 def archives(request, year, month):
@@ -167,19 +171,45 @@ def praise(request):
     obj = ArticlePraise.objects.filter(
         userId=userId, articleId=articleId).first()
     # 返回json
-    response = {'code': 1, 'isPraise': True}
+    response = {'code': 1, 'msg': '点赞成功', 'isPraise': True}
 
     if not obj:
         ArticlePraise.objects.create(userId=userId, articleId=articleId)
         # 生成了赞记录， 然后再来更新页面
         Article.objects.filter(id=articleId).update(thumbs_up=F('thumbs_up')+1)
     else:
-        response['code'] = 0
-        response['isPraise'] = False  # 将已经做过的操作提示
+        ArticlePraise.objects.filter(
+            userId=userId, articleId=articleId).delete()
+        Article.objects.filter(id=articleId).update(thumbs_up=F('thumbs_up')-1)
+        response = {'code': 0, 'msg': '撤销点赞', 'isPraise': False}
+
+    return JsonResponse(response)  # 必须用json返回
+
+
+def star(request):
+    articleId = request.POST.get('articleId')
+    # 点赞人即当前登陆人
+    userId = request.user.id
+
+    # 过滤已经点赞或者踩了的
+    obj = ArticleStar.objects.filter(
+        userId=userId, articleId=articleId).first()
+    # 返回json
+    response = {'code': 1, 'msg': '收藏成功', 'isStar': True}
+
+    if not obj:
+        ArticleStar.objects.create(userId=userId, articleId=articleId)
+        # 生成了赞记录， 然后再来更新页面
+        Article.objects.filter(id=articleId).update(star=F('star')+1)
+    else:
+        ArticleStar.objects.filter(userId=userId, articleId=articleId).delete()
+        # 生成了赞记录， 然后再来更新页面
+        Article.objects.filter(id=articleId).update(star=F('star')-1)
+        response = {'code': 0, 'msg': '撤销收藏', 'isStar': False}
 
     return JsonResponse(response)  # 必须用json返回
 
 
 def space(request):
     context = {}
-    return render(request, '../templates/blog/space.html', context)
+    return render(request, '../templates/blog/space/homepage.html', context)

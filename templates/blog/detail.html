@@ -1,76 +1,15 @@
 {%extends "blog/index.html"%}
 {% load static %}
-{% block detailhead %}
-    <link rel="stylesheet" href="/static/mdeditor/css/editormd.min.css">
+{% block head %}
+    <link rel="stylesheet" href="{% static '/blog/css/index.css' %}">
+    <link rel="stylesheet" href="{% static '/blog/css/detail.css' %}">
+    <link rel="stylesheet" href="{% static '/mdeditor/css/editormd.min.css' %}">
     
     <!--引入js文件-->
-    <script src="/static/blog/js/zepto.min.js"></script>
-    <script src="/static/mdeditor/js/lib/prettify.min.js"></script>
-    <script src="/static/mdeditor/js/lib/marked.min.js"></script>
-    <script src="/static/mdeditor/js/editormd.min.js"></script>
-    <style>
-        article{
-            margin:0;
-            padding:20px 25px 50px 25px;
-            background-color: #fff;
-        }
-        .article-title{
-            text-align: left;
-            padding:10px 0px 20px 10px;
-        }
-        .article-meta{
-            text-align:left;
-            line-height:48px;
-            padding: 0 20px;
-            border-bottom:1px dashed #aaaaaaaa;
-        }
-        .article-meta a{
-            color: #aaa;
-        }
-        .article-meta .fa{
-            padding:0 5px;
-            margin-right:15px;
-        }
-        .article-meta .fa:first-child{
-            padding-left:0;
-        }
-        .article-tags-label{
-            padding:0 !important;
-            margin-right: 5px !important;;
-        }
-        .article-tags-box a{
-            color: #fff;
-            background-color: #88aaff;
-            padding: 5px 7px 5px 7px;
-            border-radius: 2px;
-            margin-right: 10px;
-        }
-        .article-tags{
-            display: inline-block;
-        }
-        .action-box{
-            margin: 10px 0;
-            padding: 50px 0 0 10px;
-            border-top: 1px dashed #aaaaaaaa;
-        }
-        .action-box a{
-            display: inline-block;
-            padding: 8px 12px;
-            margin: 0 10px;
-            color: #666;
-            border: 1px solid rgb(10, 129, 90);
-            border-radius: 5px;
-            transition: all .3s;
-        }
-        .action-box a:hover{
-            color:#fff;
-            background-color: rgb(10, 129, 90);
-        }
-        .praise-down{
-            color: #fff!important;;
-            background-color: rgb(10, 129, 90);
-        }
-    </style>
+    <script src="{% static '/blog/js/zepto.min.js' %}"></script>
+    <script src="{% static '/mdeditor/js/lib/prettify.min.js' %}"></script>
+    <script src="{% static '/mdeditor/js/lib/marked.min.js' %}"></script>
+    <script src="{% static '/mdeditor/js/editormd.min.js' %}"></script>
 {% endblock %}
 {% block article %}
     <article>
@@ -82,7 +21,7 @@
             <a><i class="fa fa-clock-o time">&nbsp;&nbsp;{{ post.created_time }}</i></a>
             <a><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
             <a href="javascript:" id="article-praise-up" class="praise">
-                <i class="{%if isActive%}fa fa-thumbs-up{%else%}fa fa-thumbs-o-up{%endif%}">&nbsp;&nbsp;{{ post.thumbs_up }}</i>
+                <i class="{%if isPraise%}fa fa-thumbs-up{%else%}fa fa-thumbs-o-up{%endif%}">&nbsp;&nbsp;{{ post.thumbs_up }}</i>
             </a>
             <a href="#"><i class="fa fa-comment-o">&nbsp;&nbsp;{{ post.comments }}</i></a>
             <div class="article-tags-box">
@@ -96,11 +35,11 @@
             <textarea>{{post.body|safe}}</textarea>
         </div>
         <div class="action-box">
-            <a href="javascript:" id="article-praise-down" class="praise {%if isActive%}praise-down{%else%}{%endif%}">
+            <a href="javascript:" id="article-praise-down" class="praise {%if isPraise%}click-down{%endif%}">
                 <i class="fa fa-thumbs-o-up"></i>
                 <span>点赞</span>
             </a>
-            <a href="">
+            <a href="javascript:" id="article-star" class="{%if isStar%}click-down{%endif%}">
                 <i class="fa fa-star-o"></i>
                 <span>收藏</span>
             </a>
@@ -158,19 +97,44 @@
                         'articleId': '{{ post.id }}',
                     },
                     success: function (res) {
+                        var val = parseInt($('#article-praise-up').text());
                         if (res.isPraise) {
                             // Ajax 局部刷新!!!
-                            var val = parseInt($('#article-praise-up').text());
                             $('#article-praise-up i').html("&nbsp;&nbsp;");
                             $('#article-praise-up i').text($('#article-praise-up i').text()+(val+1).toString());
                             $('#article-praise-up i').attr('class','fa fa-thumbs-up');
-                            $('#article-praise-down').attr('class','praise praise-down');
+                            $('#article-praise-down').attr('class','praise click-down');
                         }else {
-                            alert('你已经点过赞了');
-                            $('#digg_tips').html('你已经推荐过');
-                            setTimeout(function () {  // 设置时钟函数，一秒钟后消失
-                                $('#digg_tips').html('')  //清空
-                            }, 1000)
+                            $('#article-praise-up i').html("&nbsp;&nbsp;");
+                            $('#article-praise-up i').text($('#article-praise-up i').text()+(val-1).toString());
+                            $('#article-praise-up i').attr('class','fa fa-thumbs-o-up');
+                            $('#article-praise-down').attr('class','praise');
+                        }
+                    }
+                })
+            };
+        });
+
+        $('#article-star').click(function () {
+            if(!getCookie('username')){
+                userLogin();
+            }else{
+                $.ajaxSetup({
+                    // data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+                    data:{csrfmiddlewaretoken:getCookie('csrftoken')},
+                });
+                $.ajax({
+                    url: '/star/',
+                    type: 'post',
+                    data: {
+                        'articleId': '{{ post.id }}',
+                    },
+                    success: function (res) {
+                        if (res.isStar) {
+                            // Ajax 局部刷新!!!
+                            $('#article-star').attr('class','click-down');
+                        }else {
+                            $('#article-star').removeClass('click-down');
                         }
                     }
                 })

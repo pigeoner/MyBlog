@@ -1,0 +1,121 @@
+/* space */
+.content{
+    margin:0 auto;
+    padding:0 10px;
+    max-width: 1260px;
+}
+.content::after{
+    content:"";
+    display:block;
+    clear:both;
+}
+
+body{
+    background-image: url("/static/blog/img/dm-bg8.gif");
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: auto;
+    background-position: center;
+}
+.up-content{
+    position: relative;
+    background-image: url("/static/blog/img/nature-bg1.jpg");
+    background-repeat: no-repeat;
+    background-size: 1240px;
+    background-position: 0% 3%;
+    width: 100%;
+    height: 200px;
+}
+.user-avatar-top{
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+}
+.user-avatar-top img{
+    height: 80px;
+    width: 80px;
+    border-radius:50%;
+}
+.user-nick-name-top{
+    position: absolute;
+    left: 120px;
+    bottom: 60px;
+    font-weight: 900;
+    font-size: 18px;
+    color: #fff;
+}
+.up-bar{
+    position: relative;
+    text-align: left;
+    height: 60px;
+    background-color: #f9f9f9ea;
+}
+.up-bar a{
+    position: relative;
+    float:left;
+    vertical-align: middle;
+    line-height: 60px;
+    padding: 0 30px;
+    transition: .3s ease;
+    color: #6f6f6fea;
+    font-weight: 900;
+}
+.up-bar-after{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 3px solid #00a1d6;
+    transition: .3s ease;
+}
+.up-bar-active{
+    color: #00aaff!important;
+}
+.main{
+    margin: 20px 0 0 0;
+}
+.left-content{
+    float: left;
+    width: 68%;
+    background-color: #fff;
+}
+.right-content{
+    float: right;
+    width: 29%;
+}
+.widget{
+    outline:#dfdfd1ea solid 1px;
+    background-color:rgba(255, 255, 255, 0.88);
+    margin:20px 0;
+    padding:18px 30px 10px 30px;
+    text-align:left;
+}
+.widget:first-child{
+    margin: 0;
+}
+.widget-title{
+    padding: 0 0 15px 0;
+    border-bottom: 1px solid #a6a6a6;
+}
+.widget-title>.change-info{
+    float: right;
+    padding: 5px;
+    color: #5f5f5fea;
+    font-size: 12px;
+    font-weight: normal;
+    outline: #dfdfd1ea solid 1px;
+    border-radius: 5px;
+}
+.widget-content{
+    margin: 15px 0 0 0;
+}
+.widget-content>li{
+    margin: 0 0 25px 0;
+    color: #666;
+}
+.widget-content>li>i{
+    color: #000;
+}
+.widget-content>li>span{
+    margin: 0 0 0 10px;
+    color: #111;
+}

@@ -85,6 +85,7 @@ class Article(models.Model):
         """
     views = models.PositiveIntegerField('阅读量', default=0, editable=False)
     thumbs_up = models.PositiveIntegerField('点赞数', default=0)
+    star = models.PositiveIntegerField('收藏数', default=0)
     comments = models.PositiveBigIntegerField('评论数', default=0, editable=False)
     tui = models.ForeignKey(Recommend, on_delete=models.DO_NOTHING,
                             verbose_name='推荐位', blank=True, null=True)
@@ -144,6 +145,19 @@ class ArticlePraise(models.Model):
     def __str__(self) -> str:
         return 'Article '+str(self.articleId)+' praised by '+UserProfile.objects.filter(id=self.userId).first().nick_name
 
+
+class ArticleStar(models.Model):
+    userId = models.IntegerField('收藏用户')
+    articleId = models.IntegerField('收藏文章')
+    starTime = models.DateTimeField('收藏时间', auto_now_add=True)
+
+    class Meta:
+        verbose_name = '收藏数据'
+        verbose_name_plural = '收藏数据'
+
+    def __str__(self) -> str:
+        return 'Article '+str(self.articleId)+' stared by '+UserProfile.objects.filter(id=self.userId).first().nick_name
+
 # 侧边栏
 
 
@@ -189,35 +203,23 @@ class SideBar(models.Model):
     @property    # 成为一个类属性，调用的时候不需要后边的（）,是只读的，用户没办法修改
     def get_content(self):
         if self.display_type == 1:  # 搜索
-            context = {
-
-            }
-            return render_to_string('../templates/sidebar/search.html', context=context)
+            context = {}
+            return render_to_string('../templates/blog/sidebar/search.html', context=context)
         elif self.display_type == 2:  # 最新文章
-            context = {
-
-            }
-            return render_to_string('../templates/sidebar/new_post.html', context=context)
+            context = {}
+            return render_to_string('../templates/blog/sidebar/new_post.html', context=context)
         elif self.display_type == 3:  # 热门文章
-            context = {
-
-            }
-            return render_to_string('../templates/sidebar/hot_post.html', context=context)
+            context = {}
+            return render_to_string('../templates/blog/sidebar/hot_post.html', context=context)
         elif self.display_type == 4:   # 文章归档
-            context = {
-
-            }
-            return render_to_string('../templates/sidebar/archives.html', context=context)
+            context = {}
+            return render_to_string('../templates/blog/sidebar/archives.html', context=context)
         elif self.display_type == 5:   # 标签云
-            context = {
-
-            }
-            return render_to_string('../templates/sidebar/tags.html', context=context)
+            context = {}
+            return render_to_string('../templates/blog/sidebar/tags.html', context=context)
         elif self.display_type == 6:  # 最近评论
-            context = {
-
-            }
-            return render_to_string('../templates/sidebar/commment.html', context=context)
+            context = {}
+            return render_to_string('../templates/blog/sidebar/commment.html', context=context)
         elif self.display_type == 7:   # 自定义侧边栏
 
             return self.content   # 在侧边栏直接使用这里的html，模板中必须使用safe过滤器去渲染HTML

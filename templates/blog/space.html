@@ -3,268 +3,86 @@
 {% block title %}个人中心{% endblock %}
 
 {% block head %}
-{% block detailhead %}
+<link rel="stylesheet" href="{% static '/blog/css/space.css' %}">
+{% block spaceHead %}
 {% endblock %}
-{% endblock %}
-
-{% block style %}
-.content{
-    margin:0 auto;
-    padding:30px 10px;
-    max-width: 1260px;
-}
-.content::after{
-    content:"";
-    display:block;
-    clear:both;
-}
-.content-left{
-    float:left;
-    width:29%;
-}
-.widget{
-    /*border:1px solid #cfcfd1;*/
-    outline:#cfcfd1 solid 1px;
-    background-color:rgba(255, 255, 255, 0.88);
-    margin:30px 0;
-    padding:18px 30px 10px 30px;
-    text-align:left;
-}
-.widget-self-info{
-    background-image: url('/static/blog/img/22.png'),url('/static/blog/img/33.png');
-    background-position: left,right;
-    background-repeat: no-repeat,no-repeat;
-    background-size: 30%,30%;
-}
-.widget:first-child{
-    margin:0;
-    padding:0 0 10px 0;
-    text-align:center;
-    background-color:rgba(255, 255, 255, 0.95);
-}
-.widget-bgi img{
-    width:100%;
-    height:100px;
-}
-.widget-avatar img{
-    width:40%;
-    margin-top:-56px;
-    border-radius:50%;
-    /*box-shadow:0 0 5px 3px #d6d6e6;*/
-    border:5px solid rgba(255,255,255,.55);
-}
-.widget-text{
-    color:#424242;
-    line-height:36px;
-}
-.widget-text h3:first-child{
-    display: inline-block;
-    margin:15px 20px 0px 20px;
-    border-top:2px solid #fff;
-    border-bottom:2px solid #fff;
-    border-image: -webkit-linear-gradient(left, #fff 2%,rgb(189, 201, 197) 50%,#fff 98%) 1 1 1 1;
-    border-image: -moz-linear-gradient(left, #fff 2%,rgb(189, 201, 197) 50%,#fff 98%) 1 1 1 1;
-    border-image: linear-gradient(left, #fff 2%,rgb(189, 201, 197) 50%,#fff 98%) 1 1 1 1;
-}
-.widget-text h3 a{
-    display:inline-block;
-    margin:5px 0 0 0;
-    padding:6px 12px;
-    color:#424242;
-    font-size: 22px;
-    border-radius:3px;
-    font-weight:700;
-    line-height:20px;
-}
-.widget-text .username a{
-    font-size: 14px;
-    color: #6d7586d0;
-}
-.widget-text p{
-    color: #424753e7;
-    margin: 5px 0 0 0;
-}
-.contact-me{
-    margin: 30px 0 16px 0;
-}
-.contact-me .contact-icon{
-    float: left;
-    margin: 0 15px;
-    width: 40px;
-    height: 40px;
-    overflow: hidden;
-}
-.contact-me .contact-icon:first-child{
-    margin-left: 60px;
-}
-.contact-me .contact-icon a img,
-.contact-me .contact-icon a svg{
-    height: 100%;
-}
-.contact-me .bilibili{
-    border-radius: 50%;
-}
-.contact-me .home{
-    text-align: center;
-    font-size: 28px;
-    border-radius: 50%;
-    background-color: #ff5c7c;
-}
-.contact-me .home a{
-    color:#fff;
-}
-.contact-me .home .fa::after{
-    content: "";
-}
-.bottom-info{
-    display: inline-block;
-    margin: 10px 20px;
-    font-size: 18px;
-}
-.bottom-info-num{
-    font-weight: 900;
-}
-.bottom-info-name{
-    margin: 10px 0 0 0;
-    color: #828282;
-}
-
-
-body{
-    background-image: url("{% static '/blog/img/dm-bg9.gif' %}");
-    background-repeat: repeat;
-    background-attachment: fixed;
-    background-size: auto;
-    background-position: center;
-}
-.up-content{
-    position: relative;
-    background-image:url("{% static '/blog/img/nature-bg1.jpg' %}");
-    background-size: 100% auto;
-    background-position: 0px 790px;
-    margin: -30px 0 0 0;
-    height: 200px;
-}
-.user-avatar-top{
-    position: absolute;
-    left: 20px;
-    bottom: 10px;
-}
-.user-avatar-top img{
-    height: 80px;
-    width: 80px;
-    border-radius:50%;
-}
-.user-nick-name-top{
-    position: absolute;
-    left: 120px;
-    bottom: 60px;
-    font-weight: 900;
-    font-size: 18px;
-    color: #fff;
-}
-.left-content{
-    float: left;
-    width: 68%;
-}
-.left-bar{
-    position: relative;
-    text-align: left;
-    height: 60px;
-    background-color: #f6f6f6;
-}
-.left-bar a{
-    position: relative;
-    float:left;
-    vertical-align: middle;
-    line-height: 60px;
-    padding: 0 30px;
-    transition: .3s ease;
-}
-.left-bar-after{
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 3px solid #00a1d6;
-    transition: .3s ease;
-}
 {% endblock %}
 
 {% block content %}
-<!-- <div class="content-left clearfix">
-    <div class="widget widget-self-info">
-        <div class="widget-bgi">
-            <img src="{% static '/blog/img/color1.jpg' %}" alt="">
-        </div>
-        <div class="widget-avatar">
-            <a href="javascript:"><img src="{% static '/image/rabbit.jpg' %}" alt=""></a>
-        </div>
-        <div class="widget-text">
-            <h3><a href="javascript:">亚甲基蓝</a></h3>
-            <div class="username">
-                <a href="javascript:">@pigeoner</a>
-            </div>
-        </div>
-        <div class="bottom" style="margin:30px 0;">
-            <div class="bottom-info">
-                <span class="bottom-info-num">1</span>
-                <div class="bottom-info-name">点赞数</div>
-            </div>
-            <div class="bottom-info">
-                <span class="bottom-info-num">2</span>
-                <div class="bottom-info-name">关注数</div>
-                </div>
-            <div class="bottom-info">
-                <span class="bottom-info-num">10</span>
-                <div class="bottom-info-name">粉丝数</div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="content-right"></div> -->
 <div class="up-content">
     <a href="#" class="user-avatar user-avatar-top">
         <img src="/media/avatar/default.jpg" alt="">
     </a>
     <p class="user-nick-name user-nick-name-top"></p>
 </div>
-<div class="left-content">
-    <div class="left-bar">
-        <a href="javascript:" class="left-bar-active">首页</a>
-        <a href="javascript:">博文</a>
-        <a href="javascript:">收藏</a>
-        <a href="javascript:">粉丝</a>
-        <a href="javascript:">暂定</a>
-        <div class="left-bar-after"></div>
+<div class="up-bar">
+    <a href="javascript:" class="up-bar-active">主页</a>
+    <a href="javascript:">博文</a>
+    <a href="javascript:">收藏</a>
+    <a href="javascript:">关注</a>
+    <a href="javascript:">粉丝</a>
+    <div class="up-bar-after"></div>
+</div>
+<div class="main">
+    <div class="left-content">
+        {% block space %}
+        {% endblock %}
     </div>
+    <div class="right-content">
+        <div class="widget">
+            <h4 class="widget-title">
+                个人成就
+            </h4>
+            <ul class="widget-content">
+                <li><i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;获得{}次点赞</li>
+                <li><i class="fa fa-comment-o"></i>&nbsp;&nbsp;内容获得{}次评论</li>
+                <li><i class="fa fa-star-o"></i>&nbsp;&nbsp;获得{}次收藏</li>
+            </ul>
+        </div>
+        <div class="widget">
+            <h4 class="widget-title">
+                个人资料
+                <a href="javascript:" class="change-info">编辑资料</a>
+            </h4>
+            <ul class="widget-content">
+                <li>UID <span>{}</span></li>
+                <li>昵称 <span>{}</span></li>
+                <li>性别 <span>{}</span></li>
+                <li>生日 <span>{}</span></li>
+            </ul>
+        </div>
+    </div>
+    
 </div>
 {% endblock %}
 
 {% block script %}
 <script>
-    var leftBarLeft = $(".left-bar").offset().left;
-    var activeLeft = $(".left-bar .left-bar-active").offset().left;
+    var upBarLeft = $(".up-bar").offset().left;
+    var activeLeft = $(".up-bar-active").offset().left;
 
-    $(".left-bar-after").width($(".left-bar .left-bar-active").outerWidth());
-    $(".left-bar-after").css("left", activeLeft - leftBarLeft);
+    $(".up-bar-after").width($(".up-bar-active").outerWidth());
+    $(".up-bar-after").css("left", activeLeft - upBarLeft);
     
-    $(".left-bar a").click(function(){
-        var aArr = $(".left-bar a").removeClass("left-bar-active");
-        $(this).addClass("left-bar-active");
+    $(".up-bar a").click(function(){
+        var aArr = $(".up-bar a").removeClass("up-bar-active");
+        $(this).addClass("up-bar-active");
     });
-    $(".left-bar a").hover(
+    $(".up-bar a").hover(
         function(){
-            $(this).css("color","#00aaff");
+            $(this).stop(true).css("color","#00aaff");
             var hoverLeft = $(this).offset().left;
-            $(".left-bar-after").width($(this).outerWidth());
-            $(".left-bar-after").css("left", hoverLeft - leftBarLeft);
+            $(".up-bar-after").stop(true).width($(this).outerWidth());
+            $(".up-bar-after").stop(true).css("left", hoverLeft - upBarLeft);
         },
         function(){
-            $(this).css("color","#000");
-            activeLeft = $(".left-bar .left-bar-active").offset().left;
-            $(".left-bar-after").width($(".left-bar .left-bar-active").outerWidth());
-            $(".left-bar-after").css("left", activeLeft - leftBarLeft);
+            $(this).stop(true).css("color","#6f6f6fea");
+            activeLeft = $(".up-bar-active").offset().left;
+            $(".up-bar-after").stop(true).width($(".up-bar-active").outerWidth());
+            $(".up-bar-after").stop(true).css("left", activeLeft - upBarLeft);
         }
     );
 </script>
+{% block spaceScript %}
+{% endblock %}
 {% endblock %}
