@@ -109,12 +109,12 @@ body{
 }
 .widget-content>li{
     margin: 0 0 25px 0;
-    color: #666;
+    color: rgb(48, 48, 48);
 }
 .widget-content>li>i{
     color: #000;
 }
 .widget-content>li>span{
     margin: 0 0 0 10px;
-    color: #111;
+    color: #666;
 }

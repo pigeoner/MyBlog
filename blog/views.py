@@ -212,16 +212,33 @@ def star(request):
 
 def space(request):
     tab = request.GET.get('tab', default='home')
-    context = {'tab': tab}
 
     data = {
-        'praise': 0,
+        'praise_num': 0,
+        'comments_num': 0,
+        'star_num': 0,
     }
 
     user = UserProfile.objects.get(id=request.user.id)
 
+    data['uid'] = user.id
+    data['gender'] = user.gender
+    data['birthday'] = user.birthday if user.birthday else '无'
+    data['nickname'] = user.nick_name
+
     for post in Article.objects.filter(user=user):
-        data['praise'] += ArticlePraise.objects.get(post.id).thumbs_up
+        data['praise_num'] += post.thumbs_up
+        data['comments_num'] += post.comments
+        data['star_num'] += post.star
+
+    print(data)
+
+    context = {
+        'code': 1,
+        'msg': 'success',
+        'tab': tab,
+        'data': data
+    }
 
     if tab == 'home':
         return render(request, '../templates/blog/space/home.html', context)
@@ -230,11 +247,11 @@ def space(request):
         return render(request, '../templates/blog/space/post.html', context)
 
     elif tab == 'star':
-        data = []
+        star_articles = []
         stars = ArticleStar.objects.filter(userId=request.user.id)
         for star in stars:
-            data.append(Article.objects.get(id=star.articleId))
-        context['data'] = data
+            star_articles.append(Article.objects.get(id=star.articleId))
+        context['data']['star_articles'] = star_articles
         return render(request, '../templates/blog/space/star.html', context)
 
     elif tab == 'follow':

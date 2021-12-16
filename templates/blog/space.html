@@ -14,6 +14,7 @@
         <img src="/media/avatar/default.jpg" alt="">
     </a>
     <p class="user-nick-name user-nick-name-top"></p>
+    <p class="sign"></p>
 </div>
 <div class="up-bar">
     <a href="{% url 'blog:space' %}" class="up-bar-home {% if tab == 'home' %}up-bar-active{% endif %}">主页</a>
@@ -34,9 +35,9 @@
                 个人成就
             </h4>
             <ul class="widget-content">
-                <li><i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;获得{}次点赞</li>
-                <li><i class="fa fa-comment-o"></i>&nbsp;&nbsp;内容获得{}次评论</li>
-                <li><i class="fa fa-star-o"></i>&nbsp;&nbsp;获得{}次收藏</li>
+                <li><i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;获得 {{data.praise_num}} 次点赞</li>
+                <li><i class="fa fa-comment-o"></i>&nbsp;&nbsp;内容获得 {{data.comments_num}} 次评论</li>
+                <li><i class="fa fa-star-o"></i>&nbsp;&nbsp;获得 {{data.star_num}} 次收藏</li>
             </ul>
         </div>
         <div class="widget">
@@ -45,10 +46,10 @@
                 <a href="javascript:" class="change-info">编辑资料</a>
             </h4>
             <ul class="widget-content">
-                <li>UID <span>{}</span></li>
-                <li>昵称 <span>{}</span></li>
-                <li>性别 <span>{}</span></li>
-                <li>生日 <span>{}</span></li>
+                <li>UID <span>{{data.uid}}</span></li>
+                <li>昵称 <span>{{data.nickname}}</span></li>
+                <li>性别 <span>{{data.gender}}</span></li>
+                <li>生日 <span>{{data.birthday}}</span></li>
             </ul>
         </div>
     </div>
