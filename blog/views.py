@@ -212,13 +212,33 @@ def star(request):
 
 def space(request):
     tab = request.GET.get('tab', default='home')
+    context = {'tab': tab}
+
+    data = {
+        'praise': 0,
+    }
+
+    user = UserProfile.objects.get(id=request.user.id)
+
+    for post in Article.objects.filter(user=user):
+        data['praise'] += ArticlePraise.objects.get(post.id).thumbs_up
+
     if tab == 'home':
-        return render(request, '../templates/blog/space/homepage.html', context={'tab': tab})
+        return render(request, '../templates/blog/space/home.html', context)
+
     elif tab == 'post':
-        return render(request, '../templates/blog/space/post.html', context={'tab': tab})
+        return render(request, '../templates/blog/space/post.html', context)
+
     elif tab == 'star':
-        return render(request, '../templates/blog/space/star.html', context={'tab': tab})
+        data = []
+        stars = ArticleStar.objects.filter(userId=request.user.id)
+        for star in stars:
+            data.append(Article.objects.get(id=star.articleId))
+        context['data'] = data
+        return render(request, '../templates/blog/space/star.html', context)
+
     elif tab == 'follow':
-        return render(request, '../templates/blog/space/follow.html', context={'tab': tab})
+        return render(request, '../templates/blog/space/follow.html', context)
+
     elif tab == 'fans':
-        return render(request, '../templates/blog/space/fans.html', context={'tab': tab})
+        return render(request, '../templates/blog/space/fans.html', context)
