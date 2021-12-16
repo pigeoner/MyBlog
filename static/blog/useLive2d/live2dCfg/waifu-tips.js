@@ -30,13 +30,14 @@ re.toString = function () {
     return '';
 };
 
+
 $(document).on('copy', function () {
     showMessage('你都复制了些什么呀，转载要记得加上出处哦', 5000);
 });
 
 $.ajax({
     cache: true,
-    url: `${use2dParam.path}/live2dCfg/waifu-tips.js`,
+    url: `${use2dParam.path}/live2dCfg/waifu-tips.json`,
     dataType: "json",
     success: function (result) {
         $.each(result.mouseover, function (index, tips) {
@@ -60,11 +61,12 @@ $.ajax({
 
 (function () {
     var text;
-    if (document.referrer !== '') {
-        var referrer = document.createElement('a');
-        referrer.href = document.referrer;
+    var referrer = document.createElement('a');
+    referrer.href = document.referrer;
+    var domain = referrer.hostname.split('.')[1];
+    var domain2 = referrer.hostname;
+    if (document.referrer !== '' && domain2 != '123.57.231.224') {
         text = 'Hello! 来自 <span style="color:#0099cc;">' + referrer.hostname + '</span> 的朋友';
-        var domain = referrer.hostname.split('.')[1];
         if (domain == 'baidu') {
             text = 'Hello! 来自 百度搜索 的朋友<br>你是搜索 <span style="color:#0099cc;">' + referrer.search.split('&wd=')[1].split('&')[0] + '</span> 找到的我吗？';
         } else if (domain == 'so') {
@@ -73,7 +75,7 @@ $.ajax({
             text = 'Hello! 来自 谷歌搜索 的朋友<br>欢迎阅读<span style="color:#0099cc;">『' + document.title.split(' - ')[0] + '』</span>';
         }
     } else {
-        if (window.location.href == '123.57.231.224') { //如果是主页
+        if (domain2 == '123.57.231.224') { //如果是主页
             var now = (new Date()).getHours();
             if (now > 23 || now <= 5) {
                 text = '你是夜猫子呀？这么晚还不睡觉，明天起的来嘛';
@@ -104,7 +106,7 @@ $.ajax({
 window.setInterval(showHitokoto, 30000);
 
 function showHitokoto() {
-    $.getJSON('https://api.imjad.cn/hitokoto/?cat=&charset=utf-8&length=28&encode=json', function (result) {
+    $.getJSON('https://v1.hitokoto.cn/?c=i&charset=utf-8&max_length=30&encode=json', function (result) {
         showMessage(result.hitokoto, 5000);
     });
 }

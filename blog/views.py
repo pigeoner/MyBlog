@@ -211,5 +211,14 @@ def star(request):
 
 
 def space(request):
-    context = {}
-    return render(request, '../templates/blog/space/homepage.html', context)
+    tab = request.GET.get('tab', default='home')
+    if tab == 'home':
+        return render(request, '../templates/blog/space/homepage.html', context={'tab': tab})
+    elif tab == 'post':
+        return render(request, '../templates/blog/space/post.html', context={'tab': tab})
+    elif tab == 'star':
+        return render(request, '../templates/blog/space/star.html', context={'tab': tab})
+    elif tab == 'follow':
+        return render(request, '../templates/blog/space/follow.html', context={'tab': tab})
+    elif tab == 'fans':
+        return render(request, '../templates/blog/space/fans.html', context={'tab': tab})

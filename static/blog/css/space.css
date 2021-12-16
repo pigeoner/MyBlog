@@ -63,7 +63,6 @@ body{
 .up-bar-after{
     position: absolute;
     bottom: 0;
-    left: 0;
     border-top: 3px solid #00a1d6;
     transition: .3s ease;
 }
