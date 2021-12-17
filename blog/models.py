@@ -84,8 +84,8 @@ class Article(models.Model):
         这里我们通过 ForeignKey 把文章和 User 关联了起来。
         """
     views = models.PositiveIntegerField('阅读量', default=0, editable=False)
-    thumbs_up = models.PositiveIntegerField('点赞数', default=0)
-    star = models.PositiveIntegerField('收藏数', default=0)
+    thumbs_up = models.PositiveIntegerField('点赞数', default=0, editable=False)
+    star = models.PositiveIntegerField('收藏数', default=0, editable=False)
     comments = models.PositiveBigIntegerField('评论数', default=0, editable=False)
     tui = models.ForeignKey(Recommend, on_delete=models.DO_NOTHING,
                             verbose_name='推荐位', blank=True, null=True)
@@ -134,8 +134,11 @@ class Article(models.Model):
 
 
 class ArticlePraise(models.Model):
-    userId = models.IntegerField('点赞用户')
-    articleId = models.IntegerField('点赞文章')
+    # userId = models.IntegerField('点赞用户')
+    user = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, verbose_name='点赞用户')
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, verbose_name='点赞文章')
     praiseTime = models.DateTimeField('点赞时间', auto_now_add=True)
 
     class Meta:
@@ -143,12 +146,15 @@ class ArticlePraise(models.Model):
         verbose_name_plural = '点赞数据'
 
     def __str__(self) -> str:
-        return 'Article '+str(self.articleId)+' praised by '+UserProfile.objects.filter(id=self.userId).first().nick_name
+        return 'Article '+str(self.article.id)+' praised by '+self.user.nick_name
 
 
 class ArticleStar(models.Model):
-    userId = models.IntegerField('收藏用户')
-    articleId = models.IntegerField('收藏文章')
+    # userId = models.IntegerField('收藏用户')
+    user = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, verbose_name='收藏用户')
+    article = models.ForeignKey(
+        Article, on_delete=models.CASCADE, verbose_name='收藏文章')
     starTime = models.DateTimeField('收藏时间', auto_now_add=True)
 
     class Meta:
@@ -156,7 +162,37 @@ class ArticleStar(models.Model):
         verbose_name_plural = '收藏数据'
 
     def __str__(self) -> str:
-        return 'Article '+str(self.articleId)+' stared by '+UserProfile.objects.filter(id=self.userId).first().nick_name
+        return 'Article '+str(self.article.id)+' stared by '+self.user.nick_name
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, verbose_name='用户')
+    followUser = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, verbose_name='关注用户')
+    followTime = models.DateTimeField('关注时间', auto_now_add=True)
+
+    class Meta:
+        verbose_name = '关注数据'
+        verbose_name_plural = '关注数据'
+
+    def __str__(self) -> str:
+        return '用户 '+self.user.nick_name+' 关注了 '+self.followUser.nick_name
+
+
+class Fans(models.Model):
+    user = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, verbose_name='用户')
+    fans = models.ForeignKey(
+        UserProfile, on_delete=models.CASCADE, verbose_name='粉丝')
+    fansTime = models.DateTimeField('粉丝关注时间', auto_now_add=True)
+
+    class Meta:
+        verbose_name = '粉丝数据'
+        verbose_name_plural = '粉丝数据'
+
+    def __str__(self) -> str:
+        return '用户 '+self.user.nick_name+' 收获粉丝 '+self.fans.nick_name
 
 # 侧边栏
 
