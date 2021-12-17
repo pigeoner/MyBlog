@@ -66,15 +66,15 @@
                         <p id="header-user-nick-name" class="user-nick-name"></p>
                         <div class="header-meta">
                             <a href="javascript:">
-                                <div>1</div>
+                                <div id="toolbar-fans">--</div>
                                 <div>粉丝</div>
                             </a>
                             <a href="javascript:">
-                                <div>1</div>
+                                <div id="toolbar-follow">--</div>
                                 <div>关注</div>
                             </a>
                             <a href="javascript:">
-                                <div>1</div>
+                                <div id="toolbar-praise">--</div>
                                 <div>获赞</div>
                             </a>
                         </div>
@@ -303,11 +303,23 @@
             }
             return "";
         }
-        username = Base64.decode(getCookie('username'));
-        avatarSrc = Base64.decode(getCookie('avatar'));
-        if(username && avatarSrc){
-            $('.user-nick-name').text(username);
-            $('.user-avatar img').attr('src','/media/'+avatarSrc);
+        // username = Base64.decode(getCookie('username'));
+        // avatarSrc = Base64.decode(getCookie('avatar'));
+        // var userId = getCookie('uid');
+        if(getCookie('uid')){
+            $.ajax({
+                url: "{% url 'blog:getUserInfo' %}",
+                dataType: "json",
+                type: "GET",
+                success: function(res){
+                    var userInfo = res.data;
+                    $('.user-nick-name').text(userInfo['nickname']);
+                    $('.user-avatar img').attr('src','/media/'+userInfo['image']);
+                    $('#toolbar-fans').text(userInfo['fansCount']);
+                    $('#toolbar-follow').text(userInfo['followCount']);
+                    $('#toolbar-praise').text(userInfo['praiseCount']);
+                }
+            });
         }
     </script>
     <script>

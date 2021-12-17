@@ -102,7 +102,6 @@ def detail(request, id):
             userId=userId, articleId=id)
         isUserStar = ArticleStar.objects.filter(
             userId=userId, articleId=id)
-        print(isUserStar)
         isPraise = True if isUserPraise else False
         isStar = True if isUserStar else False
     post.increase_views()
@@ -125,8 +124,8 @@ def userLogin(request):
         # 与数据库中的用户名和密码比对，django默认保存密码是以哈希形式存储，并不是明文密码，这里的password验证默认调用的是User类的check_password方法，以哈希值比较。
         user = authenticate(request, username=username, password=password)
 
-        userInfo = model_to_dict(UserProfile.objects.get(id=user.id))
-        userInfo['image'] = str(userInfo['image'])
+        # userInfo = model_to_dict(UserProfile.objects.get(id=user.id))
+        # userInfo['image'] = str(userInfo['image'])
 
         # 验证如果用户不为空
         if user is not None and user.is_active:
@@ -136,12 +135,8 @@ def userLogin(request):
             response = HttpResponse(json.dumps({
                 "code": "1",
                 "msg": "success",
-                "userInfo": userInfo,
             }))
-            response.set_cookie('avatar', base64.b64encode(
-                userInfo['image'].encode('utf8')).decode('utf8'), max_age=7*24*3600)
-            response.set_cookie(
-                'username', base64.b64encode(userInfo['nick_name'].encode('utf8')).decode('utf8'), max_age=7*24*3600)
+            response.set_cookie('uid', user.id)
             return response
         else:
             # 返回登录失败信息
@@ -157,8 +152,55 @@ def userLogout(request):
         'code': '1',
         'msg': 'success'
     })
-    response.delete_cookie('username')
-    response.delete_cookie('avatar')
+    response.delete_cookie('uid')
+    return response
+
+
+def getUserInfo(request):
+    user = UserProfile.objects.get(id=request.user.id)
+
+    followCount = 0
+    fansCount = 0
+
+    praiseCount = 0
+    commentsCount = 0
+    starCount = 0
+
+    for post in Article.objects.filter(user=user):
+        praiseCount += post.thumbs_up
+        commentsCount += post.comments
+        starCount += post.star
+
+    # def bigNumDeal(count):
+    #     num = count
+    #     if num > int(1e4):
+    #         if num < int(1e8):
+    #             num = str(int(num / 1e4)) + '.' + \
+    #                 str(int((num % 1e4) / 1000)) + '万'
+    #         else:
+    #             num = str(int(num / 1e8)) + '.' + \
+    #                 str(int((num % 1e8) / 1e7)) + '亿'
+    #     return num
+
+    response = JsonResponse({
+        'code': '1',
+        'msg': 'success',
+        'data': {
+            'id': user.id,
+            'nickname': user.nick_name,
+            'birthday': user.birthday,
+            'gender': user.gender,
+            'address': user.address,
+            'image': str(user.image),
+            'sign': user.sign,
+            'followCount': followCount,
+            'fansCount': fansCount,
+            'praiseCount': praiseCount,
+            'commentsCount': commentsCount,
+            'starCount': starCount,
+        }
+    })
+
     return response
 
 
@@ -230,8 +272,6 @@ def space(request):
         data['praise_num'] += post.thumbs_up
         data['comments_num'] += post.comments
         data['star_num'] += post.star
-
-    print(data)
 
     context = {
         'code': 1,
