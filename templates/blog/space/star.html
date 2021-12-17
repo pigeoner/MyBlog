@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block space %}
-    {% for star in data.star_articles %}
-        {{star}}
+    {% for star in spaceData.star_articles %}
+        {{star.article.title}}
     {% endfor %}
 {% endblock %}

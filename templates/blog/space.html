@@ -35,9 +35,18 @@
                 个人成就
             </h4>
             <ul class="widget-content">
-                <li><i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;获得 {{data.praise_num}} 次点赞</li>
-                <li><i class="fa fa-comment-o"></i>&nbsp;&nbsp;内容获得 {{data.comments_num}} 次评论</li>
-                <li><i class="fa fa-star-o"></i>&nbsp;&nbsp;获得 {{data.star_num}} 次收藏</li>
+                <li>
+                    <i class="fa fa-thumbs-o-up"></i>
+                    &nbsp;&nbsp;获得<span class="user-praise-count"></span>&nbsp;&nbsp;次点赞
+                </li>
+                <li>
+                    <i class="fa fa-comment-o"></i>
+                    &nbsp;&nbsp;内容获得<span class="user-comment-count"></span>&nbsp;&nbsp;次评论
+                </li>
+                <li>
+                    <i class="fa fa-star-o"></i>
+                    &nbsp;&nbsp;获得<span class="user-star-count"></span>&nbsp;&nbsp;次收藏
+                </li>
             </ul>
         </div>
         <div class="widget">
@@ -46,10 +55,10 @@
                 <a href="javascript:" class="change-info">编辑资料</a>
             </h4>
             <ul class="widget-content">
-                <li>UID <span>{{data.uid}}</span></li>
-                <li>昵称 <span>{{data.nickname}}</span></li>
-                <li>性别 <span>{{data.gender}}</span></li>
-                <li>生日 <span>{{data.birthday}}</span></li>
+                <li>UID <span class="user-uid"></span></li>
+                <li>昵称 <span class="user-nick-name"></span></li>
+                <li>性别 <span class="user-gender"></span></li>
+                <li>生日 <span class="user-birthday"></span></li>
             </ul>
         </div>
     </div>

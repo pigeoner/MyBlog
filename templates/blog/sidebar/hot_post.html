@@ -3,7 +3,7 @@
 {% for post in post_list %}
     <li>
         <a href="{% url 'blog:detail' post.id %}">
-            <span class="hot-rank" style="float:left;">{{forloop.counter}}</span>
+            <span class="hot-rank">{{forloop.counter}}</span>
             {{ post.title }}
         </a>
     </li>

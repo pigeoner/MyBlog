@@ -167,9 +167,9 @@ class ArticleStar(models.Model):
 
 class Follow(models.Model):
     user = models.ForeignKey(
-        UserProfile, on_delete=models.CASCADE, verbose_name='用户')
+        UserProfile, on_delete=models.CASCADE, verbose_name='用户', related_name='fo_user')
     followUser = models.ForeignKey(
-        UserProfile, on_delete=models.CASCADE, verbose_name='关注用户')
+        UserProfile, on_delete=models.CASCADE, verbose_name='关注用户', related_name='follow_user')
     followTime = models.DateTimeField('关注时间', auto_now_add=True)
 
     class Meta:
@@ -182,9 +182,9 @@ class Follow(models.Model):
 
 class Fans(models.Model):
     user = models.ForeignKey(
-        UserProfile, on_delete=models.CASCADE, verbose_name='用户')
+        UserProfile, on_delete=models.CASCADE, verbose_name='用户', related_name='fa_user')
     fans = models.ForeignKey(
-        UserProfile, on_delete=models.CASCADE, verbose_name='粉丝')
+        UserProfile, on_delete=models.CASCADE, verbose_name='粉丝', related_name='fans_user')
     fansTime = models.DateTimeField('粉丝关注时间', auto_now_add=True)
 
     class Meta:

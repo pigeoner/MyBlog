@@ -66,15 +66,15 @@
                         <p id="header-user-nick-name" class="user-nick-name"></p>
                         <div class="header-meta">
                             <a href="javascript:">
-                                <div id="toolbar-fans">--</div>
+                                <div class="user-fans-count">--</div>
                                 <div>粉丝</div>
                             </a>
                             <a href="javascript:">
-                                <div id="toolbar-follow">--</div>
+                                <div class="user-follow-count">--</div>
                                 <div>关注</div>
                             </a>
                             <a href="javascript:">
-                                <div id="toolbar-praise">--</div>
+                                <div class="user-praise-count">--</div>
                                 <div>获赞</div>
                             </a>
                         </div>
@@ -315,9 +315,14 @@
                     var userInfo = res.data;
                     $('.user-nick-name').text(userInfo['nickname']);
                     $('.user-avatar img').attr('src','/media/'+userInfo['image']);
-                    $('#toolbar-fans').text(userInfo['fansCount']);
-                    $('#toolbar-follow').text(userInfo['followCount']);
-                    $('#toolbar-praise').text(userInfo['praiseCount']);
+                    $('.user-fans-count').text(userInfo['fansCount']);
+                    $('.user-follow-count').text(userInfo['followCount']);
+                    $('.user-praise-count').text(userInfo['praiseCount']);
+                    $('.user-comment-count').text(userInfo['commentsCount']);
+                    $('.user-star-count').text(userInfo['starCount']);
+                    $('.user-gender').text(userInfo['gender'] == 'female' ? '女' : '男');
+                    $('.user-birthday').text(userInfo['birthday'] || '未设置');
+                    $('.user-uid').text(userInfo['uid']);
                 }
             });
         }

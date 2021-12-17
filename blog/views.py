@@ -98,10 +98,8 @@ def detail(request, id):
     isPraise = False
     isStar = False
     if userId:
-        isUserPraise = ArticlePraise.objects.filter(
-            userId=userId, articleId=id)
-        isUserStar = ArticleStar.objects.filter(
-            userId=userId, articleId=id)
+        isUserPraise = ArticlePraise.objects.filter(article__id=post.id)
+        isUserStar = ArticleStar.objects.filter(article__id=post.id)
         isPraise = True if isUserPraise else False
         isStar = True if isUserStar else False
     post.increase_views()
@@ -186,7 +184,7 @@ def getUserInfo(request):
         'code': '1',
         'msg': 'success',
         'data': {
-            'id': user.id,
+            'uid': user.id,
             'nickname': user.nick_name,
             'birthday': user.birthday,
             'gender': user.gender,
@@ -207,21 +205,23 @@ def getUserInfo(request):
 def praise(request):
     articleId = request.POST.get('articleId')
     # 点赞人即当前登陆人
-    userId = request.user.id
+    user = UserProfile.objects.get(id=request.user.id)
+    print(user)
+    article = Article.objects.get(id=articleId)
 
     # 过滤已经点赞或者踩了的
     obj = ArticlePraise.objects.filter(
-        userId=userId, articleId=articleId).first()
+        user__id=request.user.id, article__id=articleId).first()
     # 返回json
     response = {'code': 1, 'msg': '点赞成功', 'isPraise': True}
 
     if not obj:
-        ArticlePraise.objects.create(userId=userId, articleId=articleId)
+        ArticlePraise.objects.create(user=user, article=article)
         # 生成了赞记录， 然后再来更新页面
         Article.objects.filter(id=articleId).update(thumbs_up=F('thumbs_up')+1)
     else:
         ArticlePraise.objects.filter(
-            userId=userId, articleId=articleId).delete()
+            user__id=request.user.id, article__id=articleId).delete()
         Article.objects.filter(id=articleId).update(thumbs_up=F('thumbs_up')-1)
         response = {'code': 0, 'msg': '撤销点赞', 'isPraise': False}
 
@@ -231,20 +231,22 @@ def praise(request):
 def star(request):
     articleId = request.POST.get('articleId')
     # 点赞人即当前登陆人
-    userId = request.user.id
+    user = UserProfile.objects.get(id=request.user.id)
+    article = Article.objects.get(id=articleId)
 
     # 过滤已经点赞或者踩了的
     obj = ArticleStar.objects.filter(
-        userId=userId, articleId=articleId).first()
+        user__id=request.user.id, article__id=articleId).first()
     # 返回json
     response = {'code': 1, 'msg': '收藏成功', 'isStar': True}
 
     if not obj:
-        ArticleStar.objects.create(userId=userId, articleId=articleId)
+        ArticleStar.objects.create(user=user, article=article)
         # 生成了赞记录， 然后再来更新页面
         Article.objects.filter(id=articleId).update(star=F('star')+1)
     else:
-        ArticleStar.objects.filter(userId=userId, articleId=articleId).delete()
+        ArticleStar.objects.filter(
+            user__id=request.user.id, article__id=articleId).delete()
         # 生成了赞记录， 然后再来更新页面
         Article.objects.filter(id=articleId).update(star=F('star')-1)
         response = {'code': 0, 'msg': '撤销收藏', 'isStar': False}
@@ -254,30 +256,11 @@ def star(request):
 
 def space(request):
     tab = request.GET.get('tab', default='home')
-
-    data = {
-        'praise_num': 0,
-        'comments_num': 0,
-        'star_num': 0,
-    }
-
-    user = UserProfile.objects.get(id=request.user.id)
-
-    data['uid'] = user.id
-    data['gender'] = user.gender
-    data['birthday'] = user.birthday if user.birthday else '无'
-    data['nickname'] = user.nick_name
-
-    for post in Article.objects.filter(user=user):
-        data['praise_num'] += post.thumbs_up
-        data['comments_num'] += post.comments
-        data['star_num'] += post.star
-
     context = {
         'code': 1,
         'msg': 'success',
         'tab': tab,
-        'data': data
+        'spaceData': {}
     }
 
     if tab == 'home':
@@ -288,10 +271,10 @@ def space(request):
 
     elif tab == 'star':
         star_articles = []
-        stars = ArticleStar.objects.filter(userId=request.user.id)
+        stars = ArticleStar.objects.filter(user__id=request.user.id)
         for star in stars:
-            star_articles.append(Article.objects.get(id=star.articleId))
-        context['data']['star_articles'] = star_articles
+            star_articles.append(star)
+        context['spaceData']['star_articles'] = star_articles
         return render(request, '../templates/blog/space/star.html', context)
 
     elif tab == 'follow':
