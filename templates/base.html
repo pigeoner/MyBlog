@@ -395,7 +395,7 @@
                 url:"{% url 'blog:userlogout' %}",
                 type:'GET',
                 success:function(res){
-                    window.location.reload();
+                    window.location.href = "http://" + window.location.href.split('/')[2];
                 },
                 error: function(ree) { 
                     console.error(ree.status,ree.responseText);
