@@ -446,7 +446,13 @@ input {
     background-color: rgb(218, 218, 218);
 }
 .ins>a>i{
+    position: absolute;
+    left: 50px;
+    top: 13px;
     color:#8b8e91;
+}
+.ins>a.edit-center>i{
+    top: 15px;
 }
 .header-meta{
     margin: 0 0 10px 0;

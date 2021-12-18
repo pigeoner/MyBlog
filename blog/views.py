@@ -17,7 +17,7 @@ import hashlib
 from urllib import parse
 import base64
 
-from blog.models import Article, SideBar, Tag, Category, ArticlePraise, ArticleStar
+from blog.models import Article, SideBar, Tag, Category, ArticlePraise, ArticleStar, Follow, Fans
 
 # Create your views here.
 
@@ -26,8 +26,8 @@ def reindex(request):
     return redirect(reverse('blog:index'))
 
 
-def get_paginator(item, page_num):
-    paginator = Paginator(item, 5)
+def get_paginator(item, page_num, one_page_num):
+    paginator = Paginator(item, one_page_num)
     page_num = page_num
     try:
         page = paginator.get_page(page_num)
@@ -58,7 +58,7 @@ def index(request):
     # 注：Django3.2的paginator类新增一种方法get_elided_page_range
     article = Article.objects.all().order_by('-created_time')
     page_num = request.GET.get('page', default='1')
-    page, dis_range = get_paginator(article, page_num)
+    page, dis_range = get_paginator(article, page_num, 5)
     context = {'page': page, 'dis_range': dis_range}
     return render(request, '../templates/blog/index.html', context)
 
@@ -140,7 +140,18 @@ def userLogin(request):
                 "code": "1",
                 "msg": "success",
             }))
-            response.set_cookie('uid', user.id)
+            userDetail = UserProfile.objects.get(id=user.id)
+            articleCount = len(Article.objects.filter(user__id=user.id))
+            followCount = len(Follow.objects.filter(user__id=user.id))
+            fansCount = len(Fans.objects.filter(user__id=user.id))
+            userInfo = {
+                "nickname": userDetail.nick_name,
+                "avatar": str(userDetail.image),
+                "articleCount": articleCount,
+                "followCount": followCount,
+                "fansCount": fansCount
+            }
+            response.set_cookie('USER_INFO', userInfo)
             return response
         else:
             # 返回登录失败信息
@@ -156,11 +167,11 @@ def userLogout(request):
         'code': '1',
         'msg': 'success'
     })
-    response.delete_cookie('uid')
+    response.delete_cookie('USER_INFO')
     return response
 
 
-def getUserInfo(request):
+def toolbarUserInfo(request):
     user = UserProfile.objects.get(id=request.user.id)
 
     followCount = 0
@@ -192,9 +203,6 @@ def getUserInfo(request):
         'data': {
             'uid': user.id,
             'nickname': user.nick_name,
-            'birthday': user.birthday,
-            'gender': user.gender,
-            'address': user.address,
             'image': str(user.image),
             'sign': user.sign,
             'followCount': followCount,
@@ -262,32 +270,72 @@ def star(request):
 
 def space(request):
     tab = request.GET.get('tab', default='home')
+    user = UserProfile.objects.get(id=request.user.id)
+
+    followCount = 0
+    fansCount = 0
+
+    praiseCount = 0
+    commentsCount = 0
+    starCount = 0
+
+    for post in Article.objects.filter(user=user):
+        praiseCount += post.thumbs_up
+        commentsCount += post.comments
+        starCount += post.star
+
     context = {
-        'code': 1,
-        'msg': 'success',
         'tab': tab,
-        'spaceData': {}
+        'userInfo': {
+            'uid': user.id,
+            'nickname': user.nick_name,
+            'birthday': user.birthday,
+            'gender': user.gender,
+            'address': user.address,
+            'sign': user.sign,
+            'followCount': followCount,
+            'fansCount': fansCount,
+            'praiseCount': praiseCount,
+            'commentsCount': commentsCount,
+            'starCount': starCount,
+        }
     }
 
     if tab == 'home':
         return render(request, '../templates/blog/space/home.html', context)
 
     elif tab == 'post':
-        posts = Article.objects.filter(user__id=request.user.id)
+        posts = Article.objects.filter(
+            user__id=request.user.id).order_by('-created_time')
         page_num = request.GET.get('page', default='1')
-        page, dis_range = get_paginator(posts, page_num)
-        context["spaceData"] = {'page': page, 'dis_range': dis_range}
+        page, dis_range = get_paginator(posts, page_num, 5)
+        context['page'] = page
+        context['dis_range'] = dis_range
         return render(request, '../templates/blog/space/post.html', context)
 
     elif tab == 'star':
-        stars = ArticleStar.objects.filter(user__id=request.user.id)
+        stars = ArticleStar.objects.filter(
+            user__id=request.user.id).order_by('-starTime')
         page_num = request.GET.get('page', default='1')
-        page, dis_range = get_paginator(stars, page_num)
-        context["spaceData"] = {'page': page, 'dis_range': dis_range}
+        page, dis_range = get_paginator(stars, page_num, 5)
+        context['page'] = page
+        context['dis_range'] = dis_range
         return render(request, '../templates/blog/space/star.html', context)
 
     elif tab == 'follow':
+        follows = Follow.objects.filter(
+            user__id=request.user.id).order_by('-followTime')
+        page_num = request.GET.get('page', default='1')
+        page, dis_range = get_paginator(follows, page_num, 10)
+        context['page'] = page
+        context['dis_range'] = dis_range
         return render(request, '../templates/blog/space/follow.html', context)
 
     elif tab == 'fans':
+        fans = Fans.objects.filter(
+            user__id=request.user.id).order_by('-fansTime')
+        page_num = request.GET.get('page', default='1')
+        page, dis_range = get_paginator(fans, page_num, 10)
+        context['page'] = page
+        context['dis_range'] = dis_range
         return render(request, '../templates/blog/space/fans.html', context)

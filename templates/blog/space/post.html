@@ -1,63 +1,36 @@
-{%extends "blog/space.html"%}
+{%extends "blog/space/paginator.html"%}
 {% load static %}
 {% block title %}我的博客{% endblock %}
 
 {% block spaceHead %}
 {% endblock %}
 
-{% block space %}
+{% block space_page %}
     <div class="main-content">
-    {% for post in spaceData.page %}
-        <article class="clearfix">
-            <div class="entry-header">
-                <div class="entry-title">
-                    <h1><a href="{% url 'blog:detail' post.id %}">{{ post.title }}</h1></a>
+    {% if page %}
+        {% for post in page %}
+            <article class="clearfix">
+                <div class="entry-header">
+                    <div class="entry-title">
+                        <h1><a href="{% url 'blog:detail' post.id %}">{{ post.title }}</h1></a>
+                    </div>
+                    <div class="entry-edit">
+                        <a href="javascript:" class="change-info">编辑</a>
+                    </div>
+                    <div class="entry-meta">
+                        <a href="#"><i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i></a>
+                        <i class="fa fa-clock-o time">&nbsp;&nbsp;{{ post.created_time }}</i>
+                        <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
+                        <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>
+                        <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-comment-o">&nbsp;&nbsp;{{ post.comments }}</i></a>
+                    </div>
                 </div>
-                <div class="entry-edit">
-                    <a href="javascript:" class="change-info">删除</a>
-                </div>
-                <div class="entry-meta">
-                    <a href="#"><i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i></a>
-                    <i class="fa fa-clock-o time">&nbsp;&nbsp;{{ post.created_time }}</i>
-                    <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
-                    <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>
-                    <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-comment-o">&nbsp;&nbsp;{{ post.comments }}</i></a>
-                </div>
-            </div>
-        </article>
-    {% endfor %}
-    </div>
-    <ul class="pagination">
-        <!--上一页-->
-        <li class="{% if not spaceData.page.has_previous %}disabled{% endif %}">
-            {% if spaceData.page.has_previous %}
-            <a href="{% url 'blog:space' %}?tab=star&page={{ spaceData.page.previous_page_number }}" aria-label="Previous">
-            {% endif %}
-            <!-- <span aria-hidden="true">&laquo;</span> -->
-            <span aria-hidden="true">
-                <i class="fa fa-caret-left"></i>
-            </span>
-            </a>
-        </li>
-
-        <!--页码-->
-        <!--这里展示页码使用传递过来的dis_range -->
-        {% for num in spaceData.dis_range %}
-        <li class="{% if num == spaceData.page.number %}active{% endif %}" >
-            <a href="{% url 'blog:space' %}?tab=star&page={{ num }}">{{ num }}</a>
-        </li>
+            </article>
         {% endfor %}
-
-        <!--下一页-->  
-        <li class="{% if not spaceData.page.has_next %}disabled{% endif %}">
-            {% if spaceData.page.has_next %}
-            <a href="{% url 'blog:space' %}?tab=star&page={{ spaceData.page.next_page_number }}" aria-label="Next">
-            {% endif %}
-            <!-- <span aria-hidden="true">&raquo;</span> -->
-            <span aria-hidden="true">
-                <i class="fa fa-caret-right"></i>
-            </span>
-            </a>
-        </li>
-    </ul>
+    {% else %}
+        <div class="blank-tips">
+            <p>暂无数据</p>
+        </div>
+    {% endif %}
+    </div>
 {% endblock %}

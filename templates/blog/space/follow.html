@@ -1,9 +1,32 @@
-{%extends "blog/space.html"%}
+{%extends "blog/space/paginator.html"%}
 {% load static %}
 {% block title %}关注列表{% endblock %}
 
 {% block spaceHead %}
 {% endblock %}
 
-{% block space %}
+{% block space_page %}
+    <div class="main-content">
+    {% if page %}
+        {% for follow in page %}
+            <article class="clearfix">
+                <div class="entry-header">
+                    <div class="entry-title">
+                        <h1><a href="javascript:">{{ follow.followUser.nick_name }}</h1></a>
+                    </div>
+                    <div class="entry-edit">
+                        <a href="javascript:" class="change-info">取消关注</a>
+                    </div>
+                    <div class="entry-meta">
+                        
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    {% else %}
+        <div class="blank-tips">
+            <p>暂无数据</p>
+        </div>
+    {% endif %}
+    </div>
 {% endblock %}

@@ -1,0 +1,46 @@
+{%extends "blog/space.html"%}
+{% load static %}
+{% block title %}{% endblock %}
+
+{% block spaceHead %}
+{% endblock %}
+
+{% block space %}
+    {% block space_page %}
+    {% endblock %}
+    <ul class="pagination">
+        <!--上一页-->
+        <li class="{% if not page.has_previous %}disabled{% endif %}">
+            {% if page.has_previous %}
+            <a href="{% url 'blog:space' %}?tab=star&page={{ page.previous_page_number }}" aria-label="Previous">
+            {% endif %}
+            <!-- <span aria-hidden="true">&laquo;</span> -->
+            <span aria-hidden="true">
+                <i class="fa fa-caret-left"></i>
+            </span>
+            </a>
+        </li>
+
+        <!--页码-->
+        <!--这里展示页码使用传递过来的dis_range -->
+        {% for num in dis_range %}
+        <li class="{% if num == page.number %}active{% endif %}" >
+            <a href="{% url 'blog:space' %}?tab=star&page={{ num }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+
+        <!--下一页-->  
+        <li class="{% if not page.has_next %}disabled{% endif %}">
+            {% if page.has_next %}
+            <a href="{% url 'blog:space' %}?tab=star&page={{ page.next_page_number }}" aria-label="Next">
+            {% endif %}
+            <!-- <span aria-hidden="true">&raquo;</span> -->
+            <span aria-hidden="true">
+                <i class="fa fa-caret-right"></i>
+            </span>
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+{% block spaceScript %}
+{% endblock %}

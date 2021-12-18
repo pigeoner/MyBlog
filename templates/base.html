@@ -59,35 +59,36 @@
                     </button>
                 </form>
                 <span class="user" id="header-user" {%if request.user.is_authenticated%}{%else%}style="display:none;"{%endif%}>
-                    <a href="javascript:" id="header-user-avatar" class="user-avatar">
+                    <a href="{% url 'blog:space' %}" id="header-user-avatar" class="user-avatar">
                         <img src="/media/avatar/default.jpg" alt="">
                     </a>
                     <div class="ins">
                         <p id="header-user-nick-name" class="user-nick-name"></p>
                         <div class="header-meta">
-                            <a href="javascript:">
+                            <a href="{% url 'blog:space' %}?tab=fans">
                                 <div class="user-fans-count">--</div>
                                 <div>粉丝</div>
                             </a>
-                            <a href="javascript:">
+                            <a href="{% url 'blog:space' %}?tab=follow">
                                 <div class="user-follow-count">--</div>
                                 <div>关注</div>
                             </a>
-                            <a href="javascript:">
-                                <div class="user-praise-count">--</div>
-                                <div>获赞</div>
+                            <a href="{% url 'blog:space' %}?tab=post">
+                                <div class="user-post-count">--</div>
+                                <div>文章</div>
                             </a>
                         </div>
                         <a href="{% url 'blog:space' %}">
                             <i class="fa fa-user"></i>
                             个人中心
                         </a>
-                        <a href="https://blog.51cto.com/u_15451117">
-                            <i class="fa fa-user"></i>
-                            我的博客
+                        <!-- 第二个a标签不知道为什么调整top的时候总是和其他的a标签不一样，所以单独给它一个class单独调整top -->
+                        <a href="{% url 'blog:space' %}?tab=post" class="edit-center">
+                            <i class="fa fa-edit"></i>
+                            创作中心
                         </a>
-                        <a href="https://home.51cto.com/space/favorite?uid=15441117" target="_blank">
-                            <i class="fa fa-user"></i>
+                        <a href="{% url 'blog:space' %}?tab=star" target="_blank">
+                            <i class="fa fa-star"></i>
                             我的收藏
                         </a>
                         <a href="javascript:userLogout()">退出</a>
@@ -303,29 +304,19 @@
             }
             return "";
         }
+        // 这样写的目的是为了不让这个网页在编辑器里报错
+        var isLogin = "{{request.user.is_authenticated}}";
+        if(isLogin=='True'){
+            var userInfo = JSON.parse(getCookie('USER_INFO').replace(/\\054/g, ',').slice(1,-1).replace(/\'/g,'\"'));
+            $(".user-nick-name").text(userInfo["nickname"]);
+            $(".user-avatar img").attr("src", "/media/" + userInfo["avatar"]);
+            $(".user-fans-count").text(userInfo["fansCount"]);
+            $(".user-follow-count").text(userInfo["followCount"]);
+            $(".user-post-count").text(userInfo["articleCount"]);
+        }
         // username = Base64.decode(getCookie('username'));
         // avatarSrc = Base64.decode(getCookie('avatar'));
         // var userId = getCookie('uid');
-        if(getCookie('uid') && !window.userInfo){
-            $.ajax({
-                url: "{% url 'blog:getUserInfo' %}",
-                dataType: "json",
-                type: "GET",
-                success: function(res){
-                    window.userInfo = res.data;
-                    $('.user-nick-name').text(userInfo['nickname']);
-                    $('.user-avatar img').attr('src','/media/'+userInfo['image']);
-                    $('.user-fans-count').text(userInfo['fansCount']);
-                    $('.user-follow-count').text(userInfo['followCount']);
-                    $('.user-praise-count').text(userInfo['praiseCount']);
-                    $('.user-comment-count').text(userInfo['commentsCount']);
-                    $('.user-star-count').text(userInfo['starCount']);
-                    $('.user-gender').text(userInfo['gender'] == 'female' ? '女' : '男');
-                    $('.user-birthday').text(userInfo['birthday'] || '未设置');
-                    $('.user-uid').text(userInfo['uid']);
-                }
-            });
-        }
     </script>
     <script>
         var userLogin = function () {

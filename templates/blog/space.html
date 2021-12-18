@@ -13,8 +13,8 @@
     <a href="#" class="user-avatar user-avatar-top">
         <img src="/media/avatar/default.jpg" alt="">
     </a>
-    <p class="user-nick-name user-nick-name-top"></p>
-    <p class="sign"></p>
+    <p class="user-nick-name-top">{{userInfo.nickname}}</p>
+    <p class="sign-content">{{userInfo.sign}}</p>
 </div>
 <div class="up-bar">
     <a href="{% url 'blog:space' %}" class="up-bar-home {% if tab == 'home' %}up-bar-active{% endif %}">主页</a>
@@ -37,15 +37,15 @@
             <ul class="widget-content">
                 <li>
                     <i class="fa fa-thumbs-o-up"></i>
-                    &nbsp;&nbsp;获得<span class="user-praise-count"></span>&nbsp;&nbsp;次点赞
+                    &nbsp;&nbsp;获得<span class="widget-praise-count">{{userInfo.praiseCount}}</span>&nbsp;&nbsp;次点赞
                 </li>
                 <li>
                     <i class="fa fa-comment-o"></i>
-                    &nbsp;&nbsp;内容获得<span class="user-comment-count"></span>&nbsp;&nbsp;次评论
+                    &nbsp;&nbsp;内容获得<span class="widget-comment-count">{{userInfo.commentsCount}}</span>&nbsp;&nbsp;次评论
                 </li>
                 <li>
                     <i class="fa fa-star-o"></i>
-                    &nbsp;&nbsp;获得<span class="user-star-count"></span>&nbsp;&nbsp;次收藏
+                    &nbsp;&nbsp;获得<span class="widget-star-count">{{userInfo.starCount}}</span>&nbsp;&nbsp;次收藏
                 </li>
             </ul>
         </div>
@@ -55,10 +55,10 @@
                 <a href="javascript:" class="change-info">编辑资料</a>
             </h4>
             <ul class="widget-content">
-                <li>UID <span class="user-uid"></span></li>
-                <li>昵称 <span class="user-nick-name"></span></li>
-                <li>性别 <span class="user-gender"></span></li>
-                <li>生日 <span class="user-birthday"></span></li>
+                <li>UID <span class="widget-uid">{{userInfo.uid}}</span></li>
+                <li>昵称 <span class="widget-nick-name">{{userInfo.nickname}}</span></li>
+                <li>性别 <span class="widget-gender">{%if userInfo.gender == "male"%}男{%else%}女{%endif%}</span></li>
+                <li>生日 <span class="widget-birthday">{{userInfo.birthday|default:"未设置"}}</span></li>
             </ul>
         </div>
     </div>
