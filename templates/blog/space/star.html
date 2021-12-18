@@ -6,7 +6,79 @@
 {% endblock %}
 
 {% block space %}
-    {% for star in spaceData.star_articles %}
-        {{star.article.title}}
+    <div class="main-content">
+    {% for star in spaceData.page %}
+        <article class="clearfix">
+            <div class="entry-header">
+                <div class="entry-title">
+                    <h1><a href="{% url 'blog:detail' star.article.id %}">{{ star.article.title }}</h1></a>
+                </div>
+                <div class="entry-edit">
+                    <a href="javascript:deleteStar({{ star.article.id }})" class="change-info">删除</a>
+                </div>
+                <div class="entry-meta">
+                    <a href="#"><i class="fa fa-user-o">&nbsp;&nbsp;{{ star.article.user.nick_name }}</i></a>
+                    <a href="{% url 'blog:detail' star.article.id %}"><i class="fa fa-eye">&nbsp;&nbsp;{{ star.article.views }}</i></a>
+                    <a href="{% url 'blog:detail' star.article.id %}"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ star.article.thumbs_up }}</i></a>
+                    <a href="{% url 'blog:detail' star.article.id %}"><i class="fa fa-comment-o">&nbsp;&nbsp;{{ star.article.comments }}</i></a>
+                    <i class="fa fa-clock-o time">&nbsp;&nbsp;收藏于 {{ star.starTime }}</i>
+                </div>
+            </div>
+        </article>
     {% endfor %}
+    </div>
+    <ul class="pagination">
+        <!--上一页-->
+        <li class="{% if not spaceData.page.has_previous %}disabled{% endif %}">
+            {% if spaceData.page.has_previous %}
+            <a href="{% url 'blog:space' %}?tab=star&page={{ spaceData.page.previous_page_number }}" aria-label="Previous">
+            {% endif %}
+            <!-- <span aria-hidden="true">&laquo;</span> -->
+            <span aria-hidden="true">
+                <i class="fa fa-caret-left"></i>
+            </span>
+            </a>
+        </li>
+
+        <!--页码-->
+        <!--这里展示页码使用传递过来的dis_range -->
+        {% for num in spaceData.dis_range %}
+        <li class="{% if num == spaceData.page.number %}active{% endif %}" >
+            <a href="{% url 'blog:space' %}?tab=star&page={{ num }}">{{ num }}</a>
+        </li>
+        {% endfor %}
+
+        <!--下一页-->  
+        <li class="{% if not spaceData.page.has_next %}disabled{% endif %}">
+            {% if spaceData.page.has_next %}
+            <a href="{% url 'blog:space' %}?tab=star&page={{ spaceData.page.next_page_number }}" aria-label="Next">
+            {% endif %}
+            <!-- <span aria-hidden="true">&raquo;</span> -->
+            <span aria-hidden="true">
+                <i class="fa fa-caret-right"></i>
+            </span>
+            </a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block spaceScript %}
+<script>
+    deleteStar = articleId =>{
+        $.ajaxSetup({
+            data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+        });
+        $.ajax({
+            url: "{% url 'blog:star' %}",
+            dataType: "json",
+            data:{
+                articleId,
+            },
+            type: "POST",
+            success: res =>{
+                window.location.reload();
+            }
+        })
+    };
+</script>
 {% endblock %}

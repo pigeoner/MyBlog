@@ -26,11 +26,9 @@ def reindex(request):
     return redirect(reverse('blog:index'))
 
 
-def index(request):
-    # 注：Django3.2的paginator类新增一种方法get_elided_page_range
-    article = Article.objects.all().order_by('-created_time')
-    paginator = Paginator(article, 5)
-    page_num = request.GET.get('page', default='1')
+def get_paginator(item, page_num):
+    paginator = Paginator(item, 5)
+    page_num = page_num
     try:
         page = paginator.get_page(page_num)
     except PageNotAnInteger as e:
@@ -53,6 +51,14 @@ def index(request):
         dis_range = range(page_num - 5, page_num + 5)
     else:
         dis_range = range(paginator.num_pages - 9, paginator.num_pages + 1)
+    return page, dis_range
+
+
+def index(request):
+    # 注：Django3.2的paginator类新增一种方法get_elided_page_range
+    article = Article.objects.all().order_by('-created_time')
+    page_num = request.GET.get('page', default='1')
+    page, dis_range = get_paginator(article, page_num)
     context = {'page': page, 'dis_range': dis_range}
     return render(request, '../templates/blog/index.html', context)
 
@@ -267,14 +273,17 @@ def space(request):
         return render(request, '../templates/blog/space/home.html', context)
 
     elif tab == 'post':
+        posts = Article.objects.filter(user__id=request.user.id)
+        page_num = request.GET.get('page', default='1')
+        page, dis_range = get_paginator(posts, page_num)
+        context["spaceData"] = {'page': page, 'dis_range': dis_range}
         return render(request, '../templates/blog/space/post.html', context)
 
     elif tab == 'star':
-        star_articles = []
         stars = ArticleStar.objects.filter(user__id=request.user.id)
-        for star in stars:
-            star_articles.append(star)
-        context['spaceData']['star_articles'] = star_articles
+        page_num = request.GET.get('page', default='1')
+        page, dis_range = get_paginator(stars, page_num)
+        context["spaceData"] = {'page': page, 'dis_range': dis_range}
         return render(request, '../templates/blog/space/star.html', context)
 
     elif tab == 'follow':

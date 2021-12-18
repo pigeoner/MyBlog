@@ -306,13 +306,13 @@
         // username = Base64.decode(getCookie('username'));
         // avatarSrc = Base64.decode(getCookie('avatar'));
         // var userId = getCookie('uid');
-        if(getCookie('uid')){
+        if(getCookie('uid') && !window.userInfo){
             $.ajax({
                 url: "{% url 'blog:getUserInfo' %}",
                 dataType: "json",
                 type: "GET",
                 success: function(res){
-                    var userInfo = res.data;
+                    window.userInfo = res.data;
                     $('.user-nick-name').text(userInfo['nickname']);
                     $('.user-avatar img').attr('src','/media/'+userInfo['image']);
                     $('.user-fans-count').text(userInfo['fansCount']);
