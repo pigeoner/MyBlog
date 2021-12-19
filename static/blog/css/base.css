@@ -336,7 +336,7 @@ input {
     border-bottom: 1.5px solid #f6f6f6!important;
     border-radius: 0;
     color: #f6f6f6;
-    cursor: pointer;
+    cursor: auto;
     font-size: 14px;
     box-sizing: border-box;
     width: 250px;

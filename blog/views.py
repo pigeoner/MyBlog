@@ -151,7 +151,8 @@ def userLogin(request):
                 "followCount": followCount,
                 "fansCount": fansCount
             }
-            response.set_cookie('USER_INFO', userInfo)
+            response.set_cookie('USER_INFO', userInfo,
+                                max_age=14*24*60*60)
             return response
         else:
             # 返回登录失败信息
