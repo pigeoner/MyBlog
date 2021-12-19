@@ -76,7 +76,8 @@ function loadWidget(config) {
 	(function () { // 根据位置加载
 		if (localStorage.getItem("Live2DPlace") === "left") {
 			document.getElementById("live2d-go-left").style.display = "none";
-		} else if (localStorage.getItem("Live2DPlace") === "right") {
+			document.getElementById("live2d_css").href = live2d_path + "waifu_left.css";
+		} else if (!localStorage.getItem("Live2DPlace") || localStorage.getItem("Live2DPlace") === "right") {
 			document.getElementById("live2d-go-right").style.display = "none";
 			document.getElementById("live2d_css").href = live2d_path + "waifu_right.css";
 		}
@@ -212,8 +213,8 @@ function loadWidget(config) {
 			modelTexturesId = localStorage.getItem("modelTexturesId");
 		if (modelId === null) {
 			// 首次访问时加载 指定模型 的 指定材质
-			modelId = 2; // 模型 ID
-			modelTexturesId = 39; // 材质 ID
+			modelId = 5; // 模型 ID 2
+			modelTexturesId = 2; // 材质 ID 39
 		}
 		loadModel(modelId, modelTexturesId);
 		fetch(waifuPath)
@@ -262,7 +263,7 @@ function loadWidget(config) {
 		showMessage(message, 4000, 10);
 		if (useCDN) {
 			if (!modelList) await loadModelList();
-			const target = randomSelection(modelList.models[modelId]);
+			const target = modelId == 4 ? "ShizukuTalk/shizuku-pajama" : randomSelection(modelList.models[modelId]);
 			loadlive2d("live2d", `${cdnPath}model/${target}/index.json`);
 		} else {
 			loadlive2d("live2d", `${apiPath}get/?id=${modelId}-${modelTexturesId}`);

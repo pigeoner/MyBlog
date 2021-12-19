@@ -63,6 +63,13 @@ def index(request):
     return render(request, '../templates/blog/index.html', context)
 
 
+def about(request):
+    with open('templates/blog/about.md', 'r') as ab:
+        content = ab.read()
+    context = {'content': content}
+    return render(request, '../templates/blog/about.html', context)
+
+
 def upload(request):
     return render(request, '../templates/blog/upload.html')
 

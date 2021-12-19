@@ -83,7 +83,7 @@
             }
         };
         $('.praise').click(function () {
-            if(!getCookie('uid')){
+            if(isLogin!='True'){
                 userLogin();
             }else{
                 $.ajaxSetup({
@@ -116,7 +116,7 @@
         });
 
         $('#article-star').click(function () {
-            if(!getCookie('uid')){
+            if(isLogin!='True'){
                 userLogin();
             }else{
                 $.ajaxSetup({
