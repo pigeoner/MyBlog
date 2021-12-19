@@ -231,7 +231,7 @@
     border-radius: 50%;
     background-color: #ff5c7c;
 }
-.contact-me .home a{
+.contact-me .home{
     color:#fff;
 }
 .contact-me .home .fa::after{
