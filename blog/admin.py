@@ -1,13 +1,13 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Category, Recommend, Tag, Article, SideBar
+from .models import Category, Tag, Article, SideBar
 # 导入需要管理的数据库表
 
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'category', 'title', 'tui',
+    list_display = ('id', 'category', 'title',
                     'user', 'views', 'created_time')
     # 文章列表里显示想要显示的字段
     list_per_page = 50
@@ -25,11 +25,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-
-
-@admin.register(Recommend)
-class TuiAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
 
 

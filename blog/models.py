@@ -39,18 +39,6 @@ class Tag(models.Model):
         return self.name
 
 
-# 推荐位
-class Recommend(models.Model):
-    name = models.CharField('推荐位', max_length=100)
-
-    class Meta:
-        verbose_name = '推荐位'
-        verbose_name_plural = verbose_name
-
-    def __str__(self):
-        return self.name
-
-
 def user_directory_path(instance, filename):
     ext = filename.split('.').pop()
     filename = '{0}.{1}'.format(
@@ -87,8 +75,6 @@ class Article(models.Model):
     thumbs_up = models.PositiveIntegerField('点赞数', default=0, editable=False)
     star = models.PositiveIntegerField('收藏数', default=0, editable=False)
     comments = models.PositiveBigIntegerField('评论数', default=0, editable=False)
-    tui = models.ForeignKey(Recommend, on_delete=models.DO_NOTHING,
-                            verbose_name='推荐位', blank=True, null=True)
 
     created_time = models.DateTimeField('发布时间', auto_now_add=True)
     modified_time = models.DateTimeField('修改时间', auto_now=True)
