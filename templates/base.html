@@ -319,6 +319,7 @@
         var isLogin = "{{request.user.is_authenticated}}";
         if(isLogin=='True'){
             var userInfo = JSON.parse(getCookie('USER_INFO').replace(/\\054/g, ',').slice(1,-1).replace(/\'/g,'\"'));
+            userInfo['nickname'] = Base64.decode(userInfo['nickname']);
             $(".user-nick-name").text(userInfo["nickname"]);
             $(".user-avatar img").attr("src", "/media/" + userInfo["avatar"]);
             $(".user-fans-count").text(userInfo["fansCount"]);

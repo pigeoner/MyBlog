@@ -152,7 +152,7 @@ def userLogin(request):
             followCount = len(Follow.objects.filter(user__id=user.id))
             fansCount = len(Fans.objects.filter(user__id=user.id))
             userInfo = {
-                "nickname": userDetail.nick_name,
+                "nickname": base64.b64encode(userDetail.nick_name.encode('utf8')).decode('utf8'),
                 "avatar": str(userDetail.image),
                 "articleCount": articleCount,
                 "followCount": followCount,
