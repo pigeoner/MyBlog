@@ -20,11 +20,6 @@ import base64
 
 from blog.models import Article, SideBar, Tag, Category, ArticlePraise, ArticleStar, Follow, Fans
 
-from mdeditor.fields import MDTextFormField
-class MDEditorForm(forms.Form):
-    title = forms.CharField(label='标题')
-    content = MDTextFormField(label='内容')
-
 # Create your views here.
 
 
@@ -76,15 +71,30 @@ def about(request):
     return render(request, '../templates/blog/about.html', context)
 
 def edit(request):
+    from mdeditor.fields import MDTextFormField
+    class MDEditorForm(forms.Form):
+        def get_object(model):
+            r = [('', '----')]
+            for obj in model.objects.all():
+                r = r + [(obj.id, obj.name)]
+            return r
+        title = forms.CharField(label='标题')
+        content = MDTextFormField(label='内容')
+        tags = forms.ChoiceField(
+            label='标签',
+            initial=1,
+            choices=get_object(Tag)
+        )
     form_obj_default = MDEditorForm()
-    context = {'form':form_obj_default}
+    tags = Tag.objects.all()
+    category = Category.objects.all()
+    context = {'form':form_obj_default,'tags':tags,'category':category}
     if request.method == "POST":
         form_obj = MDEditorForm(request.POST)
         if form_obj.is_valid():
             title = form_obj.cleaned_data.get("title")
             content = form_obj.cleaned_data.get("content")
-            print(title)
-            print(content)
+            print(form_obj.cleaned_data)
             context['form'] = form_obj_default
             return render(request,'../templates/blog/edit.html',context)
     return render(request,'../templates/blog/edit.html',context)
