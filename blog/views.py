@@ -1,4 +1,6 @@
 from django.db.models import base
+from django.forms import fields
+from django.forms import models
 from django.http import response
 from django.http.response import Http404, HttpResponseServerError, JsonResponse
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
@@ -7,7 +9,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from users.models import UserProfile
 from django.forms.models import model_to_dict
-from django import forms
+from django.forms import Form
 from django.core.serializers import serialize
 from django.db.models import F  # 利用F来做自加1操作
 
@@ -72,26 +74,27 @@ def about(request):
 
 def edit(request):
     from mdeditor.fields import MDTextFormField
-    class MDEditorForm(forms.Form):
+    class MDEditorForm(Form):
         content = MDTextFormField(label='内容')
-    tags = Tag.objects.all()
-    category = Category.objects.all()
     context = {
         'form': MDEditorForm(),
-        'tags': tags,
-        'category': category
+        'tags': Tag.objects.all(),
+        'category': Category.objects.all()
     }
-    return render(request,'../templates/blog/edit.html',context)
+    return render(request,'../templates/blog/edit.html', context)
 
 def add(request):
+    # category = request.POST.get('category')
+    # tags = request.POST.get('tags')
     user = UserProfile.objects.get(id=request.user.id)
-    title = request.POST.get('title')
+    body = request.POST.get('body')
     category = request.POST.get('category')
+    category = Category.objects.get(name=category)
     tags = request.POST.get('tags')
-    print(title)
-    print(category)
-    print(tags)
-    return 
+    tags = Tag.objects.filter(name=tags)
+    post = Article.objects.create(user=user, title='123', category=category, body=body, img='cover/Django.jpg')
+    post.tags.set(tags) # 设置多对多的tags
+    return JsonResponse({'code': 1, 'msg': 'success'})
 
 
 def upload(request):
