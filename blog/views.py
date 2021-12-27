@@ -84,8 +84,6 @@ def edit(request):
     return render(request,'../templates/blog/edit.html', context)
 
 def add(request):
-    # category = request.POST.get('category')
-    # tags = request.POST.get('tags')
     user = UserProfile.objects.get(id=request.user.id)
     body = request.POST.get('body')
     category = request.POST.get('category')
