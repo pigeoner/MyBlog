@@ -1,0 +1,33 @@
+{%extends "base.html"%}
+{% load static %}
+{% block head %}
+<style>
+    body{
+        background-image: url("/static/blog/img/dm-bg8.gif");
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size: auto;
+        background-position: center;
+    }
+    #id_title{
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<form method="post" action="#">
+    {% csrf_token %}
+    {{ form.media }}
+    {% for field in form %}
+         {{ field }} 
+     {% endfor %}
+    <input type="submit" value="post">
+</form>
+{% endblock %}
+
+{%block script%}
+<script>
+    $('#id_title').css({'width': '90%'});
+</script>
+{%endblock%}

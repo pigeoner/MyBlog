@@ -164,6 +164,7 @@ MDEDITOR_CONFIGS = {
         'emoji': True,  # whether to open the expression function  是否允许使用emoji表情
         'tex': True,  # whether to open the tex chart function   是否打开tex图表功能
         'flow_chart': True,  # whether to open the flow chart function   是否打开流程图功能
-        'sequence': True  # Whether to open the sequence diagram function   是否打开序列图函数
+        'sequence': True,  # Whether to open the sequence diagram function   是否打开序列图函数
+        'lineWrapping': True
     }
 }

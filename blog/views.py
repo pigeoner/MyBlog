@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from users.models import UserProfile
 from django.forms.models import model_to_dict
+from django import forms
 from django.core.serializers import serialize
 from django.db.models import F  # 利用F来做自加1操作
 
@@ -18,6 +19,11 @@ from urllib import parse
 import base64
 
 from blog.models import Article, SideBar, Tag, Category, ArticlePraise, ArticleStar, Follow, Fans
+
+from mdeditor.fields import MDTextFormField
+class MDEditorForm(forms.Form):
+    title = forms.CharField(label='标题')
+    content = MDTextFormField(label='内容')
 
 # Create your views here.
 
@@ -68,6 +74,20 @@ def about(request):
         content = ab.read()
     context = {'content': content}
     return render(request, '../templates/blog/about.html', context)
+
+def edit(request):
+    form_obj_default = MDEditorForm()
+    context = {'form':form_obj_default}
+    if request.method == "POST":
+        form_obj = MDEditorForm(request.POST)
+        if form_obj.is_valid():
+            title = form_obj.cleaned_data.get("title")
+            content = form_obj.cleaned_data.get("content")
+            print(title)
+            print(content)
+            context['form'] = form_obj_default
+            return render(request,'../templates/blog/edit.html',context)
+    return render(request,'../templates/blog/edit.html',context)
 
 
 def upload(request):
