@@ -73,31 +73,25 @@ def about(request):
 def edit(request):
     from mdeditor.fields import MDTextFormField
     class MDEditorForm(forms.Form):
-        def get_object(model):
-            r = [('', '----')]
-            for obj in model.objects.all():
-                r = r + [(obj.id, obj.name)]
-            return r
-        title = forms.CharField(label='标题')
         content = MDTextFormField(label='内容')
-        tags = forms.ChoiceField(
-            label='标签',
-            initial=1,
-            choices=get_object(Tag)
-        )
-    form_obj_default = MDEditorForm()
     tags = Tag.objects.all()
     category = Category.objects.all()
-    context = {'form':form_obj_default,'tags':tags,'category':category}
-    if request.method == "POST":
-        form_obj = MDEditorForm(request.POST)
-        if form_obj.is_valid():
-            title = form_obj.cleaned_data.get("title")
-            content = form_obj.cleaned_data.get("content")
-            print(form_obj.cleaned_data)
-            context['form'] = form_obj_default
-            return render(request,'../templates/blog/edit.html',context)
+    context = {
+        'form': MDEditorForm(),
+        'tags': tags,
+        'category': category
+    }
     return render(request,'../templates/blog/edit.html',context)
+
+def add(request):
+    user = UserProfile.objects.get(id=request.user.id)
+    title = request.POST.get('title')
+    category = request.POST.get('category')
+    tags = request.POST.get('tags')
+    print(title)
+    print(category)
+    print(tags)
+    return 
 
 
 def upload(request):

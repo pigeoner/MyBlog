@@ -16,24 +16,10 @@
 {% endblock %}
 
 {% block content %}
-<form method="post" action="./">
-    {% csrf_token %}
     {{ form.media }}
     {% for field in form %}
          {{ field }} 
     {% endfor %}
-    <select name="" id="">
-        {% for op in tags %}
-        <option value="{{op}}">{{op}}</option>
-        {% endfor %}
-    </select>
-    <select name="" id="">
-        {% for op in category %}
-        <option value="{{op}}">{{op}}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="post">
-</form>
 {% endblock %}
 
 {%block script%}
