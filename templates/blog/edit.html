@@ -1,6 +1,7 @@
 {%extends "base.html"%}
 {% load static %}
 {% block head %}
+<link rel="stylesheet" href="{% static '/blog/css/edit.css' %}">
 <style>
     body{
         background-image: url("/static/blog/img/dm-bg8.gif");
@@ -10,33 +11,221 @@
         background-position: center;
     }
     #title{
-        margin-bottom: 30px;
+        margin: 0 0 20px 0;
+        border: 0px solid #ddd;
+        /* border-bottom: 1px solid #ddd; */
+        line-height: 48px;
+        font-size: 28px;
+        font-weight: 900;
+        color: rgb(85, 85, 85);
+    }
+    #title:focus{
+        outline: none;
+    }
+    input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{ 
+        color:#aaa; 
+    }
+　　input:-moz-placeholder,textarea:-moz-placeholder{ 
+        color:#aaa; 
+    }       
+    input::-moz-placeholder,textarea::-moz-placeholder{ 
+        color:#aaa; 
+    } 
+    input:-ms-input-placeholder,textarea:-ms-input-placeholder{ 
+        color:#aaa; 
+    }
+    .choose{
+        position:relative;
+        text-align: left;
+        margin: 30px 0 0 0;
+    }
+    .choose a{
+        color: #666;
+    }
+    .choose>label{
+        margin: 0 10px 0 0;
+        color: #666;
+    }
+    .category>a{
+        display: inline-block;
+        margin: 5px;
+        padding: 5px 20px;
+        border-radius: 3px;
+        border:1px solid #ccc;
+    }
+    .choose>a:first-of-type{
+        margin: 5px 5px 5px 0;
+    }
+    .category>a:hover{
+        cursor: pointer;
+        color: #fff;
+        background-color: #4f9ad3;
+    }
+    .choose-box>a{
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        padding: 5px 20px;
+    }
+    .choose-box>a.add-tag:hover{
+        cursor: pointer;
+        color: #fff;
+        background-color: #4f9ad3;
+    }
+    .choose-box>a.chosen-tag{
+        position: relative;
+        margin: 0 10px 0 0;
+        padding: 5px 2px 5px 15px;
+        border: 1px solid rgba(38,125,204,.2);
+        color: #267dcc;
+        background-color: rgba(38,125,204,.05);
+        /* pointer-events: none; */
+    }
+    .choose-box>a.chosen-tag>span{
+        cursor: pointer;
+        margin: 8px;
+    }
+    /* .choose-box>a.chosen-tag::after{
+        content: "×";
+        position: absolute;
+        cursor: pointer;
+        top: 5px;
+        right: 5px;
+        pointer-events: auto;
+    } */
+    .tags-box{
+        display: none;
+        position: absolute;
+        left: 125px;
+        top: -440px;
+        width: 560px;
+        height: auto;
+        background: #fff;
+        z-index: 9999;
+        -webkit-box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
+        box-shadow: 0 2px 6px 0 rgba(0,0,0,.1);
+        border: 1px solid #e3e3e3;
+        padding: 10px 0;
+        padding-top: 0;
+    }
+    .tags-box>h1,h2,h3,h4{
+        position: relative;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+        padding: 8px 0;
+    }
+    .tags-box-body{
+        padding: 0 20px;
+        height: 300px;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+    .tags-box-body::-webkit-scrollbar {
+        display: none;
+    }
+    .tags-box-search{
+        padding: 0 25px;
+        margin: 0 0 15px 0;
+    }
+    #tags-search{
+        outline: #ccc;
+        color: #666;
+        text-align: left;
+    }
+    #tags-search:focus{
+        outline: #ccc;
+    }
+    .exit{
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        cursor: pointer;
+        font-size: large;
+    }
+    .tags-item{
+        float: left;
+        margin: 5px;
+        border-radius: 3px;
+    }
+    .tags-item>a{
+        cursor: pointer;
+        display: block;
+        padding: 5px 10px;
+        border-radius: 3px;
+        color: #507999;
+        background-color: #ebf2f7;
+    }
+    .tags-item>.chosen{
+        background-color: #507999;
+        color: #fff;
+    }
+    .choose .active{
+        color: #fff;
+        background-color: #4f9ad3;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-    <input type="text" id="title">
+<div class="insbox">
+    <input type="text" id="title" placeholder="请输入文章标题">
     {{ form.media }}
     {% for field in form %}
          {{ field }} 
     {% endfor %}
-    <select name="tags" id="tags">
-        {% for op in tags %}
-            <option value="{{op}}">{{op}}</option>
-        {% endfor %}
-    </select>
-    <select name="category" id="category">
+    <div class="choose category">
+        <label>选择专栏分类：</label>
         {% for op in category %}
-            <option value="{{op}}">{{op}}</option>
+        <a>{{op}}</a>
         {% endfor %}
-    </select>
+    </div>
+    
+    <div class="choose tags">
+        <label>选择文章标签：</label>
+        <span class="choose-box">
+            <a class="add-tag">+&nbsp;文章标签</a>
+        </span>
+        <div class="tags-box">
+            <div class="tags-box-header">
+                <h3>标签</h3>
+                <a class="exit">
+                    <i class="fa fa-close"></i>
+                </a>
+            </div>
+            <div class="tags-box-search">
+                <input type="text" id="tags-search" placeholder="请输入文字并键入Enter选择，没有相应标签将自动创建">
+            </div>
+            <div class="tags-box-body">
+                {% for op in tags %}
+                <span class="tags-item">
+                    <a>{{op}}</a>
+                </span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <ul class="inul erlei clearfix">
+        <div class="toleft"><span class="nming maohaos toerlei">封面</span></div>
+        <div class="toright clearfix">
+        <div class="chuans">
+            <input class="uploadImg file3" type="file" name="file3" />
+            <i class="fa fa-plus"></i>
+        </div>
+    </div>
+    </ul>
     <button id='submit'>submit</button>
+</div>
 {% endblock %}
 
 {%block script%}
 <script>
-    $('#title').css({'width': '90%'});
+    function user_directory_path(instance, filename){
+        let ext = filename.split('.').pop();
+        let username = str(instance.user);
+        let time = str(int(time.time()));
+        filename = `cover/post_${username}_${time}.${ext}`;
+        return filename;
+    }
     $('#submit').click(
         ()=>{
             $.ajaxSetup({
@@ -57,8 +246,79 @@
                 },
                 error: function(ree) { 
                     console.error(ree.status,ree.responseText);
-            }
+                }
         })
+    });
+    $('.category>a').click(()=>{
+        $('.category>a').removeClass('active');
+        event.target.classList.add('active');
+    });
+    $('.choose-box>a').click(()=>{
+        $('.tags-box').show();
+    });
+    $('.exit').click(()=>{
+        $('.tags-box').hide();
+        $('#tags-search').val('');
+    });
+
+    let tags = new Array();
+    let chosenTags = new Array();
+    let hasTag = false;
+    let chosen = 0;
+    $('.tags-item a').each((index,element)=>{
+        tags[index]=element;
+    });
+    function addRemove(node) {
+        $('.chosen-tag>span').click(()=>{
+            node.classList.remove('chosen');
+            let tagName = event.target.parentNode.innerText;
+            tagName = tagName.slice(0,tagName.length-1);
+            chosenTags.forEach((item, index, arr) => {
+                if(item.innerText === tagName) {
+                    arr.splice(index, 1);
+                }
+            });
+            event.target.parentNode.remove();
+        });
+    }
+    $(".tags-item a").click(()=>{ //点击选择
+        let aClass = event.target.classList;
+        if(chosen < 5 && !aClass.contains('chosen')){
+            aClass.add('chosen');
+            chosenTags.push(event.target);
+            $('.choose-box a:first-child').before(`<a class="chosen-tag">${event.target.innerHTML}<span>×</span></a>`);
+            addRemove(event.target);
+            chosen++;
+        }
+    });
+
+    $('#tags-search').bind('keypress',(event)=>{ //搜索框选择
+        if (event.keyCode == "13") {
+            event.preventDefault();
+            //回车执行
+            tags.forEach(e=>{
+                if(e.innerHTML == $('#tags-search').val()){ //有标签
+                    chosenTags.push(e);
+                    $('.choose-box a:first-child').before(`<a class="chosen-tag">${e.innerHTML}<span>×</span></a>`);
+                    addRemove(e);
+                    hasTag = true;
+                }
+            });
+            if(!hasTag && chosen < 5){ //没有标签，需要创建
+                let tag = document.createElement('a');
+                tag.classList.add('chosen');
+                tag.innerHTML = $('#tags-search').val();
+                let span = document.createElement('span');
+                span.classList.add('tags-item');
+                span.appendChild(tag)
+                document.getElementsByClassName('tags-box-body')[0].appendChild(span);
+                tags.push(tag);
+                chosenTags.push(tag);
+                $('.choose-box a:first-child').before(`<a class="chosen-tag">${tag.innerHTML}<span>×</span></a>`);
+                addRemove(e);
+                chosen++;
+            }
+        }
     });
 </script>
 {%endblock%}

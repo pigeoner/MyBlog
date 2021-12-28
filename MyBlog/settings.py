@@ -140,7 +140,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MDEDITOR_CONFIGS = {
     'default': {
-        'width': '90% ',  # Custom edit box width  宽度，整个页面的百分之多少
+        'width': '100% ',  # Custom edit box width  宽度，整个页面的百分之多少
         'height': 500,  # Custom edit box height   高度，单位为px
         'toolbar': ["undo", "redo", "|",
                     "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
@@ -148,8 +148,8 @@ MDEDITOR_CONFIGS = {
                     "list-ul", "list-ol", "hr", "|",
                     "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime",
                     "emoji", "html-entities", "pagebreak", "goto-line", "|",
-                    "help", "info",
-                    "|", "preview", "watch", "fullscreen"],  # custom edit box toolbar   工具栏
+                    "help", "info", "|",
+                    "preview", "watch", "fullscreen"],  # custom edit box toolbar   工具栏
         # image upload format type  允许上传的图片 的格式，不在这个里面的格式将不允许被上传
         'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         # image save the folder name   上传图片后存放的目录，BASE_DIR/MEDIA_ROOT/editor
