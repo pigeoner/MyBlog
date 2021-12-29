@@ -84,21 +84,33 @@ def edit(request):
     return render(request,'../templates/blog/edit.html', context)
 
 def add(request):
-    def user_directory_path(instance, filename):
+    def user_directory_path(user, filename):
+        # 设置图片名字
         ext = filename.split('.').pop()
         filename = '{0}.{1}'.format(
-            'cover/post_'+str(instance.user)+'_'+str(int(time.time())), ext)
+            './media/cover/post_'+str(user)+'_'+str(int(time.time())), ext)
         return filename
+    
+    def base64_to_img(bstr, file_path):
+        # base64字符串转图片
+        imgdata = base64.b64decode(bstr)
+        file = open(file_path, 'wb')
+        file.write(imgdata)
+        file.close()
+    
     user = UserProfile.objects.get(id=request.user.id)
     body = request.POST.get('body')
     category = request.POST.get('category')
     category = Category.objects.get(name=category)
     tags = request.POST.get('tags')
     tags = Tag.objects.filter(name=tags)
-    cover = request.POST.get('cover')
-    print(type(cover))
-    # post = Article.objects.create(user=user, title='123', category=category, body=body, img='cover/Django.jpg')
-    # post.tags.set(tags) # 设置多对多的tags
+    coverName = request.POST.get('coverName')
+    coverName = user_directory_path(user, coverName)
+    coverContent = request.POST.get('coverContent')
+    base64_to_img(coverContent, coverName) # 保存图片
+    img = 'cover/' + coverName.split('/')[-1]
+    post = Article.objects.create(user=user, title='123', category=category, body=body, img=img)
+    post.tags.set(tags) # 设置多对多的tags
     return JsonResponse({'code': 1, 'msg': 'success'})
 
 

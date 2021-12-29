@@ -213,37 +213,35 @@
             let fileContent = document.getElementById('chouba').files[0];
             var reader = new FileReader();
             //将文件以Data URL形式读入页面 
-            reader.readAsBinaryString(fileContent);
+            reader.readAsDataURL(fileContent);
             let result = null;
             reader.onload = e=>{
-                result = this.result; 
-                console.log(result)
-            }
-            $.ajaxSetup({
-                data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
-            });
-            $.ajax({
-                url:"{% url 'blog:add' %}",
-                type:'POST',
-                dataType: "json",
-                data: { 
-                    "body": $('#id_content').val(),
-                    "title": $('#title').val(),
-                    "tags": _chosenTags,
-                    "category": $('.category>a.active').text(),
-                    "cover": {
-                        "fileName": $('#chouba').val().split('\\').pop(),
-                        "fileContent": result,
+                $.ajaxSetup({
+                    data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+                });
+                $.ajax({
+                    url:"{% url 'blog:add' %}",
+                    type:'POST',
+                    dataType: "json",
+                    data: { 
+                        "body": $('#id_content').val(),
+                        "title": $('#title').val(),
+                        "tags": _chosenTags,
+                        "category": $('.category>a.active').text(),
+                        "coverName": $('#chouba').val().split('\\').pop(),
+                        "coverContent": e.target.result,
                     },
-                },
-                success:function(res){
-                    alert('ok');
-                    window.location.href = 'http://123.57.231.224:8009';
-                },
-                error: function(ree) { 
-                    console.error(ree.status,ree.responseText);
-                }
-        })
+                    success:function(res){
+                        alert('ok');
+                        window.location.href = 'http://123.57.231.224:8009';
+                    },
+                    error: function(ree) { 
+                        console.error(ree.status,ree.responseText);
+                    }
+                });
+                console.log(e.target.result)
+            }
+            
     });
 </script>
 {%endblock%}
