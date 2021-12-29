@@ -71,7 +71,7 @@
         color: #fff;
         background-color: #4f9ad3;
     }
-    .choose-box>a.chosen-tag{
+    .choose-box>a.chosen-tag,a.add-chosen-tag{
         position: relative;
         margin: 0 10px 0 0;
         padding: 5px 2px 5px 15px;
@@ -80,7 +80,7 @@
         background-color: rgba(38,125,204,.05);
         /* pointer-events: none; */
     }
-    .choose-box>a.chosen-tag>span{
+    .choose-box>a.chosen-tag>span,a.add-chosen-tag>span{
         cursor: pointer;
         margin: 8px;
     }
@@ -268,40 +268,59 @@
     $('.tags-item a').each((index,element)=>{
         tags[index]=element;
     });
-    function addRemove(node) {
-        $('.chosen-tag>span').click(()=>{
-            node.classList.remove('chosen');
-            let tagName = event.target.parentNode.innerText;
-            tagName = tagName.slice(0,tagName.length-1);
-            chosenTags.forEach((item, index, arr) => {
-                if(item.innerText === tagName) {
-                    arr.splice(index, 1);
-                }
-            });
-            event.target.parentNode.remove();
-        });
+
+    function addTag(val){
+        let newChosenTag = $(`<a class="chosen-tag">${val}</a>`);
+        let newDeleteTag = $(`<span class="delete-tag" onclick="tagRemove.call(this)">×</span>`);
+        newChosenTag.append(newDeleteTag);
+        $('.choose-box').prepend(newChosenTag);
     }
+
+    function tagRemove(){
+        $(this).parent().remove();
+        let tagName = $(this).parent().text();
+        tagName = tagName.slice(0,tagName.length-1);
+        let ch = $(".tags-item a.chosen");
+        for(let i = 0; i < ch.length; i++)
+            if (ch[i].innerText == tagName)
+                ch[i].classList.remove('chosen');
+        chosenTags.forEach((item, index, arr) => {
+            if(item.innerText === tagName)
+                arr.splice(index, 1);
+        });
+        chosen--;
+    }
+
     $(".tags-item a").click(()=>{ //点击选择
         let aClass = event.target.classList;
         if(chosen < 5 && !aClass.contains('chosen')){
             aClass.add('chosen');
             chosenTags.push(event.target);
-            $('.choose-box a:first-child').before(`<a class="chosen-tag">${event.target.innerHTML}<span>×</span></a>`);
-            addRemove(event.target);
+            addTag(event.target.innerHTML);
             chosen++;
         }
     });
 
     $('#tags-search').bind('keypress',(event)=>{ //搜索框选择
+        let hasChosen = val=>{
+            let hasChoseIt = false;
+            chosenTags.forEach(e => {
+                if(e.innerHTML == val){
+                    hasChoseIt = true;
+                }
+            });
+            return hasChoseIt;
+        }
         if (event.keyCode == "13") {
             event.preventDefault();
             //回车执行
             tags.forEach(e=>{
-                if(e.innerHTML == $('#tags-search').val()){ //有标签
+                if(e.innerHTML == $('#tags-search').val() && !hasChosen($('#tags-search').val())){ //有标签
+                    e.classList.add('chosen');
                     chosenTags.push(e);
-                    $('.choose-box a:first-child').before(`<a class="chosen-tag">${e.innerHTML}<span>×</span></a>`);
-                    addRemove(e);
+                    addTag(e.innerHTML);
                     hasTag = true;
+                    chosen++;
                 }
             });
             if(!hasTag && chosen < 5){ //没有标签，需要创建
@@ -310,15 +329,18 @@
                 tag.innerHTML = $('#tags-search').val();
                 let span = document.createElement('span');
                 span.classList.add('tags-item');
-                span.appendChild(tag)
-                document.getElementsByClassName('tags-box-body')[0].appendChild(span);
+                span.appendChild(tag);
+                let appendSpan = document.getElementsByClassName('tags-box-body')[0].appendChild(span);
                 tags.push(tag);
                 chosenTags.push(tag);
-                $('.choose-box a:first-child').before(`<a class="chosen-tag">${tag.innerHTML}<span>×</span></a>`);
-                addRemove(e);
+                addTag(tag.innerHTML);
                 chosen++;
             }
         }
     });
+
+    $('.delete-tag').on('change','click',()=>{
+        console.log('live');
+    })
 </script>
 {%endblock%}
