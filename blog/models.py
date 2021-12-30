@@ -53,12 +53,20 @@ class Article(models.Model):
     excerpt = models.TextField(
         '摘要', max_length=200, blank=True, editable=False)
     category = models.ForeignKey(
-        Category, on_delete=models.DO_NOTHING, verbose_name='分类', blank=True, null=True)
+        Category, on_delete=models.DO_NOTHING, verbose_name='分类', 
+        null=False, default=5  # 默认为“其他”
+    )
     # 使用外键关联分类表与分类是一对多关系
-    tags = models.ManyToManyField(Tag, verbose_name='标签', blank=True)
+    tags = models.ManyToManyField(
+        Tag, verbose_name='标签', 
+        null=False, default=15  # 默认为“其他”
+    )
     # 使用外键关联标签表与标签是多对多关系
-    img = models.ImageField(upload_to=user_directory_path,
-                            verbose_name='文章图片', blank=True, null=True)
+    img = models.ImageField(
+        upload_to=user_directory_path,
+        verbose_name='文章图片', 
+        blank=True, null=False, default='cover/Django.jpg'
+    )
     # body = RichTextField('内容', width=800, height=500,
     #                      toolbars="full", imagePath="upimg/", filePath="upfile/",
     #                      upload_settings={"imageMaxSize": 1204000},

@@ -80,6 +80,7 @@
     });
 
     let tags = new Array();
+    let newTags = new Array();
     let chosenTags = new Array();
     let hasTag = false;
     let chosen = 0;
@@ -169,6 +170,7 @@
                 span.appendChild(tag);
                 let appendSpan = document.getElementsByClassName('tags-box-body')[0].appendChild(span);
                 tags.push(tag);
+                newTags.push(tag.innerHTML);
                 chosenTags.push(tag);
 
                 let newChosenTag = $(`<a class="chosen-tag">${$('#tags-search').val()}</a>`);
@@ -228,6 +230,7 @@
                         "body": $('#id_content').val(),
                         "title": $('#title').val(),
                         "tags": _chosenTags,
+                        "newTags": newTags,
                         "category": $('.category>a.active').text(),
                         "coverName": $('#chouba').val().split('\\').pop(),
                         "coverContent": e.target.result,
