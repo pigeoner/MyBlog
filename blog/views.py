@@ -97,19 +97,21 @@ def add(request):
         file = open(file_path, 'wb')
         file.write(imgdata)
         file.close()
+        return file
     
     user = UserProfile.objects.get(id=request.user.id)
+    title = request.POST.get('title')
     body = request.POST.get('body')
     category = request.POST.get('category')
     category = Category.objects.get(name=category)
-    tags = request.POST.get('tags')
-    tags = Tag.objects.filter(name=tags)
+    tags = request.POST.getlist('tags')
+    tags = Tag.objects.filter(name__in=tags)
     coverName = request.POST.get('coverName')
     coverName = user_directory_path(user, coverName)
     coverContent = request.POST.get('coverContent')
     base64_to_img(coverContent, coverName) # 保存图片
     img = 'cover/' + coverName.split('/')[-1]
-    post = Article.objects.create(user=user, title='123', category=category, body=body, img=img)
+    post = Article.objects.create(user=user, title=title, category=category, body=body, img=img)
     post.tags.set(tags) # 设置多对多的tags
     return JsonResponse({'code': 1, 'msg': 'success'})
 

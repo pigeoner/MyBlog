@@ -222,6 +222,7 @@
                 $.ajax({
                     url:"{% url 'blog:add' %}",
                     type:'POST',
+                    traditional: true,
                     dataType: "json",
                     data: { 
                         "body": $('#id_content').val(),
@@ -239,7 +240,6 @@
                         console.error(ree.status,ree.responseText);
                     }
                 });
-                console.log(e.target.result)
             }
             
     });
