@@ -372,12 +372,16 @@
                 },
                 type: "POST",
                 success: function(res,status,xhr) {
-                    window.location.reload();
-                    // signShow();
-                    // $("#login").hide();
-                    // $("#user-nick-name").text(res["userInfo"]["nick_name"]);
-                    // $("#user-avatar img").attr("src", "/media/" + res["userInfo"]["image"]);
-                    // $("#user").show();
+                    if (res.code == 0){
+                        $('.login-error>h4').show();
+                        $('#sign-container').height(370);
+                        $("#edtUserName").val('');
+                        $("#edtPassWord").val('');
+                        $("#savedate").val('');
+                    }
+                    else if(res.code == 1){
+                        window.location.reload();
+                    }
                 },
                 error: function(ree) { 
                     console.error(ree.status,ree.responseText);

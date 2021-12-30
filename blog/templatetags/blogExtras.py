@@ -44,13 +44,13 @@ def get_sidebar_list():
 @register.simple_tag
 def get_new_post():
     # 获取最新文章
-    return Article.objects.order_by('-created_time')[:8]
+    return Article.objects.order_by('-created_time')[:5]
 
 
 @register.simple_tag
 def get_hot_post():
     # 获取热门文章
-    return Article.objects.order_by('-views')[:5]
+    return Article.objects.order_by('-views')[:8]
 
 
 @register.simple_tag

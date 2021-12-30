@@ -148,6 +148,7 @@ footer .box{
     perspective: 500px;
     transform: rotateX(-20deg) translateZ(200px) translateY(20%);
     transition: all 0.3s;
+    transition: height 0s;
 }
 .sign-tips {
     position: absolute;
@@ -398,7 +399,7 @@ input {
     border-radius:50%;
     vertical-align: middle;
     transition: all .3s;
-    z-index: 10;
+    z-index: 20;
 }
 #header-user-nick-name{
     margin: 0 0 10px 0;
@@ -425,7 +426,7 @@ input {
     box-sizing: border-box;
     border: 1px solid #DDD;
     border-top: 0;
-    z-index: 9;
+    z-index: 19;
 }
 .ins a {
     display: block;
