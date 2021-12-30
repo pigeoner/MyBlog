@@ -12,7 +12,7 @@ from django.forms.models import model_to_dict
 from django.forms import Form
 from django.core.serializers import serialize
 from django.db.models import F  # 利用F来做自加1操作
-from django.core.files import File
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import time, os, json, re, io
 import hashlib, base64
@@ -86,16 +86,13 @@ def add(request):
         # 设置图片名字
         ext = filename.split('.').pop()
         filename = '{0}.{1}'.format(
-            './media/cover/post_'+str(user)+'_'+str(int(time.time())), ext)
+            'cover/post_'+str(user)+'_'+str(int(time.time())), ext)
         return filename
     
     def base64_to_img(bstr, file_path):
-        # base64字符串转图片
-        imgData = base64.b64decode(bstr)
-        with open(file_path, 'wb') as f:
-            f.write(imgData)
-        imgIo = io.BytesIO(imgData)
-        return File(imgIo)
+        imgdata = base64.b64decode(bstr)
+        with open('./media/'+file_path, 'wb') as f:
+            f.write(imgdata)
     
     user = UserProfile.objects.get(id=request.user.id)
     title = request.POST.get('title')
@@ -106,10 +103,9 @@ def add(request):
     tags = Tag.objects.filter(name__in=tags)
     coverName = request.POST.get('coverName')
     coverName = user_directory_path(user, coverName)
-    coverContent = request.POST.get('coverContent')
-    # base64_to_img(coverContent, coverName) # 保存图片
-    img = 'cover/' + coverName.split('/')[-1]
-    post = Article.objects.create(user=user, title=title, category=category, body=body, img=base64_to_img(coverContent, coverName))
+    coverContent = request.POST.get('coverContent').split('base64,',1)[1]
+    base64_to_img(coverContent, coverName) # 保存图片
+    post = Article.objects.create(user=user, title=title, category=category, body=body, img=coverName)
     post.tags.set(tags) # 设置多对多的tags
     return JsonResponse({'code': 1, 'msg': 'success'})
 
@@ -120,6 +116,13 @@ def upload(request):
 
 def dealfile(request):
     myfile = request.FILES.get('pic')
+    print(myfile.file)
+    print(myfile.field_name)
+    print(myfile.name)
+    print(myfile.content_type)
+    print(myfile.size)
+    print(myfile.charset)
+    print(myfile.content_type_extra)
     if not myfile:
         return HttpResponse(
             '''

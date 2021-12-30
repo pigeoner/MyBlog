@@ -163,7 +163,6 @@ input:-ms-input-placeholder,textarea:-ms-input-placeholder{
     padding: 30px 60px;
     color:#333;
     background-color: #fff;
-    margin-bottom:150px;
 }
 .chuans{
     display: inline-block;
@@ -226,4 +225,20 @@ input.uploadImg{
     border-radius: 50%;
     z-index: 1000;
     cursor: pointer;
+}
+#submit{
+    height: 40px;
+    margin: 40px 0 0 0;
+    padding: 8px 34px;
+    font-size: 16px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    white-space: nowrap;
+    background: #29b8f0;
+    cursor: pointer;
+    transition: all .2s;
+}
+#submit:hover{
+    background-color: #39c8eb;
 }

@@ -54,7 +54,7 @@
             <i class="img-plus">+</i>
         </span>
     </div>
-    <button id="submit">submit</button>
+    <button id="submit">提交</button>
 </div>
 {% endblock %}
 
@@ -210,7 +210,7 @@
             chosenTags.forEach((item, index, arr)=>{
                 _chosenTags.push(item.innerText);
             });
-            let fileContent = document.getElementById('chouba').files[0];
+            let fileContent = $('#chouba')[0].files[0];
             var reader = new FileReader();
             //将文件以Data URL形式读入页面
             reader.readAsDataURL(fileContent);
@@ -234,7 +234,8 @@
                     },
                     success:function(res){
                         alert('ok');
-                        window.location.href = 'http://123.57.231.224:8009';
+                        // window.location.href = 'http://123.57.231.224:8009';
+                        console.log(e.target.result);
                     },
                     error: function(ree) { 
                         console.error(ree.status,ree.responseText);
