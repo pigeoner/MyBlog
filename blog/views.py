@@ -12,13 +12,11 @@ from django.forms.models import model_to_dict
 from django.forms import Form
 from django.core.serializers import serialize
 from django.db.models import F  # 利用F来做自加1操作
+from django.core.files import File
 
-import time
-import os
-import json
-import hashlib
+import time, os, json, re, io
+import hashlib, base64
 from urllib import parse
-import base64
 
 from blog.models import Article, SideBar, Tag, Category, ArticlePraise, ArticleStar, Follow, Fans
 
@@ -93,11 +91,11 @@ def add(request):
     
     def base64_to_img(bstr, file_path):
         # base64字符串转图片
-        imgdata = base64.b64decode(bstr)
-        file = open(file_path, 'wb')
-        file.write(imgdata)
-        file.close()
-        return file
+        imgData = base64.b64decode(bstr)
+        with open(file_path, 'wb') as f:
+            f.write(imgData)
+        imgIo = io.BytesIO(imgData)
+        return File(imgIo)
     
     user = UserProfile.objects.get(id=request.user.id)
     title = request.POST.get('title')
@@ -109,9 +107,9 @@ def add(request):
     coverName = request.POST.get('coverName')
     coverName = user_directory_path(user, coverName)
     coverContent = request.POST.get('coverContent')
-    base64_to_img(coverContent, coverName) # 保存图片
+    # base64_to_img(coverContent, coverName) # 保存图片
     img = 'cover/' + coverName.split('/')[-1]
-    post = Article.objects.create(user=user, title=title, category=category, body=body, img=img)
+    post = Article.objects.create(user=user, title=title, category=category, body=body, img=base64_to_img(coverContent, coverName))
     post.tags.set(tags) # 设置多对多的tags
     return JsonResponse({'code': 1, 'msg': 'success'})
 

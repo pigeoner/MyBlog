@@ -212,7 +212,7 @@
             });
             let fileContent = document.getElementById('chouba').files[0];
             var reader = new FileReader();
-            //将文件以Data URL形式读入页面 
+            //将文件以Data URL形式读入页面
             reader.readAsDataURL(fileContent);
             let result = null;
             reader.onload = e=>{
