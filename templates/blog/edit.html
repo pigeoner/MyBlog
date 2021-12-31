@@ -18,7 +18,7 @@
         {% endfor %}
         <span class="hint">
             <svg data-v-3ea57bda="" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="200" height="200" class="hint-icon"><defs data-v-3ea57bda=""></defs><path data-v-3ea57bda="" d="M512.875 938.475c-235.435 0-426.262-190.848-426.262-426.262 0-235.434 190.848-426.261 426.262-426.261S939.136 276.8 939.136 512.213c-.021 235.414-190.848 426.262-426.261 426.262zm0-85.248c188.352 0 341.013-152.683 341.013-341.014 0-188.352-152.661-341.013-341.013-341.013S171.86 323.861 171.86 512.213c0 188.331 152.662 341.014 341.014 341.014zm-42.646-511.531a42.624 42.624 0 1185.291 0v204.587a42.667 42.667 0 01-85.29 0V341.696zm42.646 383.637a42.667 42.667 0 11.042-85.29 42.667 42.667 0 01-.042 85.29z"></path></svg>
-            默认为其他
+            默认为『其他』
         </span>
     </div>
     
@@ -221,8 +221,22 @@
         $('.delete-img').removeAttr('id');
     }
 
+    function getImgContent(fileContent){
+        return new Promise((resolve,reject)=>{
+            try{
+                let reader = new FileReader();
+                //将文件以Data URL形式读入页面
+                reader.readAsDataURL(fileContent);
+                reader.onload = e=>{
+                    resolve(e.target.result);
+                }
+            }catch(e){
+                resolve(null);
+            }
+        })
+    }
     $('#submit').click(
-        ()=>{
+        async ()=>{
             if(!$('#title').val()){
                 alert('标题不能为空');
             }else if(!$('#id_content').val()){
@@ -234,38 +248,34 @@
                 chosenTags.forEach((item, index, arr)=>{
                     _chosenTags.push(item.innerText);
                 });
+                
                 let fileContent = $('#chouba')[0].files[0];
-                var reader = new FileReader();
-                //将文件以Data URL形式读入页面
-                reader.readAsDataURL(fileContent);
-                reader.onload = e=>{
-                    $.ajaxSetup({
-                        data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
-                    });
-                    $.ajax({
-                        url:"{% url 'blog:add' %}",
-                        type:'POST',
-                        traditional: true,
-                        dataType: "json",
-                        data: { 
-                            "body": $('#id_content').val(),
-                            "title": $('#title').val(),
-                            "tags": _chosenTags,
-                            "newTags": newTags,
-                            "category": $('.category>a.active').text(),
-                            "coverName": $('#chouba').val().split('\\').pop(),
-                            "coverContent": e.target.result,
-                        },
-                        success:function(res){
-                            alert('ok');
-                            // window.location.href = 'http://123.57.231.224:8009';
-                            console.log(e.target.result);
-                        },
-                        error: function(ree) { 
-                            console.error(ree.status,ree.responseText);
-                        }
-                    });
-                }
+                let imgContent = await getImgContent();
+                $.ajaxSetup({
+                    data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+                });
+                $.ajax({
+                    url:"{% url 'blog:add' %}",
+                    type:'POST',
+                    traditional: true,
+                    dataType: "json",
+                    data: { 
+                        "body": $('#id_content').val(),
+                        "title": $('#title').val(),
+                        "tags": _chosenTags,
+                        "newTags": newTags,
+                        "category": $('.category>a.active').text(),
+                        "coverName": $('#chouba').val().split('\\').pop(),
+                        "coverContent": imgContent,
+                    },
+                    success:function(res){
+                        alert('ok');
+                        // window.location.href = 'http://123.57.231.224:8009';
+                    },
+                    error: function(ree) { 
+                        console.error(ree.status,ree.responseText);
+                    }
+                });
             }
     });
 </script>

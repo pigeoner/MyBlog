@@ -83,6 +83,8 @@ def edit(request):
 
 def add(request):
     def user_directory_path(user, filename):
+        if not filename:
+            return 'cover/default.jpg'
         # 设置图片名字
         ext = filename.split('.').pop()
         filename = '{0}.{1}'.format(
@@ -90,6 +92,8 @@ def add(request):
         return filename
     
     def base64_to_img(bstr, file_path):
+        if not bstr:
+            return
         imgdata = base64.b64decode(bstr)
         with open('./media/'+file_path, 'wb') as f:
             f.write(imgdata)
@@ -101,8 +105,7 @@ def add(request):
     body = request.POST.get('body')
 
     category = request.POST.get('category')
-    category = Category.objects.get(name=category)
-    category = '其他' if not category else category
+    category = Category.objects.get(id=5) if not category else Category.objects.get(name=category)
 
     newTags = request.POST.getlist('newTags')
     for t in newTags:
@@ -111,14 +114,13 @@ def add(request):
     tags = Tag.objects.filter(name__in=tags)
 
     coverName = request.POST.get('coverName')
-    coverName = 'default.jpg' if coverName else coverName
     coverName = user_directory_path(user, coverName)
-    coverContent = request.POST.get('coverContent').split('base64,',1)[1]
+    coverContent = request.POST.get('coverContent')
+    coverContent = None if not coverContent else coverContent.split('base64,',1)[1]
     base64_to_img(coverContent, coverName) # 保存图片
-    print(coverName)
 
-    # post = Article.objects.create(user=user, title=title, category=category, body=body, img=coverName)
-    # post.tags.set(tags) # 设置多对多的tags
+    post = Article.objects.create(user=user, title=title, category=category, body=body, img=coverName)
+    post.tags.set(tags) # 设置多对多的tags
     return JsonResponse({'code': 1, 'msg': 'success'})
 
 

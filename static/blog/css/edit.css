@@ -246,8 +246,11 @@ input.uploadImg{
 .bottom>#return{
     border: 1px solid #ddd;
     background-color: #fff;
-    color: #000;
+    color: #888;
     padding: 8px 24px;
+}
+.bottom>#return:hover{
+    color: #666;
 }
 .hint{
     color: rgb(182, 182, 182);
