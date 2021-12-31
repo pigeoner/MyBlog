@@ -328,12 +328,13 @@ article:hover{
     margin:0 3px;
     width:35px;
     height:35px;
+    border: 1px solid #aaa;
     border-radius: 5px;
     border-collapse:collapse;
     line-height:35px;
     background-color:#fff;
 }
-.pagination li a:hover{
+.pagination li:not(.disabled):hover{
     background-color:#0fad79;
 }
 .pagination li.active{

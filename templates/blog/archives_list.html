@@ -4,12 +4,25 @@
 
 {% block content %}
     <!-- 显示当前分类模块 -->
-    <div class="box">
-        每月归档：{{ year }}年{{ month }}月
+    <div class="box" style="margin: 30px 0px 0px 0px;">
+        <div>
+          <span>
+            每月归档：{{ year }}年{{ month }}月
+          </span>
+        </div>
         <div class="tags has-addons is-pulled-right">
           <span class="tag">共</span>
           <span class="tag is-primary">{{ post_list.count }} 篇</span>
         </div>
+    </div>
+    <div class="article">
+      <ul>
+      {% for post in post_list %}
+      <li>
+        <a href="{% url 'blog:detail' post.id %}">{{post.title}}</a>
+      </li>
+      {% endfor %}
+      </ul>
     </div>
     <!-- 显示当前分类模块 end-->
 {% endblock  %}

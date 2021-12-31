@@ -11,7 +11,8 @@
 }
 body{
     background-color: #f6f6f6;
-    background-image: url("/static/blog/img/earth2.jpg");
+    /* background-image: url("/static/blog/img/earth2.jpg"); */
+    background-image: url("/static/blog/img/dm-bg18.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100%;
@@ -27,7 +28,8 @@ li{
 .header{
     text-align: center;
     height: 60px;
-    background-color: #1b1b1b;
+    /* background-color: #1b1b1b; */
+    background-color: rgba(7, 0, 0, 0.336);
     box-shadow: 0 0px 1px 0.5px rgba(131, 131, 131, 0.418);
 }
 .header-box{
@@ -345,6 +347,22 @@ input {
     padding-left: 4px;
     outline: 0!important;
     transition: .2s ease-out;
+}
+#search-box>input:first-child::-webkit-input-placeholder, 
+textarea::-webkit-input-placeholder {
+    color: #fff;
+}
+#search-box>input:-moz-placeholder, 
+textarea:-moz-placeholder {
+    color: #fff;
+}
+#search-box>input::-moz-placeholder, 
+textarea::-moz-placeholder {
+    color: #fff;
+}
+#search-box>input:-ms-input-placeholder, 
+textarea:-ms-input-placeholder {
+    color: #fff;
 }
 #search-box button{
     background: 0 0;
