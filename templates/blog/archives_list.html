@@ -1,24 +1,26 @@
-{%extends "base.html"%}
+{%extends "blog/index.html"%}
+{% load static %}
 
 {% block title %} {{ year }}{{ month }}的归档{% endblock %}
+{% block bhead %}
+<link rel="stylesheet" href="{% static '/blog/css/archives_list.css' %}">
+{% endblock %}
 
-{% block content %}
+{% block article %}
     <!-- 显示当前分类模块 -->
-    <div class="box" style="margin: 30px 0px 0px 0px;">
-        <div>
-          <span>
-            每月归档：{{ year }}年{{ month }}月
-          </span>
-        </div>
-        <div class="tags has-addons is-pulled-right">
-          <span class="tag">共</span>
-          <span class="tag is-primary">{{ post_list.count }} 篇</span>
-        </div>
+    <div class="archives-box clearfix">
+        <span class="month">
+            {{ year }}年{{ month }}月
+        </span>
+        <span class="post-num">
+          共{{ post_list.count }} 篇
+        </span>
     </div>
-    <div class="article">
+    <div class="article clearfix">
       <ul>
       {% for post in post_list %}
       <li>
+        <div class="left-arrow"></div>
         <a href="{% url 'blog:detail' post.id %}">{{post.title}}</a>
       </li>
       {% endfor %}

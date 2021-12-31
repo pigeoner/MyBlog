@@ -2,6 +2,8 @@
 {% load static %}
 {% block head %}
 <link rel="stylesheet" href="{% static '/blog/css/index.css' %}">
+{% block bhead %}
+{% endblock %}
 {% endblock %}
 
 {% block content %}
@@ -112,6 +114,7 @@
         {% endblock %}
     </div>
     <div class="content-right">
+        {% block right %}
         <aside>
             <div class="widget widget-self-info">
                 <div class="right-bgi">
@@ -183,6 +186,7 @@
                 <a href=""><span class="ion-social-rss-outline"></span> RSS 订阅</a>
             </div> -->
         </aside>
+        {% endblock %}
     </div>
 {% endblock %}
 
