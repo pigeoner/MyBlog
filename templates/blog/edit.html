@@ -16,6 +16,10 @@
         {% for op in category %}
         <a>{{op}}</a>
         {% endfor %}
+        <span class="hint">
+            <svg data-v-3ea57bda="" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="200" height="200" class="hint-icon"><defs data-v-3ea57bda=""></defs><path data-v-3ea57bda="" d="M512.875 938.475c-235.435 0-426.262-190.848-426.262-426.262 0-235.434 190.848-426.261 426.262-426.261S939.136 276.8 939.136 512.213c-.021 235.414-190.848 426.262-426.261 426.262zm0-85.248c188.352 0 341.013-152.683 341.013-341.014 0-188.352-152.661-341.013-341.013-341.013S171.86 323.861 171.86 512.213c0 188.331 152.662 341.014 341.014 341.014zm-42.646-511.531a42.624 42.624 0 1185.291 0v204.587a42.667 42.667 0 01-85.29 0V341.696zm42.646 383.637a42.667 42.667 0 11.042-85.29 42.667 42.667 0 01-.042 85.29z"></path></svg>
+            默认为其他
+        </span>
     </div>
     
     <div class="choose tags">
@@ -53,6 +57,11 @@
             <input class="uploadImg" type="file" id="chouba" onchange="showImg(this)"/>
             <i class="img-plus">+</i>
         </span>
+        <div class="hint hint-cover">
+            <svg data-v-3ea57bda="" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" width="200" height="200" class="hint-icon"><defs data-v-3ea57bda=""></defs><path data-v-3ea57bda="" d="M512.875 938.475c-235.435 0-426.262-190.848-426.262-426.262 0-235.434 190.848-426.261 426.262-426.261S939.136 276.8 939.136 512.213c-.021 235.414-190.848 426.262-426.261 426.262zm0-85.248c188.352 0 341.013-152.683 341.013-341.014 0-188.352-152.661-341.013-341.013-341.013S171.86 323.861 171.86 512.213c0 188.331 152.662 341.014 341.014 341.014zm-42.646-511.531a42.624 42.624 0 1185.291 0v204.587a42.667 42.667 0 01-85.29 0V341.696zm42.646 383.637a42.667 42.667 0 11.042-85.29 42.667 42.667 0 01-.042 85.29z"></path></svg>
+            不选择将使用默认封面
+            <br>
+        </div>
     </div>
     <div class="bottom">
         <button id="return" onclick="location.href='javascript:history.go(-1)'">
@@ -214,44 +223,50 @@
 
     $('#submit').click(
         ()=>{
-            let _chosenTags = new Array();
-            chosenTags.forEach((item, index, arr)=>{
-                _chosenTags.push(item.innerText);
-            });
-            let fileContent = $('#chouba')[0].files[0];
-            var reader = new FileReader();
-            //将文件以Data URL形式读入页面
-            reader.readAsDataURL(fileContent);
-            let result = null;
-            reader.onload = e=>{
-                $.ajaxSetup({
-                    data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+            if(!$('#title').val()){
+                alert('标题不能为空');
+            }else if(!$('#id_content').val()){
+                alert('内容不能为空');
+            }else if(!chosenTags || !chosenTags.length){
+                alert('标签必选');
+            }else{
+                let _chosenTags = new Array();
+                chosenTags.forEach((item, index, arr)=>{
+                    _chosenTags.push(item.innerText);
                 });
-                $.ajax({
-                    url:"{% url 'blog:add' %}",
-                    type:'POST',
-                    traditional: true,
-                    dataType: "json",
-                    data: { 
-                        "body": $('#id_content').val(),
-                        "title": $('#title').val(),
-                        "tags": _chosenTags,
-                        "newTags": newTags,
-                        "category": $('.category>a.active').text(),
-                        "coverName": $('#chouba').val().split('\\').pop(),
-                        "coverContent": e.target.result,
-                    },
-                    success:function(res){
-                        alert('ok');
-                        // window.location.href = 'http://123.57.231.224:8009';
-                        console.log(e.target.result);
-                    },
-                    error: function(ree) { 
-                        console.error(ree.status,ree.responseText);
-                    }
-                });
+                let fileContent = $('#chouba')[0].files[0];
+                var reader = new FileReader();
+                //将文件以Data URL形式读入页面
+                reader.readAsDataURL(fileContent);
+                reader.onload = e=>{
+                    $.ajaxSetup({
+                        data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+                    });
+                    $.ajax({
+                        url:"{% url 'blog:add' %}",
+                        type:'POST',
+                        traditional: true,
+                        dataType: "json",
+                        data: { 
+                            "body": $('#id_content').val(),
+                            "title": $('#title').val(),
+                            "tags": _chosenTags,
+                            "newTags": newTags,
+                            "category": $('.category>a.active').text(),
+                            "coverName": $('#chouba').val().split('\\').pop(),
+                            "coverContent": e.target.result,
+                        },
+                        success:function(res){
+                            alert('ok');
+                            // window.location.href = 'http://123.57.231.224:8009';
+                            console.log(e.target.result);
+                        },
+                        error: function(ree) { 
+                            console.error(ree.status,ree.responseText);
+                        }
+                    });
+                }
             }
-            
     });
 </script>
 {%endblock%}

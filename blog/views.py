@@ -102,6 +102,7 @@ def add(request):
 
     category = request.POST.get('category')
     category = Category.objects.get(name=category)
+    category = '其他' if not category else category
 
     newTags = request.POST.getlist('newTags')
     for t in newTags:
@@ -110,12 +111,14 @@ def add(request):
     tags = Tag.objects.filter(name__in=tags)
 
     coverName = request.POST.get('coverName')
+    coverName = 'default.jpg' if coverName else coverName
     coverName = user_directory_path(user, coverName)
     coverContent = request.POST.get('coverContent').split('base64,',1)[1]
     base64_to_img(coverContent, coverName) # 保存图片
+    print(coverName)
 
-    post = Article.objects.create(user=user, title=title, category=category, body=body, img=coverName)
-    post.tags.set(tags) # 设置多对多的tags
+    # post = Article.objects.create(user=user, title=title, category=category, body=body, img=coverName)
+    # post.tags.set(tags) # 设置多对多的tags
     return JsonResponse({'code': 1, 'msg': 'success'})
 
 

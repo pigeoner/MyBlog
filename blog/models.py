@@ -49,7 +49,7 @@ def user_directory_path(instance, filename):
 
 
 class Article(models.Model):
-    title = models.CharField('标题', max_length=70)
+    title = models.CharField('标题', max_length=70, null=False, default='无标题')
     excerpt = models.TextField(
         '摘要', max_length=200, blank=True, editable=False)
     category = models.ForeignKey(
@@ -65,7 +65,7 @@ class Article(models.Model):
     img = models.ImageField(
         upload_to=user_directory_path,
         verbose_name='文章图片', 
-        blank=True, null=False, default='cover/Django.jpg'
+        blank=True, null=False, default='cover/default.jpg'
     )
     # body = RichTextField('内容', width=800, height=500,
     #                      toolbars="full", imagePath="upimg/", filePath="upfile/",

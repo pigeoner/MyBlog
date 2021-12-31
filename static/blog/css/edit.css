@@ -171,7 +171,7 @@ input:-ms-input-placeholder,textarea:-ms-input-placeholder{
     height:125px;
     border-radius: 3px;
     border:1px dashed #ccc;
-    margin-right: 44px;
+    margin-right: 20px;
     line-height:30px;
 }
 .chuans #cover-img{
@@ -248,4 +248,18 @@ input.uploadImg{
     background-color: #fff;
     color: #000;
     padding: 8px 24px;
+}
+.hint{
+    color: rgb(182, 182, 182);
+    margin: 0 0 0 20px;
+    vertical-align: text-top;
+}
+.hint-icon{
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    fill: rgb(182, 182, 182);
+}
+.hint-cover{
+    margin: 10px 0 0 134px;
 }
