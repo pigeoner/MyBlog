@@ -123,49 +123,6 @@ def add(request):
     post.tags.set(tags) # 设置多对多的tags
     return JsonResponse({'code': 1, 'msg': 'success'})
 
-
-def upload(request):
-    return render(request, '../templates/blog/upload.html')
-
-
-def dealfile(request):
-    myfile = request.FILES.get('pic')
-    print(myfile.file)
-    print(myfile.field_name)
-    print(myfile.name)
-    print(myfile.content_type)
-    print(myfile.size)
-    print(myfile.charset)
-    print(myfile.content_type_extra)
-    if not myfile:
-        return HttpResponse(
-            '''
-            <h3>上传失败！即将返回...</h3>
-            <script>
-                setTimeout("parent.location.href='/'",2000);
-            </script>
-            '''
-        )
-    dirname = './media/images/' + \
-        str(time.localtime().tm_year) + '/' + \
-        str(time.localtime().tm_mon) + '/'
-    if not os.path.exists(dirname):
-        os.makedirs(dirname)
-    filename = dirname + str(time.time()) + '.' + myfile.name.split('.').pop()
-    content = open(filename, 'wb+')
-    for chunk in myfile.chunks():
-        content.write(chunk)
-    content.close()
-    return HttpResponse(
-        '''
-        <h3>上传成功！即将返回...</h3>
-        <script>
-            setTimeout("parent.location.href='/'",2000);
-        </script>
-        '''
-    )
-
-
 def detail(request, id):
     post = Article.objects.get(id=id)
     userId = request.user.id
@@ -237,51 +194,6 @@ def userLogout(request):
         'msg': 'success'
     })
     response.delete_cookie('USER_INFO')
-    return response
-
-
-def toolbarUserInfo(request):
-    user = UserProfile.objects.get(id=request.user.id)
-
-    followCount = 0
-    fansCount = 0
-
-    praiseCount = 0
-    commentsCount = 0
-    starCount = 0
-
-    for post in Article.objects.filter(user=user):
-        praiseCount += post.thumbs_up
-        commentsCount += post.comments
-        starCount += post.star
-
-    # def bigNumDeal(count):
-    #     num = count
-    #     if num > int(1e4):
-    #         if num < int(1e8):
-    #             num = str(int(num / 1e4)) + '.' + \
-    #                 str(int((num % 1e4) / 1000)) + '万'
-    #         else:
-    #             num = str(int(num / 1e8)) + '.' + \
-    #                 str(int((num % 1e8) / 1e7)) + '亿'
-    #     return num
-
-    response = JsonResponse({
-        'code': '1',
-        'msg': 'success',
-        'data': {
-            'uid': user.id,
-            'nickname': user.nick_name,
-            'image': str(user.image),
-            'sign': user.sign,
-            'followCount': followCount,
-            'fansCount': fansCount,
-            'praiseCount': praiseCount,
-            'commentsCount': commentsCount,
-            'starCount': starCount,
-        }
-    })
-
     return response
 
 
