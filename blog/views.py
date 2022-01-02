@@ -144,6 +144,12 @@ def archives(request, year, month):
     context = {'post_list': post_list, 'year': year, 'month': month}
     return render(request, '../templates/blog/archives_list.html', context)
 
+def tag(request, tag):
+    # 标签归档列表页
+    post_list = Article.objects.filter(tags__name=tag)
+    context = {'post_list': post_list, 'tag': tag}
+    return render(request, '../templates/blog/tags_list.html', context)
+
 
 def userLogin(request):
     if request.method == 'POST':   # 判断采用的是何种请求

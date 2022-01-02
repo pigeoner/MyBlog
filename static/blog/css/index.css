@@ -145,6 +145,7 @@
     display:inline-block;
     margin:5px;
     padding:5px;
+    border-radius: 5px;
 }
 .widget-tag-cloud ul li:nth-child(5n+1){
     background-color:#66ccff;

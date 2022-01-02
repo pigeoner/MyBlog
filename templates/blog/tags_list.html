@@ -1,7 +1,7 @@
 {%extends "blog/index.html"%}
 {% load static %}
 
-{% block title %} {{ year }}/{{ month }}的归档{% endblock %}
+{% block title %} {{ tag }}的归档{% endblock %}
 {% block bhead %}
 <link rel="stylesheet" href="{% static '/blog/css/archives_list.css' %}">
 {% endblock %}
