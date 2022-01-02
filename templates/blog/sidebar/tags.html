@@ -1,5 +1,5 @@
 {% load blogExtras %}
 {% total_tags as tags %}
 {% for tag in tags %}
-    <li><a href="#">{{ tag }}</a></li>
+    <li><a href="{% url 'blog:tag' tag.tag_base64 %}">{{ tag }}</a></li>
 {% endfor %}

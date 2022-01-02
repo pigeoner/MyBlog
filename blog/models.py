@@ -10,6 +10,7 @@ from django.template.loader import render_to_string  # 渲染模板
 import markdown
 from django.utils.html import strip_tags
 from django.utils import timezone
+import base64
 
 # Create your models here.
 
@@ -25,6 +26,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def category_base64(self):
+        return base64.b64encode(self.name.encode('utf8')).decode('utf8')
 
 
 # 文章标签
@@ -37,6 +41,9 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+    def tag_base64(self):
+        return base64.b64encode(self.name.encode('utf8')).decode('utf8')
 
 
 def user_directory_path(instance, filename):

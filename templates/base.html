@@ -29,22 +29,23 @@
                 <ul>
                     <li>
                         <a href="{% url 'blog:index' %}">
-                            <i class="fa fa-home"></i>首页
+                            <i class="fa fa-home"></i> 首页
                         </a>
                     </li>
-                    <li>
-                        <a href="{% url 'blog:edit' %}">
-                            <i class="fa fa-edit"></i>博文
+                    <li id="base-category">
+                        <a href="javascript:">
+                            <i class="fa fa-th-list"></i> 分类
                         </a>
+                        <div id="category-list-item"></div>
                     </li>
                     <li>
                         <a href="#">
-                            <i class="fa fa-wrench"></i>小工具
+                            <i class="fa fa-wrench"></i> 小工具
                         </a>
                     </li>
                     <li>
                         <a href="{% url 'blog:about' %}">
-                            <i class="fa fa-mortar-board"></i>关于我
+                            <i class="fa fa-mortar-board"></i> 关于
                         </a>
                     </li>
                 </ul>
@@ -216,199 +217,228 @@
 
     <script type="text/javascript" src="{% static 'blog/js/md5.js'%}"></script>
     <script>
-        var Base64 = {
-            _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-            encode: function(e) {
-                var t = "";
-                var n, r, i, s, o, u, a;
-                var f = 0;
-                e = Base64._utf8_encode(e);
-                while (f < e.length) {
-                    n = e.charCodeAt(f++);
-                    r = e.charCodeAt(f++);
-                    i = e.charCodeAt(f++);
-                    s = n >> 2;
-                    o = (n & 3) << 4 | r >> 4;
-                    u = (r & 15) << 2 | i >> 6;
-                    a = i & 63;
-                    if (isNaN(r)) {
-                        u = a = 64
-                    } else if (isNaN(i)) {
-                        a = 64
+        $(document).ready(function(){
+            var Base64 = {
+                _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+                encode: function(e) {
+                    var t = "";
+                    var n, r, i, s, o, u, a;
+                    var f = 0;
+                    e = Base64._utf8_encode(e);
+                    while (f < e.length) {
+                        n = e.charCodeAt(f++);
+                        r = e.charCodeAt(f++);
+                        i = e.charCodeAt(f++);
+                        s = n >> 2;
+                        o = (n & 3) << 4 | r >> 4;
+                        u = (r & 15) << 2 | i >> 6;
+                        a = i & 63;
+                        if (isNaN(r)) {
+                            u = a = 64
+                        } else if (isNaN(i)) {
+                            a = 64
+                        }
+                        t = t + this._keyStr.charAt(s) + this._keyStr.charAt(o) + this._keyStr.charAt(u) + this._keyStr.charAt(a)
                     }
-                    t = t + this._keyStr.charAt(s) + this._keyStr.charAt(o) + this._keyStr.charAt(u) + this._keyStr.charAt(a)
+                    return t
+                },
+                decode: function(e) {
+                    var t = "";
+                    var n, r, i;
+                    var s, o, u, a;
+                    var f = 0;
+                    e = e.replace(/[^A-Za-z0-9+/=]/g, "");
+                    while (f < e.length) {
+                        s = this._keyStr.indexOf(e.charAt(f++));
+                        o = this._keyStr.indexOf(e.charAt(f++));
+                        u = this._keyStr.indexOf(e.charAt(f++));
+                        a = this._keyStr.indexOf(e.charAt(f++));
+                        n = s << 2 | o >> 4;
+                        r = (o & 15) << 4 | u >> 2;
+                        i = (u & 3) << 6 | a;
+                        t = t + String.fromCharCode(n);
+                        if (u != 64) {
+                            t = t + String.fromCharCode(r)
+                        }
+                        if (a != 64) {
+                            t = t + String.fromCharCode(i)
+                        }
+                    }
+                    t = Base64._utf8_decode(t);
+                    return t
+                },
+                _utf8_encode: function(e) {
+                    e = e.replace(/rn/g, "n");
+                    var t = "";
+                    for (var n = 0; n < e.length; n++) {
+                        var r = e.charCodeAt(n);
+                        if (r < 128) {
+                            t += String.fromCharCode(r)
+                        } else if (r > 127 && r < 2048) {
+                            t += String.fromCharCode(r >> 6 | 192);
+                            t += String.fromCharCode(r & 63 | 128)
+                        } else {
+                            t += String.fromCharCode(r >> 12 | 224);
+                            t += String.fromCharCode(r >> 6 & 63 | 128);
+                            t += String.fromCharCode(r & 63 | 128)
+                        }
+                    }
+                    return t
+                },
+                _utf8_decode: function(e) {
+                    var t = "";
+                    var n = 0;
+                    var r = c1 = c2 = 0;
+                    while (n < e.length) {
+                        r = e.charCodeAt(n);
+                        if (r < 128) {
+                            t += String.fromCharCode(r);
+                            n++
+                        } else if (r > 191 && r < 224) {
+                            c2 = e.charCodeAt(n + 1);
+                            t += String.fromCharCode((r & 31) << 6 | c2 & 63);
+                            n += 2
+                        } else {
+                            c2 = e.charCodeAt(n + 1);
+                            c3 = e.charCodeAt(n + 2);
+                            t += String.fromCharCode((r & 15) << 12 | (c2 & 63) << 6 | c3 & 63);
+                            n += 3
+                        }
+                    }
+                    return t
                 }
-                return t
-            },
-            decode: function(e) {
-                var t = "";
-                var n, r, i;
-                var s, o, u, a;
-                var f = 0;
-                e = e.replace(/[^A-Za-z0-9+/=]/g, "");
-                while (f < e.length) {
-                    s = this._keyStr.indexOf(e.charAt(f++));
-                    o = this._keyStr.indexOf(e.charAt(f++));
-                    u = this._keyStr.indexOf(e.charAt(f++));
-                    a = this._keyStr.indexOf(e.charAt(f++));
-                    n = s << 2 | o >> 4;
-                    r = (o & 15) << 4 | u >> 2;
-                    i = (u & 3) << 6 | a;
-                    t = t + String.fromCharCode(n);
-                    if (u != 64) {
-                        t = t + String.fromCharCode(r)
-                    }
-                    if (a != 64) {
-                        t = t + String.fromCharCode(i)
-                    }
-                }
-                t = Base64._utf8_decode(t);
-                return t
-            },
-            _utf8_encode: function(e) {
-                e = e.replace(/rn/g, "n");
-                var t = "";
-                for (var n = 0; n < e.length; n++) {
-                    var r = e.charCodeAt(n);
-                    if (r < 128) {
-                        t += String.fromCharCode(r)
-                    } else if (r > 127 && r < 2048) {
-                        t += String.fromCharCode(r >> 6 | 192);
-                        t += String.fromCharCode(r & 63 | 128)
-                    } else {
-                        t += String.fromCharCode(r >> 12 | 224);
-                        t += String.fromCharCode(r >> 6 & 63 | 128);
-                        t += String.fromCharCode(r & 63 | 128)
-                    }
-                }
-                return t
-            },
-            _utf8_decode: function(e) {
-                var t = "";
-                var n = 0;
-                var r = c1 = c2 = 0;
-                while (n < e.length) {
-                    r = e.charCodeAt(n);
-                    if (r < 128) {
-                        t += String.fromCharCode(r);
-                        n++
-                    } else if (r > 191 && r < 224) {
-                        c2 = e.charCodeAt(n + 1);
-                        t += String.fromCharCode((r & 31) << 6 | c2 & 63);
-                        n += 2
-                    } else {
-                        c2 = e.charCodeAt(n + 1);
-                        c3 = e.charCodeAt(n + 2);
-                        t += String.fromCharCode((r & 15) << 12 | (c2 & 63) << 6 | c3 & 63);
-                        n += 3
-                    }
-                }
-                return t
             }
-        }
-        function getCookie(cname){
-            var name = cname + "=";
-            var ca = document.cookie.split(';');
-            for(var i=0; i<ca.length; i++) {
-                var c = ca[i].trim();
-                if (c.indexOf(name)==0) { return c.substring(name.length,c.length); }
+            function getCookie(cname){
+                var name = cname + "=";
+                var ca = document.cookie.split(';');
+                for(var i=0; i<ca.length; i++) {
+                    var c = ca[i].trim();
+                    if (c.indexOf(name)==0) { return c.substring(name.length,c.length); }
+                }
+                return "";
             }
-            return "";
-        }
-        // 这样写的目的是为了不让这个网页在编辑器里报错
-        var isLogin = "{{request.user.is_authenticated}}";
-        if(isLogin=='True'){
-            var userInfo = JSON.parse(getCookie('USER_INFO').replace(/\\054/g, ',').slice(1,-1).replace(/\'/g,'\"'));
-            userInfo['nickname'] = Base64.decode(userInfo['nickname']);
-            $(".user-nick-name").text(userInfo["nickname"]);
-            $(".user-avatar img").attr("src", "/media/" + userInfo["avatar"]);
-            $(".user-fans-count").text(userInfo["fansCount"]);
-            $(".user-follow-count").text(userInfo["followCount"]);
-            $(".user-post-count").text(userInfo["articleCount"]);
-        }
-        // username = Base64.decode(getCookie('username'));
-        // avatarSrc = Base64.decode(getCookie('avatar'));
-        // var userId = getCookie('uid');
-    </script>
-    <script>
-        var userLogin = function () {
-            $('#sign').css("visibility","visible");
-            $('#sign').css("opacity","1.0");
-            $('#sign-container').css("transform","rotateX(0deg) translateZ(0px) translateY(0%)");
-        }
-        var signShow = function(){
-            $('#sign').css("visibility","hidden");
-            $('#sign').css("opacity","0.0");
-            $('#sign-container').css("transform","rotateX(-20deg) translateZ(200px) translateY(20%)");
-            $(".login-error h4").hide();
-            $("#edtUserName").val('');
-            $("#edtPassWord").val('');
-            $(".sign .sign-container").css("height", "330px");
-        }
-        $("#header-user").hover(function(){
-            $('#header-user .ins').stop(true).show(100);
-            $('#header-user-avatar img').css({"width":"60px","height":"60px","left":"-10px","top":"16px"});
-        },function(){
-            $('#header-user .ins').stop(true).hide(100);
-            $('#header-user-avatar img').css({"width":"40px","height":"40px","left":"0px","top":"10px"});
-        });
-        var showLoginForm = function () {
-            var strUserName = $("#edtUserName").val();
-            var strPassWord = $("#edtPassWord").val();
-            var strSaveDate = $("#savedate").val();
-            if ((strUserName == "") || (strPassWord == "")) { 
-                alert("用户名和密码不能为空");return false;
+            // 这样写的目的是为了不让这个网页在编辑器里报错
+            var isLogin = "{{request.user.is_authenticated}}";
+            if(isLogin=='True'){
+                var userInfo = JSON.parse(getCookie('USER_INFO').replace(/\\054/g, ',').slice(1,-1).replace(/\'/g,'\"'));
+                userInfo['nickname'] = Base64.decode(userInfo['nickname']);
+                $(".user-nick-name").text(userInfo["nickname"]);
+                $(".user-avatar img").attr("src", "/media/" + userInfo["avatar"]);
+                $(".user-fans-count").text(userInfo["fansCount"]);
+                $(".user-follow-count").text(userInfo["followCount"]);
+                $(".user-post-count").text(userInfo["articleCount"]);
+            }
+            
+            // 登录
+            var userLogin = function () {
+                $('#sign').css("visibility","visible");
+                $('#sign').css("opacity","1.0");
+                $('#sign-container').css("transform","rotateX(0deg) translateZ(0px) translateY(0%)");
+            }
+            var signShow = function(){
+                $('#sign').css("visibility","hidden");
+                $('#sign').css("opacity","0.0");
+                $('#sign-container').css("transform","rotateX(-20deg) translateZ(200px) translateY(20%)");
+                $(".login-error h4").hide();
+                $("#edtUserName").val('');
+                $("#edtPassWord").val('');
+                $(".sign .sign-container").css("height", "330px");
+            }
+            $("#header-user").hover(function(){
+                $('#header-user .ins').stop(true).show(100);
+                $('#header-user-avatar img').css({"width":"60px","height":"60px","left":"-10px","top":"16px"});
+            },function(){
+                $('#header-user .ins').stop(true).hide(100);
+                $('#header-user-avatar img').css({"width":"40px","height":"40px","left":"0px","top":"10px"});
+            });
+            var showLoginForm = function () {
+                var strUserName = $("#edtUserName").val();
+                var strPassWord = $("#edtPassWord").val();
+                var strSaveDate = $("#savedate").val();
+                if ((strUserName == "") || (strPassWord == "")) { 
+                    alert("用户名和密码不能为空");return false;
+                };
+                $.ajaxSetup({
+                    data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+                });
+                $.ajax({ 
+                    url: "{% url 'blog:userlogin' %}",
+                    dataType: "json",
+                    data: { 
+                        "username": strUserName,
+                        "password": strPassWord,
+                        "savedate": strSaveDate
+                    },
+                    type: "POST",
+                    success: function(res,status,xhr) {
+                        if (res.code == 0){
+                            $('.login-error>h4').show();
+                            $('#sign-container').height(370);
+                            $("#edtUserName").val('');
+                            $("#edtPassWord").val('');
+                            $("#savedate").val('');
+                        }
+                        else if(res.code == 1){
+                            window.location.reload();
+                        }
+                    },
+                    error: function(ree) { 
+                        console.error(ree.status,ree.responseText);
+                        if (ree.status == 500) { 
+                            $(".login-error h4").show(100);
+                            $(".sign .sign-container").css("height", "370px");
+                        }
+                    }
+                });
+                return false;
             };
-            $.ajaxSetup({
-                data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
+            $("#btnPosts").click(showLoginForm);
+            $("#chkRemember").click(function() { 
+                $("#savedate").attr("value", $("#chkRemember").attr("checked") == "checked" ? 30 : 1); 
             });
-            $.ajax({ 
-                url: "{% url 'blog:userlogin' %}",
-                dataType: "json",
-                data: { 
-                    "username": strUserName,
-                    "password": strPassWord,
-                    "savedate": strSaveDate
-                },
-                type: "POST",
-                success: function(res,status,xhr) {
-                    if (res.code == 0){
-                        $('.login-error>h4').show();
-                        $('#sign-container').height(370);
-                        $("#edtUserName").val('');
-                        $("#edtPassWord").val('');
-                        $("#savedate").val('');
+            var userLogout=function(){
+                $.ajax({
+                    url:"{% url 'blog:userlogout' %}",
+                    type:'GET',
+                    success:function(res){
+                        window.location.href = "http://" + window.location.href.split('/')[2];
+                    },
+                    error: function(ree) { 
+                        console.error(ree.status,ree.responseText);
                     }
-                    else if(res.code == 1){
-                        window.location.reload();
-                    }
-                },
-                error: function(ree) { 
-                    console.error(ree.status,ree.responseText);
-                    if (ree.status == 500) { 
-                        $(".login-error h4").show(100);
-                        $(".sign .sign-container").css("height", "370px");
-                    }
-                }
-            });
-            return false;
-        };
-        $("#btnPosts").click(showLoginForm);
-        $("#chkRemember").click(function() { 
-            $("#savedate").attr("value", $("#chkRemember").attr("checked") == "checked" ? 30 : 1); 
-        });
-        var userLogout=function(){
+                })
+            };
+
+            // 分类
+            $('#base-category>#category-list-item').width(
+                $('#base-category').width()
+            );
             $.ajax({
-                url:"{% url 'blog:userlogout' %}",
-                type:'GET',
-                success:function(res){
-                    window.location.href = "http://" + window.location.href.split('/')[2];
+                url: "{% url 'blog:base_category' %}",
+                type: "GET",
+                success: function(res,status,xhr) {
+                    if (res.code == 1){
+                        res.categories.forEach(element => {
+                            let b64Element = Base64.encode(element);
+                            let catUrl = `/category/${b64Element}`;
+                            $('#category-list-item').append(`
+                                <a href="${catUrl}">
+                                    ${element}
+                                </a>
+                            `)
+                        });
+                    }
                 },
-                error: function(ree) { 
-                    console.error(ree.status,ree.responseText);
+                error: function(er) { 
+                    console.error(er.status,er.responseText);
                 }
             })
-        };
+            $('#base-category').hover(()=>{
+                $('#base-category>#category-list-item').slideDown(300);
+            },()=>{
+                $('#base-category>#category-list-item').slideUp(300);
+            });
+        })
     </script>
     {% block script %}
     {% endblock %}

@@ -1,0 +1,28 @@
+.tag-header{
+    margin: 0;
+    padding: 30px 0;
+    background-color: rgba(255, 255, 255, 0.88);
+    text-align: left;
+    border-radius: 8px;
+}
+.tag-header-label{
+    margin: 0 0 0 20px;
+    padding: 8px 10px;
+    background-color: rgb(65, 63, 212);
+    color: #fff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.tag-header-name{
+    padding: 7px 15px;
+    border: 1px solid #ddd;
+    border-left: 0;
+    color: #666;
+    font-weight: 900;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.tag-header-count{
+    margin: 0 0 0 20px;
+    color: #888;
+}

@@ -38,6 +38,34 @@ li{
     margin: auto;
     max-width: 1260px;
 }
+#base-category{
+    position: relative;
+}
+#category-list-item{
+    display: none;
+    position: absolute;
+    padding: 15px 0;
+    left: 0;
+    top: 60px;
+    border-radius: 5px;
+    z-index: 9999;
+    background-color: #fff;
+    box-shadow: 0px 2px 8px 1px rgba(180, 180, 180, 0.329);
+    text-align: center;
+}
+#category-list-item>a{
+    display: block;
+    margin: -15px 0;
+    padding: 0 20px;
+    font-size: normal;
+    color: #666;
+    text-shadow: 0 0 2px #ddd;
+    text-align: center;
+    transition: all 0.3s;
+}
+#category-list-item>a:hover{
+    color: #000;
+}
 .icon{
     float: left;
     line-height: 60px;
@@ -64,20 +92,16 @@ li{
 .nav ul li{
     float: left;
     height: 60px;
-    transition: background-color 0.3s;
 }
-.nav ul li a{
+.nav ul li>a{
     display: block;
     padding:0 30px;
     font-size: normal;
     color:#f6f6f6;
-    transition: color 0.5s;
+    transition: all 0.3s;
 }
-.nav ul li:hover{
-    background-color: rgb(241, 241, 241);
-}
-.nav ul li a:hover{
-    color:#000;
+.nav ul li>a:hover{
+    color: rgb(219, 219, 219);
 }
 .content{
     margin:auto;

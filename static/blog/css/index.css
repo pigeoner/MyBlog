@@ -78,17 +78,19 @@
     float: right;
 }
 .widget{
-    outline:#cfcfd1 solid 1px;
+    /* outline:#cfcfd1 solid 1px; */
     background-color:rgba(255, 255, 255, 0.88);
     margin:30px 0;
     padding:18px 30px 10px 30px;
     text-align:left;
+    border-radius: 8px;
 }
 .widget-self-info{
     background-image: url('/static/blog/img/22.png'),url('/static/blog/img/33.png');
     background-position: left,right;
     background-repeat: no-repeat,no-repeat;
     background-size: 30%,30%;
+    overflow: hidden;
 }
 .widget:first-child{
     margin:0;
@@ -264,6 +266,7 @@ article{
     margin:3% 0;
     background-color:rgba(255, 255, 255, 0.88);
     transition: all .5s;
+    border-radius: 8px;
 }
 article:hover{
     background-color: #fff;

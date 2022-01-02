@@ -146,10 +146,31 @@ def archives(request, year, month):
 
 def tag(request, tag):
     # 标签归档列表页
-    post_list = Article.objects.filter(tags__name=tag)
-    context = {'post_list': post_list, 'tag': tag}
+    decode_tag = base64.b64decode(tag.encode('utf8')).decode('utf8')
+    article = Article.objects.filter(tags__name=decode_tag).order_by('-created_time')
+    page_num = request.GET.get('page', default='1')
+    page, dis_range = get_paginator(article, page_num, 5)
+    count = article.count()
+    context = {'page': page, 'dis_range': dis_range, 'tag': decode_tag, 'count': count}
     return render(request, '../templates/blog/tags_list.html', context)
 
+def base_category(request):
+    categories = [c.name for c in Category.objects.all()]
+    return JsonResponse({
+        'code': 1,
+        'msg': 'success',
+        'categories': categories
+    })
+
+def category(request, category):
+    # 分类归档列表页
+    decode_category = base64.b64decode(category.encode('utf8')).decode('utf8')
+    article = Article.objects.filter(category__name=decode_category).order_by('-created_time')
+    page_num = request.GET.get('page', default='1')
+    page, dis_range = get_paginator(article, page_num, 5)
+    count = article.count()
+    context = {'page': page, 'dis_range': dis_range, 'category': decode_category, 'count': count}
+    return render(request, '../templates/blog/category_list.html', context)
 
 def userLogin(request):
     if request.method == 'POST':   # 判断采用的是何种请求
