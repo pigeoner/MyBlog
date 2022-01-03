@@ -1,0 +1,114 @@
+.emoji {
+    position: relative;
+    margin: 100px auto;
+    width: 200px;
+    height: 200px;
+    background-color: #fdd534;
+    border-radius: 50%;
+    box-shadow: -8px -8px 22px -2px rgba(216, 131, 3, 0.747) inset;
+}
+
+.left-eye,
+.left-eye-down {
+    position: absolute;
+    left: 50%;
+    margin-left: -48px;
+    top: 60px;
+    width: 36px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #9a5e08;
+}
+
+.left-eye-down {
+    top: 80px;
+    background-color: #fdd534;
+}
+
+.right-eye,
+.right-eye-down {
+    position: absolute;
+    right: 50%;
+    margin-right: -48px;
+    top: 60px;
+    width: 36px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #9a5e08;
+}
+
+.right-eye-down {
+    top: 80px;
+    background-color: #fdd534;
+}
+
+.mouth {
+    position: absolute;
+    left: 50%;
+    margin-left: -68px;
+    top: 110px;
+    width: 136px;
+    height: 70px;
+    background-color: #9a5e08;
+    border-radius: 50%/0 0 100% 100%;
+}
+
+.mouth-up {
+    position: absolute;
+    left: 50%;
+    margin-left: -70px;
+    top: 104px;
+    width: 140px;
+    height: 20px;
+    background-color: #fdd534;
+    /* border-bottom: 5px solid #9a5e08; */
+    border-radius: 50%/0 0 100% 100%;
+    z-index: 1;
+}
+
+.teeth,
+.teeth-up {
+    position: absolute;
+    left: 50%;
+    margin-left: -60px;
+    top: 110px;
+    width: 120px;
+    height: 30px;
+    border: 5px solid #9a5e08;
+    background-color: #fff;
+    border-radius: 50%/0 0 60% 60%;
+}
+
+.teeth-up {
+    top: 105px;
+    height: 15px;
+    background-color: #9a5e08;
+}
+
+.sweat-top-left,
+.sweat-top-right {
+    position: absolute;
+    right: 28px;
+    top: 10px;
+    width: 0;
+    height: 0;
+    border-color: transparent #2abcff transparent transparent;
+    border-style: solid;
+    border-width: 50px 18px 0 0;
+}
+
+.sweat-top-right {
+    right: 10px;
+    border-color: transparent transparent transparent #2abcff;
+    border-width: 50px 0 0 18px;
+}
+
+.sweat-bottom {
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    width: 36px;
+    height: 25px;
+    background-color: #2abcff;
+    border-radius: 50%/0 0 100% 100%;
+}

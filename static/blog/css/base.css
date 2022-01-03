@@ -106,6 +106,7 @@ li{
 .content{
     margin:auto;
     text-align: center;
+    min-height: 500px;
 }
 footer {
     background: #23282d;

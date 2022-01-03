@@ -63,6 +63,15 @@ def index(request):
     context = {'page': page, 'dis_range': dis_range}
     return render(request, '../templates/blog/index.html', context)
 
+def tool(request):
+    context = {}
+    return render(request, '../templates/blog/tool.html', context)
+
+def tools(request, id):
+    with open('./templates/blog/tools/tools_%d.html' % id, 'r') as f:
+        content = f.read()
+    context = {'content': content}
+    return render(request, '../templates/blog/tools/tools.html', context)
 
 def about(request):
     with open('templates/blog/about.md', 'r') as ab:

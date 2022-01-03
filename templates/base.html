@@ -39,7 +39,7 @@
                         <div id="category-list-item"></div>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{% url 'blog:tool' %}">
                             <i class="fa fa-wrench"></i> 小工具
                         </a>
                     </li>
@@ -50,7 +50,7 @@
                     </li>
                 </ul>
                 <form id="search-box" autocomplete="off" target="_blank" method="get" action="">
-                    <input type="text" placeholder="啥也不是，净唠比嗑" name="keyword">
+                    <input type="text" placeholder="别搜了，啥也搜不出来" name="keyword">
                     <input type="hidden" name="from_source" value="nav_suggest_new">
                     <a style="display: none" target="_blank" class="recommended-target" href="https://www.bilibili.com/video/BV1vU4y1N7xT"></a>
                     <button type="submit" title="搜索" tabindex="-1">

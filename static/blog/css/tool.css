@@ -1,0 +1,59 @@
+body{
+    background-image: url("/static/blog/img/dm-bg8.gif");
+    background-repeat: repeat;
+    background-attachment: fixed;
+    background-size: auto;
+    background-position: center;
+}
+.tools{
+    padding: 30px 100px;
+    text-align: left;
+}
+.tools>div{
+    display: inline-block;
+    position: relative;
+    margin: 30px 30px;
+    height: 220px;
+    width: 200px;
+}
+
+.tool-widget{
+    display: inline-block;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgb(36 37 38 / 8%);
+    transition: all .3s;
+}
+.tool-widget:hover{
+    top: -5px;
+}
+.tool-img{
+    display: inline-block;
+    padding: 20px 20px;
+    width: 100%;
+    height: 120px;
+    overflow: hidden;
+}
+.tool-img>img{
+    width: 100%;
+}
+.tool-title{
+    margin: 5px 0 0 0;
+    font-weight: 700;
+    color: #666;
+}
+.tool-detail{
+    padding: 10px 15px 0 15px;
+    font-size: 13px;
+    color: #999;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}

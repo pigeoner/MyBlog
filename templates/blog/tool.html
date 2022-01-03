@@ -1,0 +1,32 @@
+{%extends "base.html"%}
+{% load static %}
+{% block title %}工具箱{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static '/blog/css/tool.css' %}">
+{% block toolsHead %}
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+<div class="tools clearfix">
+    <div class="clearfix">
+        <a href="{% url 'blog:tools' 1 %}" class="tool-widget">
+            <span class="tool-img">
+                <img src="{% static '/blog/img/dm-bg3.jpg' %}" alt="">
+            </span>
+            <h4 class="tool-title">
+                流汗黄豆
+            </h4>
+            <span class="tool-detail">
+                一个用css画的流汗黄豆。
+            </span>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% block toolsScript %}
+{% endblock %}
+{% endblock %}
