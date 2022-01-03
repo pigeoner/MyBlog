@@ -13,7 +13,7 @@
             <div class="scroll clearfix">
                 <div class="img-round" style="opacity: 1;z-index: 5;">
                     <a href="{% static '/blog/img/arkbg.jpg' %}">
-                        <img src="{% static '/blog/img/arkbg.jpg' %}" alt="">
+                        <img src="{% static '/blog/img/dm-bg16.jpg' %}" alt="">
                     </a>
                 </div>
                 <div class="img-round" style="z-index: 4;">
@@ -59,7 +59,7 @@
                         <h1><a href="{% url 'blog:detail' post.id %}">{{ post.title }}</h1></a>
                     </div>
                     <div class="entry-meta">
-                        <a href="#"><i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i></a>
+                        <a href="javascript:"><i class="fa fa-user-o">&nbsp;&nbsp;{{ post.user.nick_name }}</i></a>
                         <i class="fa fa-clock-o time">&nbsp;&nbsp;{{ post.created_time }}</i>
                         <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-eye">&nbsp;&nbsp;{{ post.views }}</i></a>
                         <a href="{% url 'blog:detail' post.id %}"><i class="fa fa-thumbs-o-up">&nbsp;&nbsp;{{ post.thumbs_up }}</i></a>

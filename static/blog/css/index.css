@@ -29,7 +29,7 @@
 }
 .img-round{
     position: absolute;
-    height:100%;
+    height:354px;
     left:0;
     float:left;
     overflow:hidden;
@@ -369,12 +369,16 @@ article:hover{
         display:none;
     }
 }
-@media screen and (max-width:720px){
+@media screen and (max-width:740px){
     .entry-cover{
         float:none;
         width:100%;
         height:200px;
         text-align:center;
+    }
+    .scroll{
+        height:150px!important;
+        overflow-y: hidden;
     }
     .entry-cover a{
         text-align:center;
@@ -387,10 +391,6 @@ article:hover{
     }
     .excerpt{
         -webkit-line-clamp: 2;
-    }
-    .scroll{
-        height:200px!important;
-        overflow-y: hidden;
     }
     .entry-meta :nth-child(n+3){
         display:none;
