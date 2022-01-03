@@ -3,6 +3,9 @@
     .nav {
         display: none;
     }
+    body{
+        background-image: url("/static/blog/img/dm-bg8.gif");
+    }
 }
 *{
     margin: 0;
