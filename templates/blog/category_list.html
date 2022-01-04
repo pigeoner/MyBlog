@@ -1,7 +1,7 @@
 {%extends "blog/index.html"%}
 {% load static %}
 
-{% block title %} {{ category }}的归档{% endblock %}
+{% block title %} {{ category.source }}的归档{% endblock %}
 {% block bhead %}
 <link rel="stylesheet" href="{% static '/blog/css/tags_list.css' %}">
 {% endblock %}
@@ -13,7 +13,7 @@
       分类
     </span>
     <span class="tag-header-name">
-      {{category}}
+      {{category.source}}
     </span>
     <span class="tag-header-count">
       共 {{count}} 篇
@@ -55,7 +55,7 @@
         <!--上一页-->
         <li class="{% if not page.has_previous %}disabled{% endif %}">
             {% if page.has_previous %}
-            <a href="{% url 'blog:category' category %}?page={{ page.previous_page_number }}" aria-label="Previous">
+            <a href="{% url 'blog:category' category.encode %}?page={{ page.previous_page_number }}" aria-label="Previous">
             {% endif %}
             <!-- <span aria-hidden="true">&laquo;</span> -->
             <span aria-hidden="true">
@@ -68,14 +68,14 @@
         <!--这里展示页码使用传递过来的dis_range -->
         {% for num in dis_range %}
         <li class="{% if num == page.number %}active{% else %}{% endif %}" >
-            <a href="{% url 'blog:category' category %}?page={{ num }}">{{ num }}</a>
+            <a href="{% url 'blog:category' category.encode %}?page={{ num }}">{{ num }}</a>
         </li>
         {% endfor %}
 
         <!--下一页-->  
         <li class="{% if not page.has_next %}disabled{% endif %}">
             {% if page.has_next %}
-            <a href="{% url 'blog:category' category %}?page={{ page.next_page_number }}" aria-label="Next">
+            <a href="{% url 'blog:category' category.encode %}?page={{ page.next_page_number }}" aria-label="Next">
             {% endif %}
             <!-- <span aria-hidden="true">&raquo;</span> -->
             <span aria-hidden="true">

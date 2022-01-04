@@ -160,7 +160,7 @@ def tag(request, tag):
     page_num = request.GET.get('page', default='1')
     page, dis_range = get_paginator(article, page_num, 5)
     count = article.count()
-    context = {'page': page, 'dis_range': dis_range, 'tag': decode_tag, 'count': count}
+    context = {'page': page, 'dis_range': dis_range, 'tag': {'source':decode_tag, 'encode':tag}, 'count': count}
     return render(request, '../templates/blog/tags_list.html', context)
 
 def base_category(request):
@@ -178,7 +178,7 @@ def category(request, category):
     page_num = request.GET.get('page', default='1')
     page, dis_range = get_paginator(article, page_num, 5)
     count = article.count()
-    context = {'page': page, 'dis_range': dis_range, 'category': decode_category, 'count': count}
+    context = {'page': page, 'dis_range': dis_range, 'category': {'source':decode_category, 'encode':category}, 'count': count}
     return render(request, '../templates/blog/category_list.html', context)
 
 def userLogin(request):
