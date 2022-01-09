@@ -68,9 +68,10 @@ def album(request):
     return render(request, '../templates/blog/album.html', context)
 
 def albums(request, id):
-    with open('./templates/blog/albums/albums_%d.html' % id, 'r') as f:
-        content = f.read()
-    context = {'content': content}
+    # with open('./templates/blog/albums/albums_%d.html' % id, 'r') as f:
+    #     content = f.read()
+    # context = {'content': content}
+    context={}
     return render(request, '../templates/blog/albums/albums.html', context)
 
 def albumsPic(request, id):

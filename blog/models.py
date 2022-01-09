@@ -260,3 +260,50 @@ class SideBar(models.Model):
         elif self.display_type == 7:   # 自定义侧边栏
 
             return self.content   # 在侧边栏直接使用这里的html，模板中必须使用safe过滤器去渲染HTML
+
+
+# 相册
+
+class Album(models.Model):
+    name = models.CharField('相册分类', max_length=100)
+    index = models.IntegerField(default=999, verbose_name='分类排序')
+
+    class Meta:
+        verbose_name = '相册分类'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name
+
+def album_path(instance, filename):
+    ext = filename.split('.').pop()
+    filename = '{0}.{1}'.format(
+        'album/pic_'+str(instance.user)+'_'+str(int(time.time())), ext)
+    return filename  # 系统路径分隔符差异，增强代码重用性
+
+class AlbumImage(models.Model):
+    # userId = models.IntegerField('点赞用户')
+    user = models.ForeignKey(
+        UserProfile,
+        on_delete=models.CASCADE,
+        verbose_name='上传用户'
+    )
+    
+    image = models.ImageField(
+        upload_to=album_path,
+        verbose_name='相册图片'
+    )
+    category = models.ForeignKey(
+        Album,
+        on_delete=models.DO_NOTHING,
+        verbose_name='分类'
+    )
+    description = models.TextField('描述', max_length=200, blank=True, default='图片')
+    uploadTime = models.DateTimeField('上传时间', auto_now_add=True)
+
+    class Meta:
+        verbose_name = '相册数据'
+        verbose_name_plural = '相册数据'
+
+    def __str__(self) -> str:
+        return self.description
