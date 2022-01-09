@@ -18,7 +18,7 @@ import time, os, json, re, io
 import hashlib, base64
 from urllib import parse
 
-from blog.models import Article, SideBar, Tag, Category, ArticlePraise, ArticleStar, Follow, Fans
+from blog.models import Album, AlbumImage, Article, SideBar, Tag, Category, ArticlePraise, ArticleStar, Follow, Fans
 
 # Create your views here.
 
@@ -64,14 +64,13 @@ def index(request):
     return render(request, '../templates/blog/index.html', context)
 
 def album(request):
-    context = {}
+    album_category = Album.objects.all()
+    context = {'albums':album_category}
     return render(request, '../templates/blog/album.html', context)
 
 def albums(request, id):
-    # with open('./templates/blog/albums/albums_%d.html' % id, 'r') as f:
-    #     content = f.read()
-    # context = {'content': content}
-    context={}
+    pics = AlbumImage.objects.filter(album__id=id)
+    context={'pics':pics}
     return render(request, '../templates/blog/albums/albums.html', context)
 
 def albumsPic(request, id):

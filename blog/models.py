@@ -264,8 +264,21 @@ class SideBar(models.Model):
 
 # 相册
 
+def album_path(instance, filename):
+    ext = filename.split('.').pop()
+    filename = '{0}.{1}'.format(
+        'album/album_'+str(instance.user)+'_'+str(int(time.time())), ext)
+    return filename  # 系统路径分隔符差异，增强代码重用性
+
 class Album(models.Model):
     name = models.CharField('相册分类', max_length=100)
+
+    cover = models.ImageField(
+        upload_to=album_path,
+        verbose_name='相册封面',
+        default='album/album_default.jpg'
+    )
+
     index = models.IntegerField(default=999, verbose_name='分类排序')
 
     class Meta:
@@ -275,7 +288,7 @@ class Album(models.Model):
     def __str__(self):
         return self.name
 
-def album_path(instance, filename):
+def album_pic_path(instance, filename):
     ext = filename.split('.').pop()
     filename = '{0}.{1}'.format(
         'album/pic_'+str(instance.user)+'_'+str(int(time.time())), ext)
@@ -290,15 +303,18 @@ class AlbumImage(models.Model):
     )
     
     image = models.ImageField(
-        upload_to=album_path,
+        upload_to=album_pic_path,
         verbose_name='相册图片'
     )
-    category = models.ForeignKey(
+
+    album = models.ForeignKey(
         Album,
         on_delete=models.DO_NOTHING,
         verbose_name='分类'
     )
+
     description = models.TextField('描述', max_length=200, blank=True, default='图片')
+
     uploadTime = models.DateTimeField('上传时间', auto_now_add=True)
 
     class Meta:

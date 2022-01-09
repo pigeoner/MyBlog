@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Category, Tag, Article, SideBar
+from .models import Category, Tag, Article, SideBar, Album, AlbumImage
 # 导入需要管理的数据库表
 
 
@@ -29,3 +29,7 @@ class TagAdmin(admin.ModelAdmin):
 
 
 admin.site.register(SideBar)
+
+admin.site.register(Album)
+
+admin.site.register(AlbumImage)

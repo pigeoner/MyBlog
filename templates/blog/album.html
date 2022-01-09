@@ -9,18 +9,20 @@
 {% endblock %}
 
 {% block content %}
-<div class="album clearfix">
-    <div class="clearfix">
-        <a href="{% url 'blog:albums' 1 %}" class="album-widget">
-            <span class="album-img">
-                <img src="{% static '/blog/img/dm-bg3.jpg' %}" alt="">
-            </span>
-            <h4 class="album-title">
-                明日方舟
-            </h4>
-        </a>
+{% for album in albums %}
+    <div class="album clearfix">
+        <div class="clearfix">
+            <a href="{% url 'blog:albums' album.id %}" class="album-widget">
+                <span class="album-img">
+                    <img src="/media/{{album.cover}}" alt="">
+                </span>
+                <h4 class="album-title">
+                    {{album.name}}
+                </h4>
+            </a>
+        </div>
     </div>
-</div>
+{% endfor %}
 {% endblock %}
 
 {% block script %}
