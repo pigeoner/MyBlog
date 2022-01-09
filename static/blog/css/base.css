@@ -90,7 +90,7 @@ li{
 }
 .nav ul li>a{
     display: block;
-    padding:0 30px;
+    padding:0 20px;
     font-size: normal;
     color:#f6f6f6;
     transition: all 0.3s;

@@ -63,6 +63,20 @@ def index(request):
     context = {'page': page, 'dis_range': dis_range}
     return render(request, '../templates/blog/index.html', context)
 
+def album(request):
+    context = {}
+    return render(request, '../templates/blog/album.html', context)
+
+def albums(request, id):
+    with open('./templates/blog/albums/albums_%d.html' % id, 'r') as f:
+        content = f.read()
+    context = {'content': content}
+    return render(request, '../templates/blog/albums/albums.html', context)
+
+def albumsPic(request, id):
+    context = {}
+    return render(request, context)
+
 def tool(request):
     context = {}
     return render(request, '../templates/blog/tool.html', context)
