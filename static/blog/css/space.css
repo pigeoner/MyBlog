@@ -11,7 +11,7 @@
 }
 
 body{
-    background-image: url("/static/blog/img/dm-bg8.gif");
+    background-image: url("/static/blog/img/background_2.gif");
     background-repeat: repeat;
     background-attachment: fixed;
     background-size: auto;
@@ -19,7 +19,7 @@ body{
 }
 .up-content{
     position: relative;
-    background-image: url("/static/blog/img/nature-bg1.jpg");
+    background-image: url("/static/blog/img/space_head.jpg");
     background-repeat: no-repeat;
     background-size: 1240px;
     background-position: 0% 3%;
