@@ -36,14 +36,112 @@ body{
     display: inline-block;
     padding: 20px 20px;
     width: 100%;
-    height: 120px;
+    height: 160px;
     overflow: hidden;
 }
 .album-img>img{
     width: 100%;
 }
 .album-title{
-    margin: 5px 0 0 0;
+    position: absolute;
+    left: 50%;
+    bottom: 14px;
+    margin-left: -32px;
     font-weight: 700;
     color: #666;
+}
+
+/* 查看相册图片 */
+.albums{
+    margin: 30px 100px;
+}
+.albums li{
+    margin: 20px 10px;
+    width: 240px;
+    height: 210px;
+    line-height: 210px;
+    float: left;
+    text-align: center;
+}
+.albums-widget{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+}
+.albums-widget img{
+    border: 5px solid #fff;
+    max-width: 240px;
+    max-height: 210px;
+    transition: all .2s;
+}
+.albums-widget img:hover{
+    box-shadow: 0 0 5px 5px #d4d4d4;
+}
+.albums-header{
+    margin: 30px 100px;
+    padding: 40px 0 30px 30px;
+    background-color: rgba(255, 255, 255, 0.88);
+    text-align: left;
+    border-radius: 8px;
+}
+.albums-label{
+    margin: 0 0 0 20px;
+    padding: 8px 10px;
+    background-color: rgb(65, 63, 212);
+    color: #fff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.albums-name{
+    padding: 7px 15px;
+    border: 1px solid #ddd;
+    border-left: 0;
+    color: #666;
+    font-weight: 900;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.albums-count{
+    margin: 0 0 0 20px;
+    color: #888;
+}
+.albums-description{
+    margin: 30px 60px 0 20px;
+    color: #666;
+    line-height: 28px;
+}
+.pagination{
+    text-align:center;
+    margin:50px auto;
+}
+.pagination li{
+    display:inline-block;
+    margin:0 3px;
+    width:35px;
+    height:35px;
+    border: 1px solid #aaa;
+    border-radius: 5px;
+    border-collapse:collapse;
+    line-height:35px;
+    background-color:#fff;
+}
+.pagination li:not(.disabled):hover{
+    background-color:#0fad79;
+}
+.pagination li.active{
+    background-color:#0fad79;
+}
+.pagination li a{
+    display:block;
+    border-radius: 5px;
+    color:#000044;
+    width:100%;
+    height:100%;
+}
+.pagination li a:hover{
+    color:#fff;
+}
+.pagination li.active a{
+    color:#fff;
 }

@@ -69,13 +69,22 @@ def album(request):
     return render(request, '../templates/blog/album.html', context)
 
 def albums(request, id):
-    pics = AlbumImage.objects.filter(album__id=id)
-    context={'pics':pics}
-    return render(request, '../templates/blog/albums/albums.html', context)
+    album = Album.objects.get(id=id)
+    pics = AlbumImage.objects.filter(album__id=id).order_by('id')
+    page_num = request.GET.get('page', default='1')
+    page, dis_range = get_paginator(pics, page_num, 50)
+    context={'page': page, 'dis_range': dis_range, 'album':album, 'count':pics.count}
+    return render(request, '../templates/blog/albums.html', context)
 
-def albumsPic(request, id):
-    context = {}
-    return render(request, context)
+def picture(request, id):
+    pic = AlbumImage.objects.get(id=id)
+    albumId = Album.objects.get(id=pic.album.id).id
+    before = AlbumImage.objects.all().extra(where=["id<'%s'"],params=[id]).order_by('-id')
+    before = before[0].id if before else AlbumImage.objects.all().order_by('-id')[0].id
+    after = AlbumImage.objects.all().extra(where=["id>'%s'"],params=[id]).order_by('id')
+    after = after[0].id if after else AlbumImage.objects.all().order_by('id')[0].id
+    context = {'pic':pic, 'before':before, 'after':after, 'albumId':albumId}
+    return render(request, '../templates/blog/picture.html', context)
 
 def tool(request):
     context = {}

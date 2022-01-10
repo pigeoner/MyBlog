@@ -1,0 +1,121 @@
+{%extends "base.html"%}
+{% load static %}
+{% block title %}工具箱{% endblock %}
+
+{% block head %}
+<style>
+    body{
+        background-image: url("/static/blog/img/background_2.gif");
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-size: auto;
+        background-position: center;
+    }
+    .picture-main{
+        position: relative;
+    }
+    .turn{
+        position: absolute;
+        display: block;
+        top: 0;
+        width: 140px;
+        height: 100%;
+        text-align: center;
+        transition: all .2s;
+    }
+    .turn:hover{
+        background-color: rgba(165, 165, 165, 0.384);
+    }
+    .turn>div{
+        height: 100%;
+        width: 100%;
+        position: relative;
+        font-size: 108px;
+        color: #888;
+        text-align: center;
+    }
+    .turn>div>i{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -24px;
+        margin-top: -54px;
+    }
+    .left{
+        left: 0;
+    }
+    .right{
+        right: 0;
+    }
+    #picture{
+        max-width: 1210px;
+        margin: 0 auto;
+        padding: 50px 0;
+        text-align: center;
+    }
+    #picture>img{
+        max-width: 1080px;
+        max-height: 960px;
+    }
+    .bottom{
+        margin-top: -30px;
+        padding-bottom: 40px;
+        vertical-align: middle;
+    }
+    .bottom>a{
+        display: inline-block;
+        margin: 40px 10px 0 10px;
+        padding: 12px 24px;
+        font-size: 16px;
+        color: #666;
+        border-radius: 5px;
+        background: #fff;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        transition: all .2s;
+    }
+    .bottom>a:hover{
+        color: #fff;
+        background-color: #29b8f0;
+    }
+
+</style>
+{% block albumsHead %}
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+<div class="picture-main">
+    <a href="/picture/{{before}}" class="turn left">
+        <div>
+            <i class="fa fa-angle-left"></i>
+        </div>
+    </a>
+    <a href="/picture/{{after}}" class="turn right">
+        <div>
+            <i class="fa fa-angle-right"></i>
+        </div>
+    </a>
+    <div id="picture">
+        <img src="/media/{{pic.image}}" alt="">
+    </div>
+    <div class="bottom">
+        <a class="return" href="/picture/{{before}}">
+            <i class="fa fa-angle-left"></i>
+            上一张
+        </a>
+        <a class="return" href="/album/{{albumId}}">
+            返回相册
+        </a>
+        <a class="return" href="/picture/{{after}}">
+            下一张&nbsp;
+            <i class="fa fa-angle-right"></i>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+{% block albumsScript %}
+{% endblock %}
+{% endblock %}

@@ -10,6 +10,7 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('album/',views.album, name='album'),
     path('album/<int:id>',views.albums, name='albums'),
+    path('picture/<int:id>',views.picture,name='picture'),
     path('tool/',views.tool, name='tool'),
     path('tools/<int:id>',views.tools, name='tools'),
     path('about/', views.about, name='about'),

@@ -279,6 +279,8 @@ class Album(models.Model):
         default='album/album_default.jpg'
     )
 
+    description = models.TextField('描述', max_length=500, blank=True, default='这是一个普通的相册')
+
     index = models.IntegerField(default=999, verbose_name='分类排序')
 
     class Meta:
