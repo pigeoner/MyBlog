@@ -6,8 +6,8 @@ from django.conf.urls.static import static
 
 app_name = 'blog'   # 定义一个命名空间，用来区分不同应用之间的链接地址
 urlpatterns = [
-    path('', views.reindex, name='reindex'),
-    path('index/', views.index, name='index'),
+    # path('', views.reindex, name='reindex'),
+    path('', views.index, name='index'),
     path('album/',views.album, name='album'),
     path('album/<int:id>',views.albums, name='albums'),
     path('picture/<int:id>',views.picture,name='picture'),
