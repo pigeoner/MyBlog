@@ -60,7 +60,7 @@ def index(request):
     # 注：Django3.2的paginator类新增一种方法get_elided_page_range
     article = Article.objects.all().order_by('-created_time')
     page_num = request.GET.get('page', default='1')
-    page, dis_range = get_paginator(article, page_num, 5)
+    page, dis_range = get_paginator(article, page_num, 10)
     context = {'page': page, 'dis_range': dis_range}
     return render(request, '../templates/blog/index.html', context)
 
