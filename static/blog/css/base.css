@@ -125,9 +125,13 @@ footer .box{
 .footer-img img{
     height:80px;
 }
-.footer-content p{
+.footer-content p,
+.footer-content a{
     text-align: center;
     line-height: 32px;
+}
+.footer-content a{
+    color: #8b8e91;
 }
 .fa::after{
     content:"\00A0";
