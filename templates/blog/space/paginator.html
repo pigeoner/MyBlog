@@ -12,7 +12,7 @@
         <!--上一页-->
         <li class="{% if not page.has_previous %}disabled{% endif %}">
             {% if page.has_previous %}
-            <a href="{% url 'blog:space' %}?tab=star&page={{ page.previous_page_number }}" aria-label="Previous">
+            <a href="{% url 'blog:space' %}?tab={{tab}}&page={{ page.previous_page_number }}" aria-label="Previous">
             {% endif %}
             <!-- <span aria-hidden="true">&laquo;</span> -->
             <span aria-hidden="true">
@@ -25,14 +25,14 @@
         <!--这里展示页码使用传递过来的dis_range -->
         {% for num in dis_range %}
         <li class="{% if num == page.number %}active{% endif %}" >
-            <a href="{% url 'blog:space' %}?tab=star&page={{ num }}">{{ num }}</a>
+            <a href="{% url 'blog:space' %}?tab={{tab}}&page={{ num }}">{{ num }}</a>
         </li>
         {% endfor %}
 
         <!--下一页-->  
         <li class="{% if not page.has_next %}disabled{% endif %}">
             {% if page.has_next %}
-            <a href="{% url 'blog:space' %}?tab=star&page={{ page.next_page_number }}" aria-label="Next">
+            <a href="{% url 'blog:space' %}?tab={{tab}}&page={{ page.next_page_number }}" aria-label="Next">
             {% endif %}
             <!-- <span aria-hidden="true">&raquo;</span> -->
             <span aria-hidden="true">

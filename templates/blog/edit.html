@@ -238,6 +238,10 @@
             }
         })
     }
+    
+    // 判断是否为编辑页面
+    let isEdit = "{{isEdit}}";
+
     $('#submit').click(
         async ()=>{
             if(!$('#title').val()){
@@ -254,6 +258,17 @@
                 
                 let fileContent = $('#chouba')[0].files[0];
                 let imgContent = await getImgContent(fileContent);
+
+                // url参数
+                let urlParams = location.href.split('\?')[1];
+                let paramsObject = {};
+                if(urlParams){
+                    urlParams.split('\&').forEach((el,index,arr)=>{
+                        let paramDic = el.split('=');
+                        paramsObject[paramDic[0]] = paramDic[1];
+                    })
+                }
+
                 $.ajaxSetup({
                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
                 });
@@ -262,7 +277,9 @@
                     type:'POST',
                     traditional: true,
                     dataType: "json",
-                    data: { 
+                    data: {
+                        "postId": paramsObject['post'] ? paramsObject['post'] : '0',
+                        "isEdit": isEdit == '1' ? true : false,
                         "body": $('#id_content').val(),
                         "title": $('#title').val(),
                         "tags": _chosenTags,
@@ -282,8 +299,6 @@
             }
     });
 
-    // 判断是否为编辑页面
-    let isEdit = "{{isEdit}}";
     if(isEdit == "1"){
         let postData = {
             "title": "{{data.title}}",
@@ -321,7 +336,10 @@
         });
 
         // 封面
-        console.log(postData['cover'])
+        $('#cover-img>img').attr('src',`/media/${postData['cover']}`);
+        $('.chuans').css({"border":"0"});
+        $('.img-plus').hide();
+        $('.delete-img').attr('id','has-hover');
     }
 </script>
 {%endblock%}

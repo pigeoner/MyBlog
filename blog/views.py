@@ -115,7 +115,7 @@ def edit(request):
     }
     postId = request.GET.get('post')
     if postId:
-        post = Article.objects.get(id=postId)
+        post = get_object_or_404(Article, id=postId)
         if post.user.id == request.user.id:
             tags = [e.name for e in post.tags.all()]
             context['isEdit'] = 1
@@ -129,9 +129,12 @@ def edit(request):
     return render(request,'../templates/blog/edit.html', context)
 
 def add(request):
-    def user_directory_path(user, filename):
+    def user_directory_path(user, filename, isEdit):
         if not filename:
-            return 'cover/default.jpg'
+            if not isEdit:
+                return 'cover/default.jpg'
+            else:
+                return None
         # 设置图片名字
         ext = filename.split('.').pop()
         filename = '{0}.{1}'.format(
@@ -139,16 +142,15 @@ def add(request):
         return filename
     
     def base64_to_img(bstr, file_path):
-        if not bstr:
+        if not bstr or not file_path:
             return
         imgdata = base64.b64decode(bstr)
         with open('./media/'+file_path, 'wb') as f:
             f.write(imgdata)
     
+    isEdit = request.POST.get('isEdit')
     user = UserProfile.objects.get(id=request.user.id)
-
     title = request.POST.get('title')
-
     body = request.POST.get('body')
 
     category = request.POST.get('category')
@@ -161,14 +163,32 @@ def add(request):
     tags = Tag.objects.filter(name__in=tags)
 
     coverName = request.POST.get('coverName')
-    coverName = user_directory_path(user, coverName)
+    coverName = user_directory_path(user, coverName, isEdit)
     coverContent = request.POST.get('coverContent')
     coverContent = None if not coverContent else coverContent.split('base64,',1)[1]
     base64_to_img(coverContent, coverName) # 保存图片
 
-    post = Article.objects.create(user=user, title=title, category=category, body=body, img=coverName)
-    post.tags.set(tags) # 设置多对多的tags
-    return JsonResponse({'code': 1, 'msg': 'success'})
+    if not isEdit:
+        post = Article.objects.create(user=user, title=title, category=category, body=body, img=coverName)
+        post.tags.set(tags) # 设置多对多的tags
+        return JsonResponse({'code': 1, 'msg': 'success'})
+    else:
+        if request.user.id == user.id:
+            try:
+                postId = int(request.POST.get('postId'))
+                _post = Article.objects.get(id=postId)
+                _post.title = title
+                _post.body = body
+                _post.tags.set(tags)
+                _post.category = category
+                if coverName:
+                    _post.img = coverName
+                _post.save()
+                return JsonResponse({'code': 1, 'msg': 'success'})
+            except Exception as e:
+                return JsonResponse({'code': 0, 'msg': e})
+        else:
+            return JsonResponse({'code': 0, 'msg': 'No permission.'})
 
 def deleteArticle(request):
     articleId = request.POST.get('articleId')
