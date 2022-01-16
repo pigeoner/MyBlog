@@ -194,6 +194,9 @@ article:last-child{
     right: 0;
     top: 0;
 }
+.entry-edit>.change-info{
+    margin-left: 20px;
+}
 .entry-meta{
     line-height:48px;
 }

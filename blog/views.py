@@ -7,6 +7,7 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from sqlalchemy import false
 from users.models import UserProfile
 from django.forms.models import model_to_dict
 from django.forms import Form
@@ -109,8 +110,22 @@ def edit(request):
     context = {
         'form': MDEditorForm(),
         'tags': Tag.objects.all(),
-        'category': Category.objects.all()
+        'category': Category.objects.all(),
+        'isEdit': 0
     }
+    postId = request.GET.get('post')
+    if postId:
+        post = Article.objects.get(id=postId)
+        if post.user.id == request.user.id:
+            tags = [e.name for e in post.tags.all()]
+            context['isEdit'] = 1
+            context['data'] = {
+                'title': post.title,
+                'content': post.body,
+                'category': post.category.name,
+                'tags': tags,
+                'cover': str(post.img),
+            }
     return render(request,'../templates/blog/edit.html', context)
 
 def add(request):
@@ -154,6 +169,13 @@ def add(request):
     post = Article.objects.create(user=user, title=title, category=category, body=body, img=coverName)
     post.tags.set(tags) # 设置多对多的tags
     return JsonResponse({'code': 1, 'msg': 'success'})
+
+def deleteArticle(request):
+    articleId = request.POST.get('articleId')
+    Article.objects.filter(id=articleId).delete()
+
+    response = {'code': 0, 'msg': 'success'}
+    return JsonResponse(response)  # 必须用json返回
 
 def detail(request, id):
     post = Article.objects.get(id=id)

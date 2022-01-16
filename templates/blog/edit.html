@@ -167,13 +167,16 @@
         if (event.keyCode == "13") {
             event.preventDefault();
             //回车执行
+            hasTag = false;
             tags.forEach(e=>{
-                if(e.innerHTML == $('#tags-search').val() && !hasChosen($('#tags-search').val())){ //有标签
-                    e.classList.add('chosen');
-                    chosenTags.push(e);
-                    addTag(e.innerHTML);
+                if(e.innerHTML == $('#tags-search').val()){ //有标签
+                    if(!hasChosen($('#tags-search').val())){
+                        e.classList.add('chosen');
+                        chosenTags.push(e);
+                        addTag(e.innerHTML);
+                        chosen++;
+                    }
                     hasTag = true;
-                    chosen++;
                 }
             });
             if(!hasTag && chosen < 5){ //没有标签，需要创建
@@ -250,7 +253,7 @@
                 });
                 
                 let fileContent = $('#chouba')[0].files[0];
-                let imgContent = await getImgContent();
+                let imgContent = await getImgContent(fileContent);
                 $.ajaxSetup({
                     data:{csrfmiddlewaretoken:'{{ csrf_token }}'},
                 });
@@ -270,7 +273,7 @@
                     },
                     success:function(res){
                         alert('ok');
-                        // window.location.href = 'http://123.57.231.224:8009';
+                        window.history.go(-1);
                     },
                     error: function(ree) { 
                         console.error(ree.status,ree.responseText);
@@ -278,5 +281,47 @@
                 });
             }
     });
+
+    // 判断是否为编辑页面
+    let isEdit = "{{isEdit}}";
+    if(isEdit == "1"){
+        let postData = {
+            "title": "{{data.title}}",
+            "content": "{% autoescape off %}{{data.content|escapejs}}{% endautoescape %}",
+            "category": "{{data.category}}",
+            "tags": "{{data.tags|safe}}",
+            "cover": "{{data.cover}}"
+        }
+        // 标题
+        $('#title').val(postData['title']);
+
+        // 内容
+        $('#id_content').val(postData['content']);
+
+        // 类别
+        $('.category>a').each((index, element)=>{
+            if(element.innerHTML == postData['category']){
+                element.classList.add('active');
+            }
+        });
+
+        // 标签
+        let postTags = JSON.parse(postData['tags'].replace(/\'/g,'\"'));
+        chosen = postTags.length;
+        $(".tags-item a").each((index,element)=>{
+            let arrIndex = postTags.indexOf(element.innerHTML);
+            if(arrIndex != -1){
+                element.classList.add('chosen');
+                addTag(postTags[arrIndex]);
+                let newA = document.createElement("a");
+                newA.classList.add("chosen");
+                newA.innerHTML = element;
+                chosenTags.push(newA);
+            }
+        });
+
+        // 封面
+        console.log(postData['cover'])
+    }
 </script>
 {%endblock%}

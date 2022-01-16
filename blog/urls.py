@@ -16,6 +16,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('edit/', views.edit, name='edit'),
     path('add/', views.add, name='add'),
+    path('deleteArticle/', views.deleteArticle, name='deleteArticle'),
     path('detail/<int:id>/', views.detail, name='detail'),
     path('archives/<int:year>/<int:month>/', views.archives, name='archives'),
     path('tag/<str:tag>/',views.tag,name='tag'),
